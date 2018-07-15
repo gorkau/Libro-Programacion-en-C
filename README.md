@@ -6,6 +6,16 @@ Si quieres participar en el libro simplemente haz un "pull request" y envía los
 
 Si lo único que quieres es decargar el libro símpemente busca el archivo "book.pdf".
 
+## Preguntas/comentarios frecuentes
+
+### ¿Puedo colaborar?
+
+¡Claro! Ni siquiera hace falta que sepas de C. En la primera fase vamos a ponerlo en un formato "bonito".
+
+### ¡El formato es horrible!
+
+¡Pues claro! Estamos en ello. Quéjate menos y colabora más. Tienes el código fuente del libro para ir descargándolo y editándolo.
+
 ## Estado
 
 [15/07/2018] Por ahora sólo está listo el capítulo 1 con un formato horrible.

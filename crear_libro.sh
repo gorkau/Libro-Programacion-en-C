@@ -5,5 +5,6 @@
 
 # AsciiDoctor PDF
 asciidoctor -r asciidoctor-pdf -b pdf book.adoc
+mv book.pdf programacion-c-principiantes-gorka-urrutia.pdf
 
 

@@ -12,6 +12,7 @@ Licencia: Attribution-ShareAlike 4.0 International (CC BY-SA 4.0) https://creati
 === Sobre el libro
 
 Este es un curso para principiantes así que intentaré que no haga falta ningún conocimiento anterior para seguirlo. Muchos otros cursos suponen conocimientos previos pero voy a intentar que eso no suceda aquí.
+
 NOTA IMPORTANTE: Si te pierdes no te desanimes, ponte en contacto conmigo y consúltame (al final del libro tienes varias formas para contactarme). Puede que alguna sección esté mal explicada. De esta forma estarás colaborando a mejorar el libro. 
 
 === Cómo resolver tus dudas
@@ -54,10 +55,12 @@ Si nuestro compilador no trae editor la solución más simple usar un editor de 
 === IDE: Entorno de desarrollo integrado
 
 Para la comodidad de los desarrolladores se crearon lo que se llaman Entornos de Desarrollo Integrado (en inglés IDE). Un IDE es un software que incluye todo lo necesario para la programación: un compilador (con todos sus programas accesorios), un editor con herramientas que ayudan en la creación de programas, un depurador para buscar errores, etc... Es la solución más completa y recomendada.
+
 Existen multitud de IDE que puedes utilizar. Geany y Code::Blocks anteriormente mencionados son muy recomendables en entornos MS Windows, para Linux tenemos montones de opciones, como el Geany, Anjuta o el Kdevelop.
 
 === El primer programa: Hola Mundo 
 En un alarde de originalidad vamos a hacer nuestro primer programa: hola mundo. Nadie puede llegar muy lejos en el mundo de la programación sin haber empezado su carrera con este original y funcional programa. Allá va:
+
 #include <stdio.h>
 
 int main() {
@@ -88,7 +91,8 @@ Vamos ahora a comentar el programa línea por línea (Esto no va a ser más que 
 
 int main()
 
-Es la función principal del programa. Todos los programas de C deben tener una función llamada main. Es la que primero se ejecuta. El int (viene de Integer=Entero) que tiene al principio significa que cuando la función main acabe devolverá un número entero. Este valor se suele usar para saber cómo ha terminado el prorama. Normalmente este valor será 0 si todo ha ido bien, o un valor distinto si se ha producido algún error (pero esto lo decidimos nosotros, ya lo veremos). De esta forma si nuestro programa se ejecuta desde otro el programa 'padre' sabe como ha finalizado, si ha habido errores o no. 
+Es la función principal del programa. Todos los programas de C deben tener una función llamada main. Es la que primero se ejecuta. El int (viene de Integer=Entero) que tiene al principio significa que cuando la función main acabe devolverá un número entero. Este valor se suele usar para saber cómo ha terminado el prorama. Normalmente este valor será 0 si todo ha ido bien, o un valor distinto si se ha producido algún error (pero esto lo decidimos nosotros, ya lo veremos). De esta forma si nuestro programa se ejecuta desde otro el programa 'padre' sabe como ha finalizado, si ha habido errores o no.
+
 Se puede usar la definición 'void main()', que no necesita devolver ningún valor, pero se recomienda la forma con 'int' que es más correcta. Es posible que veas muchos ejemplos que uso 'void main' y en los que falta el return 0; del final; el código funciona correctamente pero puede dar un 'warning' (un aviso) al compilar dado que no es una práctica correcta.
 
 {
@@ -98,6 +102,7 @@ Son las llaves que indican, entre otras cosas, el comienzo de una función; en e
 /* Aquí va el cuerpo del programa */
 
 Esto es un comentario, el compilador lo ignorará. Sirve para describir el programa a otros desarrolladores o a nosotros mismos para cuando volvamos a ver el código fuente dentro de un tiempo. Conviene acostumbrarse a comentar los programas pero sin abusar de ellos (ya hablaremos sobre esto más adelante).
+
 Los comentarios van encerrados entre /* y */.
 
 Un comentario puede ocupar más de una línea. Por ejemplo el comentario: 
@@ -161,14 +166,20 @@ porque /* Esto es un comentario */ queda dentro de las comillas y C lo interpret
 === ¿Qué sabemos hacer?
 
 Pues la verdad es que todavía no hemos aprendido mucho. Lo único que podemos hacer es compilar nuestros programas. Pero paciencia, en seguida avanzaremos. 
-1.12 Ejercicios 
-Busca los errores en este programa: 
+
+=== Ejercicios
+
+Busca los errores en este programa:
+
 int main() {
         /* Aquí va el cuerpo del programa */
         Printf( "Hola mundo\n" );
         return 0;
 }
-Solución: 
-Si lo compilamos obtendremos un error que nos indicará que no hemos definido la función 'Printf'. Esto es porque no hemos incluído la dichosa directiva '#include <stdio.h>'. (En algunos compiladores no es necesario incluir esta directiva, pero es una buena costumbre hacerlo). 
+
+Solución:
+ 
+Si lo compilamos obtendremos un error que nos indicará que no hemos definido la función 'Printf'. Esto es porque no hemos incluído la dichosa directiva '#include <stdio.h>'. (En algunos compiladores no es necesario incluir esta directiva, pero es una buena costumbre hacerlo).
+
 Si lo corregimos y volvemos a compilar obtendremos un nuevo error. Otra vez nos dice que desconoce 'Printf'. Esta vez el problema es el de las mayúsculas que hemos indicado antes. Lo correcto es poner 'printf' con minúsculas. Parece una tontería, pero seguro que nos da más de un problema. 
 

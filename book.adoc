@@ -1,0 +1,11 @@
+Programación en C para principiantes
+====================================
+Gorka Urrutia <gorka@elrincondec.com>
+:doctype: book
+:source-highlighter: coderay
+:author: Gorka Urrutia
+:toc: right
+:icons: font
+:ascii-ids:
+
+include::capitulo1.adoc[]

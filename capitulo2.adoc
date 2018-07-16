@@ -1,0 +1,310 @@
+////
+Copyright: Gorka Urrutia Landa, 1999-2018
+Licencia: Attribution-ShareAlike 4.0 International (CC BY-SA 4.0) https://creativecommons.org/licenses/by-sa/4.0/
+////
+
+:chapter: 002
+
+<<<
+
+== Capítulo 2. Mostrando Información por pantalla.
+
+=== Printf: Imprimir en pantalla
+
+Siempre he creído que cuando empiezas con un nuevo lenguaje suele gustar el ver los resultados, ver que nuestro programa hace 'algo'.
+Por eso creo que el curso debe comenzar con la función *_printf_*, que sirve para sacar información por pantalla.
+Para utilizar la función _printf_ en nuestros programas debemos incluir la directiva:
+
+[source,c]
+----
+#include <stdio.h>
+----
+
+al principio de programa.
+Como hemos visto en el programa hola mundo.
+Si sólo queremos imprimir una cadena basta con hacer (no olvides el ";" al final):
+
+[source,c]
+----
+printf( "Cadena" );
+----
+
+Esto resultará por pantalla:
+
+----
+Cadena
+----
+
+Lo que pongamos entre las comillas es lo que vamos a sacar por pantalla.
+Si volvemos a usar otro _printf_, por ejemplo:
+
+[source,c]
+----
+#include <stdio.h>
+int main() {
+    printf( "Cadena" );
+    printf( "Segunda" );
+    return 0;
+}
+----
+
+Obtendremos:
+
+----
+CadenaSegunda
+----
+
+Este ejemplo nos muestra cómo funciona printf. Para escribir en la pantalla se usa un cursor que no vemos. Cuando escribimos algo el cursor va al final del texto. Cuando el texto llega al final de la fila, lo siguiente que pongamos irá a la fila siguiente. Si lo que queremos es sacar cada una en una línea deberemos usar "\n". Es el indicador de retorno de carro. Lo que hace es saltar el cursor de escritura a la línea siguiente:
+
+[source,c]
+----
+#include <stdio.h>
+
+int main()
+{
+    printf( "Cadena\n" );
+    printf( "Segunda" );
+    return 0;
+}
+----
+
+y tendremos:
+
+----
+Cadena
+Segunda
+----
+
+También podemos poner más de una cadena dentro del printf:
+
+[source,c]
+----
+printf( "Primera cadena" "Segunda cadena" );
+----
+
+Lo que no podemos hacer es meter cosas entre las cadenas:
+
+[source,c]
+----
+printf( "Primera cadena" texto en medio "Segunda cadena" );
+----
+
+esto no es válido. Cuando el compilador intenta interpretar esta sentencia se encuentra _"Primera cadena"_ y luego texto en medio, no sabe qué hacer con ello y da un error.
+Pero ¿qué pasa si queremos imprimir el símbolo _"_ en pantalla? Por ejemplo imaginemos que queremos escribir:
+
+----
+Esto es "raro"
+----
+
+Si hacemos:
+
+[source,c]
+----
+printf( "Esto es "raro"" );
+----
+
+obtendremos unos cuantos errores.
+El problema es que el símbolo " se usa para indicar al compilador el comienzo o el final de una cadena.
+Así que en realidad le estaríamos dando la cadena "Esto es", luego extraño y luego otra cadena vacía "".
+Pues resulta que _printf_ no admite esto y de nuevo tenemos errores.
+
+La solución es usar \". Veamos:
+
+[source,c]
+----
+printf( "Esto es \"extraño\"" );
+----
+
+Esta vez todo irá como la seda.
+Como vemos la contrabarra '\' sirve para indicarle al compilador que escriba caracteres que de otra forma no podríamos.
+Esta contrabarra se usa en C para indicar al compilador que queremos meter símbolos especiales.
+Pero ¿Y si lo que queremos es usar '\' como un carácter normal y poner por ejemplo Hola\Adiós? Pues muy fácil, volvemos a usar '\':
+
+[source,c]
+----
+printf( "Hola\\Adiós" );
+----
+
+y esta doble '\' indica a C que lo que queremos es mostrar una '\'.
+He aquí un breve listado de códigos que se pueden imprimir:
+
+Código
+Nombre
+Significado
+\a
+alert
+Hace sonar un pitido
+\b
+backspace
+Retroceso
+\n
+newline
+Salta a la línea siguiente (salto de línea)
+\r
+carriage return
+Retorno de carro (similar al anterior)
+\t
+horizontal tab
+Tabulador horizontal
+\v
+vertical tab
+Tabulador vertical
+\\
+backslash
+Barra invertida
+\?
+question mark
+Signo de interrogación
+\'
+single quote
+Comilla sencilla
+\"
+double quote
+Comilla doble
+
+Es recomendable probarlas para ver realmente lo que significa cada una.
+
+Esto no ha sido mas que una introducción a printf. Luego volveremos sobre ella.
+
+=== Gotoxy: Posicionando el cursor (requiere conio.h)
+Esta función sólo está disponible en compiladores de C que dispongan de la biblioteca <conio.h>, de hecho, en la mayoría de compiladores para Linux no viene instalada por defecto.
+No debería usarse aunque se menciona aquí porque en muchos cursos de formación profesional y en universidades aún se usa.
+Hemos visto que cuando usamos printf se escribe en la posición actual del cursor y se mueve el cursor al final de la cadena que hemos escrito.
+
+Vale, pero ¿qué pasa cuando queremos escribir en una posición determinada de la pantalla? La solución está en la función gotoxy. Supongamos que queremos escribir 'Hola' en la fila 10, columna 20 de la pantalla:
+
+[source,c]
+----
+#include <stdio.h>
+#include <conio.h>
+
+int main()
+{
+    gotoxy( 20, 10 );
+    printf( "Hola" );
+    return 0;
+}
+----
+
+NOTE: para usar gotoxy hay que incluir la biblioteca conio.h).
+
+Fíjate que primero se pone la columna (x) y luego la fila (y). La esquina superior izquierda  es la posición (1, 1).
+
+=== Clrscr: Borrar la pantalla (requiere conio.h)
+
+Ahora ya sólo nos falta saber cómo se borra la pantalla. Pues es tan fácil como usar:
+
+[source,c]
+----
+clrscr();
+----
+
+(clear screen, borrar pantalla).
+
+Esta función nó solo borra la pantalla, sino que además sitúa el cursor en la posición (1, 1), en la esquina superior izquierda.
+
+[source,c]
+----
+#include <stdio.h>
+#include <conio.h>
+
+int main()
+{
+    clrscr();
+    printf( "Hola" );
+    return 0;
+}
+----
+
+Este método sólo vale para compiladores que incluyan el fichero conio.h. Si tu sistema no lo tiene puedes consultar la sección siguiente.
+
+=== Borrar la pantalla (otros métodos)
+
+Existen otras formas de borrar la pantalla aparte de usar conio.h.
+
+Si usas DOS:
+
+system ("cls"); //Para DOS
+
+Si usas Linux:
+
+system ("clear"); // Para Linux
+
+Otra forma válida para ambos sistemas:
+
+char a[5]={27,'[','2','J',0}; /* Para ambos (en DOS cargando antes ansi.sys) */
+printf("%s",a);
+
+=== ¿Qué sabemos hacer?
+Bueno, ya hemos aprendido a sacar información por pantalla.
+Si quieres puedes practicar con las instrucciones printf, gotoxy y clrscr.
+Lo que hemos visto hasta ahora no tiene mucho secreto, pero ya veremos cómo la función printf tiene mayor complejidad.
+
+=== Ejercicios
+
+*Ejercicio 1:* Busca los errores en el programa (este programa usa conio.h, pero aunque tu compilador no la incluya aprenderás algo con este ejercicio).
+
+[source,c]
+----
+#include <stdio.h>
+int main()
+{
+    ClrScr();
+    gotoxy( 10, 10 )
+    printf( Estoy en la fila 10 columna 10 );
+    return 0;
+}
+----
+
+Solución:
+
+ClrScr está mal escrito, debe ponerse todo en minúsculas, recordemos una vez más que el C diferencia las mayúsculas de las minúsculas. Además no hemos incluído la directiva #include <conio.h>, que necesitamos para usar clrscr() y gotoxy().
+Tampoco hemos puesto el punto y coma (;) después del gotoxy( 10, 10 ). Después de cada instrucción debe ir un punto y coma.
+El último fallo es que el texto del printf no lo hemos puesto entre comillas. Lo correcto sería: printf( "Estoy en la fila 10 columna 10" );
+
+*Ejercicio 2:* Escribe un programa que borre la pantalla y escriba en la primera línea tu nombre y en la segunda tu apellido:
+
+Solución:
+
+[source,c]
+----
+#include <stdio.h>
+#include <conio.h>
+int main()
+{
+    clrscr();
+    printf( "Gorka\n" );
+    printf( "Urrutia" );
+    return 0;
+}
+----
+
+También se podía haber hecho todo de golpe:
+
+[source,c]
+----
+#include <stdio.h>
+#include <conio.h>
+int main()
+{
+    clrscr();
+    printf( "Gorka\nUrrutia" );
+    return 0;
+}
+----
+
+*Ejercicio 3:* Escribe un programa que borre la pantalla y muestre el texto "estoy aqui" en la fila 10, columna 20 de la pantalla.
+
+Solución:
+
+[source,c]
+----
+#include <stdio.h>
+#include <conio.h>
+int main() {
+    clrscr();
+    gotoxy( 20, 10 );
+    printf( "Estoy aqui" );
+    return 0;
+}
+----

@@ -8,13 +8,21 @@ Si lo único que quieres es decargar el libro símpemente busca el archivo "book
 
 ## Preguntas/comentarios frecuentes
 
+### ¡El formato es horrible!
+
+¡Pues claro! Estamos en ello. Quéjate menos y colabora más. Tienes el código fuente del libro para ir descargándolo y editándolo.
+
 ### ¿Puedo colaborar?
 
 ¡Claro! Ni siquiera hace falta que sepas de C. En la primera fase vamos a ponerlo en un formato "bonito".
 
-### ¡El formato es horrible!
+### ¿Qué herramientas/conocimientos necesito para colaborar?
 
-¡Pues claro! Estamos en ello. Quéjate menos y colabora más. Tienes el código fuente del libro para ir descargándolo y editándolo.
+Para editar los textos te vale cualquier editor de texto plano.
+Yo uso Atom pero puedes usar el que prefieras.
+Para "compilar" el libro necesitarás AsciiDoctor.
+
+En cuanto a conocimientos necesitarás conocer un poco de AsciiDoctor. Es un formato muy sencillo similar al MarkDown que se usa en GitHub.
 
 ## Estado
 

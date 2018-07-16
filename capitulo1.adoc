@@ -4,16 +4,18 @@ Licencia: Attribution-ShareAlike 4.0 International (CC BY-SA 4.0) https://creati
 ////
 
 :chapter: 001
-
+:Cmasmas: C++
 <<<
 
 == Capítulo 1. Introducción.
 
 === Sobre el libro
 
-Este es un curso para principiantes así que intentaré que no haga falta ningún conocimiento anterior para seguirlo. Muchos otros cursos suponen conocimientos previos pero voy a intentar que eso no suceda aquí.
+Este es un curso para principiantes así que intentaré que no haga falta ningún conocimiento anterior para seguirlo.
+Muchos otros cursos suponen conocimientos previos pero voy a intentar que eso no suceda aquí.
 
-NOTA IMPORTANTE: Si te pierdes no te desanimes, ponte en contacto conmigo y consúltame (al final del libro tienes varias formas para contactarme). Puede que alguna sección esté mal explicada. De esta forma estarás colaborando a mejorar el libro. 
+NOTA IMPORTANTE: Si te pierdes no te desanimes, ponte en contacto conmigo y consúltame (al final del libro tienes varias formas para contactarme).
+Puede que alguna sección esté mal explicada. De esta forma estarás colaborando a mejorar el libro.
 
 === Cómo resolver tus dudas
 
@@ -21,17 +23,20 @@ En la última sección del libro podrás encontrar varias formas de contactar co
 
 === El lenguaje C
 
-El lenguaje C es uno de los más rápidos y potentes que hay hoy en día. Hay quien dice que está desfasado. No se si tendrá futuro pero está claro que presente si tiene. No hay más que decir que el sistema operativo Linux está desarrollado en C en su práctica totalidad. Así que creo que no sólo no perdemos nada aprendiéndolo sino que ganamos mucho. Para empezar nos servirá como base para aprender C++ e introducirnos en el mundo de la programación Windows. Si optamos por Linux existe una biblioteca llamada gtk (o librería, como prefieras) que permite desarrollar aplicaciones estilo Windows con C. 
+El lenguaje C es uno de los más rápidos y potentes que hay hoy en día. Hay quien dice que está desfasado. No se si tendrá futuro pero está claro que presente si tiene. No hay más que decir que el sistema operativo Linux está desarrollado en C en su práctica totalidad. Así que creo que no sólo no perdemos nada aprendiéndolo sino que ganamos mucho. Para empezar nos servirá como base para aprender C++ e introducirnos en el mundo de la programación Windows. Si optamos por Linux existe una biblioteca llamada gtk (o librería, como prefieras) que permite desarrollar aplicaciones estilo Windows con C.
 
-No debemos confundir C con C++, que no son lo mismo. Se podría decir que C++ es una extensión de C. Para empezar en C++ conviene tener una sólida base de C. 
-Existen otros lenguajes como Visual Basic que son muy sencillos de aprender y de utilizar. Nos dan casi todo hecho. Pero cuando queremos hacer algo complicado o que sea rápido debemos recurrir a otros lenguajes (C++, Delphi,...). 
+No debemos confundir C con {Cmasmas}, que no son lo mismo. Se podría decir que {Cmasmas} es una extensión de C.
+Para empezar en {Cmasmas} conviene tener una sólida base de C.
+Existen otros lenguajes como Visual Basic que son muy sencillos de aprender y de utilizar.
+Nos dan casi todo hecho.
+Pero cuando queremos hacer algo complicado o que sea rápido debemos recurrir a otros lenguajes ({Cmasmas}, Delphi,...).
 
-===  Peculiaridades de C 
+===  Peculiaridades de C
 
-Una de las cosas importantes de C que debes recordar es que es Case Sensitive (sensible a las mayúsculas o algo así). Es decir que para C no es lo mismo escribir Printf que printf. 
-Conviene indicar también que las instrucciones se separan por ";". 
+Una de las cosas importantes de C que debes recordar es que es Case Sensitive (sensible a las mayúsculas o algo así). Es decir que para C no es lo mismo escribir Printf que printf.
+Conviene indicar también que las instrucciones se separan por ";".
 
-=== Compiladores de C 
+=== Compiladores de C
 
 Un compilador es un programa que convierte nuestro código fuente en un programa ejecutable (me imagino que la mayoría ya lo sabéis pero más vale asegurar). El ordenador trabaja con 0 y 1. Si escribiéramos un programa en el lenguaje del ordenador nos volveríamos locos. Para eso están lenguajes como el C. Nos permiten escribir un programa de manera que sea fácil entenderlo por una persona (el código fuente). Luego es el compilador el que se encarga de convertirlo al complicado idioma de un ordenador.
 
@@ -58,7 +63,7 @@ Para la comodidad de los desarrolladores se crearon lo que se llaman Entornos de
 
 Existen multitud de IDE que puedes utilizar. Geany y Code::Blocks anteriormente mencionados son muy recomendables en entornos MS Windows, para Linux tenemos montones de opciones, como el Geany, Anjuta o el Kdevelop.
 
-=== El primer programa: Hola Mundo 
+=== El primer programa: Hola Mundo
 En un alarde de originalidad vamos a hacer nuestro primer programa: hola mundo. Nadie puede llegar muy lejos en el mundo de la programación sin haber empezado su carrera con este original y funcional programa. Allá va:
 
 #include <stdio.h>
@@ -79,15 +84,15 @@ Otra nota: En compiladores MS Windows, para poder usar la función system() debe
 
 #include <windows.h>
 
-¿Qué fácil eh? Este programa lo único que hace es sacar por pantalla el mensaje: 
+¿Qué fácil eh? Este programa lo único que hace es sacar por pantalla el mensaje:
 
 Hola mundo
 
-Vamos ahora a comentar el programa línea por línea (Esto no va a ser más que una primera aproximación). 
+Vamos ahora a comentar el programa línea por línea (Esto no va a ser más que una primera aproximación).
 
 #include <stdio.h>
 
-#include es lo que se llama una directiva. Sirve para indicar al compilador que incluya otro archivo. Cuando en compilador se encuentra con esta directiva la sustituye por el archivo indicado. En este caso es el archivo stdio.h que es donde está definida la función printf, que veremos luego. 
+#include es lo que se llama una directiva. Sirve para indicar al compilador que incluya otro archivo. Cuando en compilador se encuentra con esta directiva la sustituye por el archivo indicado. En este caso es el archivo stdio.h que es donde está definida la función printf, que veremos luego.
 
 int main()
 
@@ -97,7 +102,7 @@ Se puede usar la definición 'void main()', que no necesita devolver ningún val
 
 {
 
-Son las llaves que indican, entre otras cosas, el comienzo de una función; en este caso la función main. 
+Son las llaves que indican, entre otras cosas, el comienzo de una función; en este caso la función main.
 
 /* Aquí va el cuerpo del programa */
 
@@ -105,12 +110,12 @@ Esto es un comentario, el compilador lo ignorará. Sirve para describir el progr
 
 Los comentarios van encerrados entre /* y */.
 
-Un comentario puede ocupar más de una línea. Por ejemplo el comentario: 
+Un comentario puede ocupar más de una línea. Por ejemplo el comentario:
 
 /* Este es un comentario
 que ocupa dos filas */
 
-es perfectamente válido. 
+es perfectamente válido.
 
 printf( "Hola mundo\n" );
 
@@ -125,17 +130,17 @@ mostrará:
 Hola mundo
 Adiós mundo
 
-Fíjate en el ";" del final. Es la forma que se usa en C para separar una instrucción de otra. Se pueden poner varias en la misma línea siempre que se separen por el punto y coma. 
+Fíjate en el ";" del final. Es la forma que se usa en C para separar una instrucción de otra. Se pueden poner varias en la misma línea siempre que se separen por el punto y coma.
 
 return 0;
 
-Como he indicado antes el programa al finalizar develve un valor entero. Como en este programa no se pueden producir errores (nunca digas nunca jamás) la salida siempre será 0. La forma de hacer que el programa devuelva un 0 es usando return. Esta línea significa 'finaliza la función main haz que devuelva un 0. 
+Como he indicado antes el programa al finalizar develve un valor entero. Como en este programa no se pueden producir errores (nunca digas nunca jamás) la salida siempre será 0. La forma de hacer que el programa devuelva un 0 es usando return. Esta línea significa 'finaliza la función main haz que devuelva un 0.
 
 }
 
-...y cerramos llaves con lo que termina el programa. Todos los programas finalizan cuando se llega al final de la función main. 
+...y cerramos llaves con lo que termina el programa. Todos los programas finalizan cuando se llega al final de la función main.
 
-=== ¿Cómo se hace? 
+=== ¿Cómo se hace?
 
 Primero debemos crear el código fuente del programa. Para nuestro primer programa el código fuente es el del listado anterior. Arranca tu compilador de C, sea cual sea. Crea un nuevo fichero y copia el código anterior. Llámalo por ejemplo primero.c.
 Ahora, tenemos que compilar el programa para crear el ejecutable. Si estás usando un IDE busca una opción llamada "compile", o make, build o algo así.
@@ -143,29 +148,29 @@ Si estamos usando GCC  sin IDE tenemos que llamarlo desde la línea de comando:
 
 gcc primero.c -o primero
 
-=== Nota adicional sobre los comentarios 
+=== Nota adicional sobre los comentarios
 
-Los comentarios se pueden poner casi en cualquier parte. Excepto en medio de una instrucción. Por ejemplo lo siguiente no es válido: 
+Los comentarios se pueden poner casi en cualquier parte. Excepto en medio de una instrucción. Por ejemplo lo siguiente no es válido:
 
 pri/* Esto es un comentario */ntf( "Hola mundo" );
 
-No podemos cortar a printf por en medio, tendríamos un error al compilar. Lo siguiente puede no dar un error, pero es una fea costumbre: 
+No podemos cortar a printf por en medio, tendríamos un error al compilar. Lo siguiente puede no dar un error, pero es una fea costumbre:
 
 printf( /* Esto es un comentario */ "Hola mundo" );
 
-Y por último tenemos: 
+Y por último tenemos:
 
 printf( "Hola/* Esto es un comentario */ mundo" );
 
-Que no daría error, pero al ejecutar tendríamos: 
+Que no daría error, pero al ejecutar tendríamos:
 
 Hola /* Esto es un comentario */ mundo
 
-porque /* Esto es un comentario */ queda dentro de las comillas y C lo interpreta como texto, no como un comentario. 
+porque /* Esto es un comentario */ queda dentro de las comillas y C lo interpreta como texto, no como un comentario.
 
 === ¿Qué sabemos hacer?
 
-Pues la verdad es que todavía no hemos aprendido mucho. Lo único que podemos hacer es compilar nuestros programas. Pero paciencia, en seguida avanzaremos. 
+Pues la verdad es que todavía no hemos aprendido mucho. Lo único que podemos hacer es compilar nuestros programas. Pero paciencia, en seguida avanzaremos.
 
 === Ejercicios
 
@@ -178,8 +183,7 @@ int main() {
 }
 
 Solución:
- 
+
 Si lo compilamos obtendremos un error que nos indicará que no hemos definido la función 'Printf'. Esto es porque no hemos incluído la dichosa directiva '#include <stdio.h>'. (En algunos compiladores no es necesario incluir esta directiva, pero es una buena costumbre hacerlo).
 
-Si lo corregimos y volvemos a compilar obtendremos un nuevo error. Otra vez nos dice que desconoce 'Printf'. Esta vez el problema es el de las mayúsculas que hemos indicado antes. Lo correcto es poner 'printf' con minúsculas. Parece una tontería, pero seguro que nos da más de un problema. 
-
+Si lo corregimos y volvemos a compilar obtendremos un nuevo error. Otra vez nos dice que desconoce 'Printf'. Esta vez el problema es el de las mayúsculas que hemos indicado antes. Lo correcto es poner 'printf' con minúsculas. Parece una tontería, pero seguro que nos da más de un problema.

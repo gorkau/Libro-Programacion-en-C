@@ -10,3 +10,4 @@ Gorka Urrutia <gorka@elrincondec.com>
 
 include::capitulo1.adoc[]
 include::capitulo2.adoc[]
+include::capitulo3.adoc[]

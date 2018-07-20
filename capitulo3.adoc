@@ -1,0 +1,455 @@
+////
+Copyright: Gorka Urrutia Landa, 1999-2018
+Licencia: Attribution-ShareAlike 4.0 International (CC BY-SA 4.0) https://creativecommons.org/licenses/by-sa/4.0/
+////
+
+:chapter: 003
+
+<<<
+
+== Capítulo 3. Tipos de Datos.
+
+=== Introducción
+
+Cuando usamos un programa es muy importante manejar datos.
+En C podemos almacenar los datos en variables.
+Una variable es una porción de la memoria del ordenador que queda asignada para que nuestro programa pueda almacenar datos.
+El contenido de las variables se puede ver o cambiar en cualquier momento.
+Estas variables pueden ser de distintos tipos dependiendo del tipo de dato que queramos meter.
+No es lo mismo guardar un nombre que un número.
+
+Hay que recordar también que la memoria del ordenador es limitada, así que cuando guardamos un dato, debemos usar sólo la memoria necesaria.
+Por ejemplo si queremos almacenar el número 400 usaremos una variable tipo _int_ (la estudiamos más abajo) que ocupa menos memoria que una variable de tipo _float_.
+Si tenemos un ordenador con 32Mb de RAM parece una tontería ponernos a ahorrar bits (1Mb=1024Kb, 1Kb=1024bytes, 1byte=8bits), pero si tenemos un programa que maneja muchos datos puede no ser una cantidad despreciable.
+Además ahorrar memoria es una buena costumbre.
+
+NOTE: Por si alguno tiene dudas: No hay que confundir la memoria con el espacio en el disco duro.
+Son dos cosas distintas.
+La capacidad de ambos se mide en bytes, y la del disco duro suele ser mayor que la de la memoria RAM.
+La información en la RAM se pierde al apagar el ordenador, la del disco duro permanece.
+Cuando queremos guardar un fichero lo que necesitamos es espacio en el disco duro.
+Cuando queremos ejecutar un programa lo que necesitamos es memoria RAM.
+La mayoría me imagino que ya lo sabéis, pero me he encontrado muchas veces con gente que los confunde).
+
+=== Notas sobre los nombres de las variables
+
+A las variables no se les puede dar cualquier nombre pero siguiendo unas sencillas normas:
+
+* No se pueden poner más que letras de la 'a' a la 'z' (la ñ no vale), números y el símbolo '_'.
+* No se pueden poner signos de admiración, ni de interrogación...
+* El nombre de una variable puede contener números, pero su primer carácter no puede ser un número.
+
+Ejemplos de nombres válidos:
+
+* camiones
+* numero
+* buffer
+* a1
+* j10hola29
+* num_alumnos
+
+Ejemplos de nombres no válidos:
+
+* 1abc
+* nombre?
+* número
+* num/alumnos
+
+Tampoco valen como nombres de variable las palabras reservadas que usa el compilador. Por ejemplo: for, main, do, while.
+Lista de palabras reservadas según el estándar ISO-C90:
+
+----
+auto      double  int       struct
+break     else    long      switch
+case      enum    register  typedef
+char      extern  return    union
+const     float   short     unsigned
+continue  for     signed    void
+default   goto    sizeof    volatile
+do        if      static    while
+----
+
+Por último es interesante señalar que el C distingue entre mayúsculas y minúsculas.
+Por lo tanto:
+
+* Nombre
+* nombre
+* NOMBRE
+
+serían tres variables distintas.
+
+=== El tipo Int
+
+En una variable de este tipo se almacenan números enteros (sin decimales).
+El rango de valores que admite es -32.768 a 32.767.
+
+NOTE: Nota importante: el rango indicado (de -32.768 a 32.767) puede variar de un compilador a otro, en este caso sería un compilador donde el tipo int es de 16 bits.
+
+¿Por qué estos números tan extraños? Esto se debe a los 16 bits mencionados.
+2^16 = 65.536, que dividido por dos nos da 32.768.
+Por lo tanto, en una variable de este tipo podemos almacenar números negativos desde el -32.768 hasta el -1 y números desde el 0 hasta el 32.767.
+
+Cuando definimos una variable lo que estamos haciendo es decirle al compilador que nos reserve una zona de la memoria para almacenar datos de tipo _int_.
+Para guardarla necesitaremos por tanto 16 bits de la memoria del ordenador.
+
+Las variables de tipo int se definen así:
+
+[source,c]
+----
+int número;
+----
+
+Esto hace que declaremos una variable llamada número que va a contener un número entero.
+
+==== ¿Pero dónde se declaran las variables?
+
+Tenemos dos posibilidades, una es declararla como global y otra como local. Por ahora vamos a decir que global es aquella variable que se declara fuera de la función main y local la que se declara dentro.
+Variable global:
+
+[source,c]
+----
+#include <stdio.h>
+int x;
+int main()
+{
+}
+----
+
+Variable local:
+
+[source,c]
+----
+#include <stdio.h>
+int main()
+{
+    int x;
+}
+----
+
+La diferencia práctica es que las variables globales se pueden usar en cualquier función (o procedimiento). Las variables locales sólo pueden usarse en el procedimiento en el que se declaran. Como por ahora sólo tenemos el procedimiento (o función, o rutina, o subrutina, como prefieras) main esto no debe preocuparnos mucho por ahora. Cuando estudiemos cómo hacer un programa con más funciones aparte de main volveremos sobre el tema. Sin embargo debes saber que es buena costumbre usar variables locales que globales. Ya veremos por qué.
+
+Podemos declarar más de una variable en una sola línea:
+
+[source,c]
+----
+int x, y;
+----
+
+==== Mostrar variables por pantalla
+
+Vamos a ir un poco más allá con la función _printf_.
+Supongamos que queremos mostrar el contenido de la variable x por pantalla:
+
+[source,c]
+----
+printf( "%i", x );
+----
+
+Suponiendo que x valga 10 (x=10) en la pantalla tendríamos:
+
+ 10
+
+Empieza a complicarse un poco ¿no?
+Vamos poco a poco.
+¿Recuerdas el símbolo "\" que usábamos para sacar ciertos caracteres?
+Bueno, pues el uso del "%" es parecido.
+"%i" no se muestra por pantalla, se sustituye por el valor de la variable que va detrás de las comillas (%i, de integer=entero en inglés).
+Para ver el contenido de dos variables, por ejemplo x e y, podemos hacer:
+
+[source,c]
+----
+printf( "%i ", x );
+printf( "%i", y );
+----
+
+resultado (suponiendo x=10, y=20):
+
+ 10 20
+
+Pero hay otra forma mejor:
+
+[source,c]
+----
+printf( "%i %i", x, y );
+----
+
+...y así podemos poner el número de variables que queramos.
+Obtenemos el mismo resultado con menos trabajo.
+No olvidemos que por cada variable hay que poner un %i dentro de las comillas.
+
+También podemos mezclar texto con enteros:
+
+[source,c]
+----
+printf( "El valor de x es %i, ¡que bien!\n", x );
+----
+
+que quedará como:
+
+ El valor de x es 10, ¡que bien!
+
+Como vemos %i al imprimir se sustituye por el valor de la variable.
+
+==== A veces %d, a veces %i
+
+Seguramente habrás visto que en ocasiones se usa el modificador %i y otras %d ¿cuál es la diferencia entre ambos? ¿cuál debe usarse?
+En realidad, cuando los usamos en un _printf_ no hay ninguna diferencia, se pueden usar indistintamente.
+La diferencia está cuando se usa con otras funciones como _scanf_ (esta función la estudiaremos más adelante).
+
+Hay varios modificadores para los números enteros:
+
+Tipo de variable
+Modificador
+int: entero decimal
+%i
+int: entero decimal
+%d
+unsigned int: entero decimal sin signo
+%u
+int: entero octal
+%o
+int: entero hexadecimal
+%x
+Podemos verlos en acción con el siguiente ejemplo:
+
+[source,c]
+----
+#include <stdio.h>
+
+int main()
+{
+     int numero = 13051;
+
+     printf("Decimal usando 'i': %i\n", numero);
+     printf("Decimal usando 'd': %d\n", numero);
+     printf("Hexadecimal: %x\n", numero);
+     printf("Octal: %o\n", numero);
+     return 0;
+}
+----
+
+Este ejemplo mostraría:
+
+Decimal usando 'i': 13051
+Decimal usando 'd': 13051
+Hexadecimal: 32fb
+Octal: 31373
+1.3.4 Asignar valores a variables de tipo int
+La asignación de valores es tan sencilla como:
+x = 10;
+También se puede dar un valor inicial a la variable cuando se define:
+int x = 15;
+También se pueden inicializar varias variables en una sola línea:
+int x = 15, y = 20;
+Hay que tener cuidado con lo siguiente:
+int x, y = 20;
+Podríamos pensar que x e y son igual a 20, pero no es así. La variable x está sin valor inicial y la variable 'y' tiene el valor 20.
+Veamos un ejemplo para resumir todo:
+#include <stdio.h>
+int main()
+{
+    int x = 10;
+    printf( "El valor inicial de x es %i\n", x );
+    x = 50;
+    printf( "Ahora el valor es %i\n", x );
+}
+Cuya salida será:
+El valor inicial de x es 10
+Ahora el valor es 50
+¡Importante! Si imprimimos una variable a la que no hemos dado ningún valor no obtendremos ningún error al compilar pero la variable tendrá un valor cualquiera. Prueba el ejemplo anterior quitando
+int x = 10;
+Puede que te imprima el valor 10 o puede que no.
+1.4 El tipo Char
+Las variables de tipo char se puede usar para almacenar caracteres. Los caracteres se almacenan en realidad como números del 0 al 255. Los 128 primeros (0 a 127) son el ASCII estándar.
+El resto es el ASCII extendido y depende del idioma y del ordenador. Consulta la tabla ASCII en el anexo.
+(más información sobre los caracteres ASCII: http://es.wikipedia.org/wiki/Ascii).
+Para declarar una variable de tipo char hacemos:
+char letra;
+En una variable char sólo podemos almacenar solo una letra, no podemos almacenar ni frases ni palabras. Eso lo veremos más adelante (strings, cadenas). Para almacenar un dato en una variable char tenemos dos posibilidades:
+letra = 'A';
+o
+letra = 65;
+En ambos casos se almacena la letra 'A' en la variable. Esto es así porque el código ASCII de la letra 'A' es el 65.
+Para imprimir un char usamos el símbolo %c (c de character=caracter en inglés):
+letra = 'A';
+printf( "La letra es: %c.", letra );
+resultado:
+La letra es A.
+También podemos imprimir el valor ASCII de la variable usando %i en vez de %c:
+letra = 'A';
+printf( "El número ASCII de la letra %c es: %i.", letra, letra );
+resultado:
+El código ASCII de la letra A es 65.
+Como vemos la única diferencia para obtener uno u otro es el modificador (%c ó %i) que usemos.
+Las variables tipo char se pueden usar (y de hecho se usan mucho) para almacenar enteros. Si necesitamos un número pequeño (entre -128 y 127) podemos usar una variable char (8bits) en vez de una int (16bits), con el consiguiente ahorro de memoria.
+Todo lo demás dicho para los datos de tipo “int” se aplica también a los de tipo “char”.
+Una curiosidad:
+#include <stdio.h>
+
+int main() {
+    char letra = 'A';
+    printf( "La letra es: %c y su valor ASCII es: %i\n", letra,
+    letra );
+    letra = letra + 1;
+    printf( "Ahora es: %c y su valor ASCII es: %i\n", letra, letra );
+
+    return 0;
+}
+En este ejemplo letra comienza con el valor 'A', que es el código ASCII 65. Al sumarle 1 pasa a tener el valor 66, que equivale a la letra 'B' (código ASCII 66). La salida de este ejemplo sería:
+La letra es A y su valor ASCII es 65
+Ahora es B y su valor ASCII es 66
+1.5 El modificador Unsigned
+Este modificador (que significa sin signo) modifica el rango de valores que puede contener una variable. Sólo admite valores positivos. Si hacemos:
+unsigned char variable;
+Esta variable en vez de tener un rango de -128 a 127 pasa a tener un rango de 0 a 255.
+Los indicadores de signo signed y unsigned solo pueden aplicarse a los tipos enteros. El primero indica que el tipo puede almacenar tanto valores positivos como negativos y el segundo indica que solo se admiten valores no negativos, esto es, solo se admite el cero y valores positivos.
+Si se declara una variable de tipo short, int o long sin utilizar un indicador de signo esto es equivalente a utilizar el indicador de signo signed. Por ejemplo:
+signed int i;
+int j;
+Declara dos variables de tipo signed int.
+La excepcion es el tipo char. Cuando se declara una variable de tipo char sin utilizar un indicador de signo si esta variable es equivalente a signed char o a unsigned char depende del compilador que estemos utilizando.
+Por lo mismo si debemos tener total certeza de que nuestras variables de tipo char puedan almacenar (o no) valores negativos es mejor indicarlo explicitamente utilizando ya sea signed char o unsigned char.
+1.6 El tipo Float
+En este tipo de variable podemos almacenar números decimales, no sólo enteros como en los anteriores. El mayor número que podemos almacenar en un float es 3,4E38 y el más pequeño 3,4E-38.
+¿Qué significa 3,4E38? Esto es equivalente a 3,4 * 10^38, que es el número:
+340.000.000.000.000.000.000.000.000.000.000.000.000
+El número 3,4E-38 es equivalente a 3,4 * 10^-38, vamos un número muy, muy pequeño.
+Declaración de una variable de tipo float:
+float número;
+Para imprimir valores tipo float Usamos %f.
+int main()
+{
+    float num=4060.80;
+    printf( "El valor de num es : %f", num );
+}
+Resultado:
+El valor de num es: 4060.80
+Si queremos escribirlo en notación exponencial usamos %e:
+float num = 4060.80;
+printf( "El valor de num es: %e", num );
+Que da como resultado:
+El valor de num es: 4.06080e003
+1.7 El tipo Double
+En las variables tipo double se almacenan números reales. El mayor número que se pueda almacenar es el 1,7E308 y el más pequeño del 1,7E-307.
+Se declaran como double:
+double número;
+Para imprimir se usan los mismos modificadores que en float.
+1.7.1 Números decimales ¿float o double?
+Cuando escribimos un número decimal en nuestro programa, por ejemplo 10.30, ¿de qué tipo es? ¿float o double?
+#include <stdio.h>
+int main() {
+    printf( "%f\n", 10.30 );
+    return 0;
+}
+Por defecto, si no se especifica nada, las constantes son de tipo double. Para especificar que queremos que la constante sea float debemos especificar el sufijo “f” o “F”. Si queremos que la constante sea de tipo long double usamos el sufijo “l” o “L”.
+Veamos el siguiente programa:
+int main() {
+    float num;
+    num = 10.20 * 20.30;
+}
+En este caso, ya que no hemos especificado nada, tanto 10.20 como 20.30 son de tipo double. La operación se hace con valores de tipo double y luego se almacena en un float. Al hacer una operación con double tenemos mayor precisión que con floats, sin embargo es innecesario, ya que en este caso al final el resultado de la operación se almacena en un float, de menor precisión.
+El programa sería más correcto así:
+int main() {
+float num;
+num = 10.20f * 20.30f;
+}
+1.8 Cómo calcular el máximo valor que admite un tipo de datos
+Lo primero que tenemos que conocer es el tamaño en bytes de ese tipo de dato. Vamos a ver un ejemplo con el tipo INT. Hagamos el siguiente programa:
+#include <stdio.h>
+int main() {
+    printf( "El tipo int ocupa %i bytes\n", sizeof(int) );
+    return 0;
+}
+La función sizeof() calcula el tamaño en bytes de una variable o un tipo de datos.
+En mi ordenador el resultado era (en tu ordenador podría ser diferente):
+El tipo int ocupa 4 bytes.
+Como sabemos 1byte = 8 bits. Por lo tanto el tipo int ocupa 4*8=32 bits. Ahora para calcular el máximo número debemos elevar 2 al número de bits obtenido. En nuestro ejemplo: 2^32=4.294.967.296. Es decir en un int se podrían almacenar 4.294.967.296 números diferentes.
+El número de valores posibles y únicos que pueden almacenarse en un tipo entero depende del número de bits que lo componen y esta dado por la expresión 2^N donde N es el número de bits.
+Si usamos un tipo unsigned (sin signo, se hace añadiendo la palabra unsigned antes de int)  tenemos que almacenar números positivos y negativos. Así que de los 4.294.967.296 posibles números la mitad serán positivos y la mitad negativos. Por lo tanto tenemos que dividir el número anterior entre 2 = 2.147.483.648. Como el 0 se considera positivo el rango de números posibles que se pueden almacenar en un int sería: -2.147.483.648 a 2.147.483.647.
+1.9 El fichero <limits.h>
+Existe un fichero llamado limits.h en el directorio includes de nuestro compilador (sea cual sea) en el que se almacena la información correspondiente a los tamaños y máximos rangos de los tipos de datos char, short, int y long (signed y unsigned) de nuestro compilador.
+Se recomienda como curiosidad examinar este fichero.
+1.10 Overflow: Qué pasa cuando nos saltamos el rango
+El overflow es lo que se produce cuando intentamos almacenar en una variable un número mayor del máximo permitido. El comportamiento es distinto para variables de números enteros y para variables de números en coma flotante.
+1.10.1 Con números enteros
+Supongamos que en nuestro ordenador el tipo int es de 32 bits. El número máximo que se puede almacenar en una variable tipo int es por tanto 2.147.483.647 (ver apartado anterior). Si nos pasamos de este número el que se guardará será el siguiente pero empezando desde el otro extremo, es decir, el -2.147.483.648. El compilador seguramente nos dará un aviso (warning) de que nos hemos pasado.
+#include <stdio.h>
+int main() {
+    int num1;
+    num1 = 2147483648;
+    printf( "El valor de num1 es: %i\n", num1 );
+}
+El resultado que obtenemos es:
+El valor de num1 es: -2147483648
+Comprueba si quieres que con el número anterior (2.147.483.647) no pasa nada.
+1.10.2 Con números en coma flotante
+El comportamiento con números en coma flotante es distinto. Dependiendo del ordenador si nos pasamos del rango al ejecutar un programa se puede producir un error y detenerse la ejecución.
+Con estos números también existe otro error que es el underflow. Este error se produce cuando almacenamos un número demasiado pequeño (3,4E-38 en float).
+1.11 Los tipos short int, long int y long double
+Existen otros tipos de datos que son variaciones de los anteriores que son: short int, long int, long long y long double.
+En realidad, dado que el tamaño de los tipos depende del compilador, lo único que nos garantiza es que:
+- El tipo long long no es menor que el tipo int.
+- El tipo long no es menor que el tipo int.
+- El tipo int no es menor que el tipo short.
+1.12 Resumen de los tipos de datos en C
+Los números en C se almacenan en variables llamadas “de tipo aritmético”. Estas variables a su vez se dividen en variables de tipos enteros y de tipos en coma flotante.
+Los tipos enteros son char, short int, int y long int. Los tipos short int y long int se pueden abreviar a solo short y long.
+Esto es algo orientativo, depende del sistema. Por ejemplo en un sistema de 16 bits podría ser algo así:
+Tipo
+Datos almacenados
+Nº de Bits
+Valores posibles (Rango)
+Rango usando unsigned
+char
+Caracteres y enteros pequeños
+8
+-128 a 127
+0 a 255
+int
+Enteros
+16
+-32.768 a 32.767
+16  0 a 65.535
+long
+Enteros largos
+32
+-2.147.483.648 a 2.147.483.647
+0 a 4.294.967.295
+float
+Números reales (coma flotante)
+32
+3,4E-38 a 3,4E38
+No se aplica
+double
+Números reales (coma flotante doble)
+64
+1,7E-307 a 1,7E308
+No se aplica
+
+Como hemos mencionado antes esto no siempre es cierto, depende del ordenador y del compilador. Para saber en nuestro caso qué tamaño tienen nuestros tipos de datos debemos hacer lo siguiente.
+Ejemplo para int:
+#include <stdio.h>
+int main() {
+    printf( "Tamaño (en bits) de int = %i\n", sizeof( int )*8 );
+    return 0;
+}
+Ya veremos más tarde lo que significa sizeof. Por ahora basta con saber que nos dice cual es el tamaño de una variable o un tipo de dato.
+1.13 Ejercicios
+Ejercicio 1: Busca los errores:
+#include <stdio.h>
+int main()
+{
+    int número;
+    número = 2;
+    return 0;
+}
+Solución: Los nombres de variables no pueden llevar acentos, luego al compilar número dará error.
+#include <stdio.h>
+int main()
+{
+    int número;
+    número = 2;
+    printf( "El valor es %i" número );
+    return 0;
+}
+Solución: Falta la coma después de "El valor es %i". Además la segunda vez número está escrito con mayúsculas.

@@ -230,21 +230,49 @@ int main()
 
 Este ejemplo mostraría:
 
+----
 Decimal usando 'i': 13051
 Decimal usando 'd': 13051
 Hexadecimal: 32fb
 Octal: 31373
-1.3.4 Asignar valores a variables de tipo int
+----
+
+==== Asignar valores a variables de tipo int
+
 La asignación de valores es tan sencilla como:
+
+[source,c]
+----
 x = 10;
+----
+
 También se puede dar un valor inicial a la variable cuando se define:
+
+[source,c]
+----
 int x = 15;
-También se pueden inicializar varias variables en una sola línea:
+----
+
+También se pueden dar valores iniciales a varias variables en una sola línea:
+
+[source,c]
+----
 int x = 15, y = 20;
+----
+
 Hay que tener cuidado con lo siguiente:
+
+[source,c]
+----
 int x, y = 20;
-Podríamos pensar que x e y son igual a 20, pero no es así. La variable x está sin valor inicial y la variable 'y' tiene el valor 20.
+----
+
+Podríamos pensar que _x_ e _y_ son igual a 20, pero no es así. La variable _x_ está sin valor inicial y la variable _y: tiene el valor 20.
+
 Veamos un ejemplo para resumir todo:
+
+[source,c]
+----
 #include <stdio.h>
 int main()
 {
@@ -253,37 +281,83 @@ int main()
     x = 50;
     printf( "Ahora el valor es %i\n", x );
 }
+----
+
 Cuya salida será:
-El valor inicial de x es 10
-Ahora el valor es 50
-¡Importante! Si imprimimos una variable a la que no hemos dado ningún valor no obtendremos ningún error al compilar pero la variable tendrá un valor cualquiera. Prueba el ejemplo anterior quitando
-int x = 10;
-Puede que te imprima el valor 10 o puede que no.
-1.4 El tipo Char
-Las variables de tipo char se puede usar para almacenar caracteres. Los caracteres se almacenan en realidad como números del 0 al 255. Los 128 primeros (0 a 127) son el ASCII estándar.
-El resto es el ASCII extendido y depende del idioma y del ordenador. Consulta la tabla ASCII en el anexo.
-(más información sobre los caracteres ASCII: http://es.wikipedia.org/wiki/Ascii).
+
+ El valor inicial de x es 10
+ Ahora el valor es 50
+
+NOTE: ¡Importante! Si imprimimos una variable a la que no hemos dado ningún valor no obtendremos ningún error al compilar pero la variable tendrá un valor cualquiera.
+Prueba el ejemplo anterior quitando: _int x = 10;_. Puede que te imprima el valor 10 o puede que no.
+
+=== El tipo Char
+
+Las variables de tipo char se puede usar para almacenar caracteres.
+Los caracteres se almacenan en realidad como números del 0 al 255.
+Los 128 primeros (0 a 127) son el ASCII estándar.
+El resto es el ASCII extendido y depende del idioma y del ordenador.
+Consulta la tabla ASCII en el anexo (más información sobre los caracteres ASCII: http://es.wikipedia.org/wiki/Ascii).
+
 Para declarar una variable de tipo char hacemos:
+
+[source,c]
+----
 char letra;
-En una variable char sólo podemos almacenar solo una letra, no podemos almacenar ni frases ni palabras. Eso lo veremos más adelante (strings, cadenas). Para almacenar un dato en una variable char tenemos dos posibilidades:
+----
+
+En una variable char sólo podemos almacenar solo una letra, no podemos almacenar ni frases ni palabras.
+Eso lo veremos más adelante (strings, cadenas).
+Para almacenar un dato en una variable _char_ tenemos dos posibilidades:
+
+[source,c]
+----
 letra = 'A';
-o
+----
+
+o:
+
+[source,c]
+----
 letra = 65;
-En ambos casos se almacena la letra 'A' en la variable. Esto es así porque el código ASCII de la letra 'A' es el 65.
-Para imprimir un char usamos el símbolo %c (c de character=caracter en inglés):
+----
+
+En ambos casos se almacena la letra 'A' en la variable.
+Esto es así porque el código ASCII de la letra 'A' es el 65.
+
+Para imprimir un _char_ usamos el símbolo _%c_ (c de character=carácter en inglés):
+
+[source,c]
+----
 letra = 'A';
 printf( "La letra es: %c.", letra );
+----
+
 resultado:
-La letra es A.
+
+ La letra es A.
+
 También podemos imprimir el valor ASCII de la variable usando %i en vez de %c:
+
+[source,c]
+----
 letra = 'A';
 printf( "El número ASCII de la letra %c es: %i.", letra, letra );
+----
+
 resultado:
-El código ASCII de la letra A es 65.
+
+ El código ASCII de la letra A es 65.
+
 Como vemos la única diferencia para obtener uno u otro es el modificador (%c ó %i) que usemos.
-Las variables tipo char se pueden usar (y de hecho se usan mucho) para almacenar enteros. Si necesitamos un número pequeño (entre -128 y 127) podemos usar una variable char (8bits) en vez de una int (16bits), con el consiguiente ahorro de memoria.
+Las variables tipo char se pueden usar (y de hecho se usan mucho) para almacenar enteros.
+Si necesitamos un número pequeño (entre -128 y 127) podemos usar una variable char (8bits) en vez de una int (16bits), con el consiguiente ahorro de memoria.
 Todo lo demás dicho para los datos de tipo “int” se aplica también a los de tipo “char”.
+
 Una curiosidad:
+
+[source,c]
+----
 #include <stdio.h>
 
 int main() {
@@ -295,6 +369,8 @@ int main() {
 
     return 0;
 }
+----
+
 En este ejemplo letra comienza con el valor 'A', que es el código ASCII 65. Al sumarle 1 pasa a tener el valor 66, que equivale a la letra 'B' (código ASCII 66). La salida de este ejemplo sería:
 La letra es A y su valor ASCII es 65
 Ahora es B y su valor ASCII es 66

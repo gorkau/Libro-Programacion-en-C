@@ -31,6 +31,31 @@ Para preguntas con respecto al contenido del libro puedes entrar en [la sección
 
 En cuanto a conocimientos necesitarás conocer un poco de [AsciiDoctor](https://asciidoctor.org/). Es un formato muy sencillo similar al MarkDown que se usa en GitHub.
 
+# Instrucciones para colaboradores
+
+## Normas de estilo
+
+### Código
+
+Todos los bloques de código (y las líneas de código sueltas) deben ir dentro de un bloque:
+
+```
+[source,c]
+----
+// Aquí dentro va el código
+----
+```
+
+La salida de un programa (lo que se mostraría en la pantalla) se debe encerrar entre los símbolos:
+
+```
+----
+Ejemplo de la salida de un programa.
+----
+```
+
+Si la salida consiste en una única línea bastará con poner un espacio al principio de la misma.
+
 ## Estado
 
 [22/07/2018] Ya he subido hasta el capítulo 3. La mitad del capítulo está con un formato bastante feo.

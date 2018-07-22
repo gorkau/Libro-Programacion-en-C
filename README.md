@@ -22,7 +22,7 @@ Para preguntas con respecto al contenido del libro puedes entrar en [la sección
 
 * Avisando si has visto algún error.
 * Ayudar dando formato al libro. Estoy usando [AsciiDoctor](https://asciidoctor.org/). Es muy fácil de usar.
-*
+* Sugiriendo nuevas secciones o cambiando cosas que consideres que están mal explicadas.
 
 ### ¿Qué herramientas/conocimientos necesito para colaborar?
 

@@ -44,7 +44,7 @@ En la practica a la hora de crear un programa nosotros escribimos el código fue
 
 Si tenemos el código fuente podemos modificar el programa tantas veces como queramos (sólo tenemos que volver a compilarlo), pero si tenemos el ejecutable final no podremos cambiar nada (realmente sí se puede pero es mucho más complicado y requiere más conocimientos).
 
-Existen multitud de compiladores. Yo suelo recomendar el Geany y Code::Blocks, que tiene versiones tanto para Linux como para Windows. Estos programas usa el compilador GNU GCC (http://gcc.gnu.org) y se pueden descargar aquí:
+Existen multitud de compiladores. Yo suelo recomendar el Geany y Code::Blocks, que tiene versiones tanto para Linux como para Windows. Estos programas usan el compilador GNU GCC (http://gcc.gnu.org) y se pueden descargar aquí:
 
 * Geany - http://www.geany.org/
 * Code::Blocks - http://www.codeblocks.org/

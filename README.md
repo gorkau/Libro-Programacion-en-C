@@ -1,5 +1,7 @@
 # Libro Programacion en C para Principiantes
 
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Licencia Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a><br />Esta obra está bajo una <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">Licencia Creative Commons Atribución-NoComercial-SinDerivadas 4.0 Internacional</a>.
+
 Este es un libro de programación en C escrito por mí (Gorka Urrutia Landa) en el año 1999. Desde entonces he ido haciendo algunas revisiones. Este libro ha estado a la venta en Amazon durante varios años pero ahora lo pongo a la disposición de todo el mundo de manera gratuita.
 
 Si quieres participar en el libro simplemente haz un "pull request" y envía los cambios.

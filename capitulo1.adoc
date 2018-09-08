@@ -38,13 +38,20 @@ Conviene indicar también que las instrucciones se separan por ";".
 
 === Compiladores de C
 
-Un compilador es un programa que convierte nuestro código fuente en un programa ejecutable (me imagino que la mayoría ya lo sabéis pero más vale asegurar). El ordenador trabaja con 0 y 1. Si escribiéramos un programa en el lenguaje del ordenador nos volveríamos locos. Para eso están lenguajes como el C. Nos permiten escribir un programa de manera que sea fácil entenderlo por una persona (el código fuente). Luego es el compilador el que se encarga de convertirlo al complicado idioma de un ordenador.
+Un compilador es un programa que convierte nuestro código fuente en un programa ejecutable (me imagino que la mayoría ya lo sabéis pero más vale asegurar).
+El ordenador trabaja con 0 y 1.
+Si escribiéramos un programa en el lenguaje del ordenador nos volveríamos locos. Para eso están lenguajes como el C.
+Nos permiten escribir un programa de manera que sea fácil entenderlo por una persona (el código fuente).
+Luego es el compilador el que se encarga de convertirlo al complicado idioma de un ordenador.
 
-En la practica a la hora de crear un programa nosotros escribimos el código fuente, en nuestro caso en C, que normalmente será un fichero de texto normal y corriente que contiene las instrucciones de nuestro programa. Luego se lo pasamos al compilador y este se encarga de convertirlo en un programa.
+En la practica a la hora de crear un programa nosotros escribimos el código fuente, en nuestro caso en C, que normalmente será un fichero de texto normal y corriente que contiene las instrucciones de nuestro programa.
+Luego se lo pasamos al compilador y este se encarga de convertirlo en un programa.
 
 Si tenemos el código fuente podemos modificar el programa tantas veces como queramos (sólo tenemos que volver a compilarlo), pero si tenemos el ejecutable final no podremos cambiar nada (realmente sí se puede pero es mucho más complicado y requiere más conocimientos).
 
-Existen multitud de compiladores. Yo suelo recomendar el Geany y Code::Blocks, que tiene versiones tanto para Linux como para Windows. Estos programas usan el compilador GNU GCC (http://gcc.gnu.org) y se pueden descargar aquí:
+Existen multitud de compiladores.
+Yo suelo recomendar el Geany y Code::Blocks, que tiene versiones tanto para Linux como para Windows.
+Estos programas usan el compilador GNU GCC (http://gcc.gnu.org) y se pueden descargar aquí:
 
 * Geany - http://www.geany.org/
 * Code::Blocks - http://www.codeblocks.org/
@@ -64,126 +71,241 @@ Para la comodidad de los desarrolladores se crearon lo que se llaman Entornos de
 Existen multitud de IDE que puedes utilizar. Geany y Code::Blocks anteriormente mencionados son muy recomendables en entornos MS Windows, para Linux tenemos montones de opciones, como el Geany, Anjuta o el Kdevelop.
 
 === El primer programa: Hola Mundo
+
 En un alarde de originalidad vamos a hacer nuestro primer programa: hola mundo. Nadie puede llegar muy lejos en el mundo de la programación sin haber empezado su carrera con este original y funcional programa. Allá va:
 
+[source,c]
+----
 #include <stdio.h>
+#include <stdlib.h>
 
-int main() {
+int main()
+{
     /* Aquí va el cuerpo del programa */
     printf("Hola mundo\n");
-    return 0;
+    return EXIT_SUCCESS;
 }
+----
 
-Nota: Hay mucha gente que programa en Windows que se queja de que cuando ejecuta el programa no puede ver el resultado. Para evitarlo se puede añadir antes de return 0; la siguiente línea:
+.Si trabajas en Windows
+[NOTE]
+====
+Hay mucha gente que programa en Windows que se queja de que cuando ejecuta el programa no puede ver el resultado.
+Para evitarlo se puede añadir antes de return 0; la siguiente línea:
 
+[source,c]
+----
 system("PAUSE");
+----
 
 Si esto no funciona prueba a añadir getch();
 
-Otra nota: En compiladores MS Windows, para poder usar la función system() debes añadir al principio del fichero la línea:
+Otra nota: En compiladores MS Windows, para poder usar la función _system()_ debes añadir al principio del fichero la línea:
 
+[source,c]
+----
 #include <windows.h>
+----
+====
 
-¿Qué fácil eh? Este programa lo único que hace es sacar por pantalla el mensaje:
+Este programa lo único que hace es sacar por pantalla el mensaje:
 
+----
 Hola mundo
+----
 
 Vamos ahora a comentar el programa línea por línea (Esto no va a ser más que una primera aproximación).
 
+[source,c]
+----
 #include <stdio.h>
+#include <stdlib.h>
+----
 
-#include es lo que se llama una directiva. Sirve para indicar al compilador que incluya otro archivo. Cuando en compilador se encuentra con esta directiva la sustituye por el archivo indicado. En este caso es el archivo stdio.h que es donde está definida la función printf, que veremos luego.
+#include es lo que se llama una directiva.
+Sirve para indicar al compilador que incluya otro archivo.
+Cuando en compilador se encuentra con esta directiva la sustituye por el archivo indicado.
+En este caso son los archivos _stdio.h_ (que es donde está definida la función printf, que veremos luego) y _stdlib.h_.
 
+[source,c]
+----
 int main()
+----
 
-Es la función principal del programa. Todos los programas de C deben tener una función llamada main. Es la que primero se ejecuta. El int (viene de Integer=Entero) que tiene al principio significa que cuando la función main acabe devolverá un número entero. Este valor se suele usar para saber cómo ha terminado el prorama. Normalmente este valor será 0 si todo ha ido bien, o un valor distinto si se ha producido algún error (pero esto lo decidimos nosotros, ya lo veremos). De esta forma si nuestro programa se ejecuta desde otro el programa 'padre' sabe como ha finalizado, si ha habido errores o no.
+Es la *_función_* principal del programa.
+Todos los programas de C deben tener una función llamada _main_, que es la que primero se ejecuta.
 
-Se puede usar la definición 'void main()', que no necesita devolver ningún valor, pero se recomienda la forma con 'int' que es más correcta. Es posible que veas muchos ejemplos que uso 'void main' y en los que falta el return 0; del final; el código funciona correctamente pero puede dar un 'warning' (un aviso) al compilar dado que no es una práctica correcta.
+El _int_ (viene de Integer=Entero) que tiene al principio significa que cuando la función main acabe devolverá un número entero.
+Este valor se suele usar para saber cómo ha terminado el programa.
+Normalmente este valor será 0 si todo ha ido bien, o un valor distinto si se ha producido algún error (pero esto lo decidimos nosotros, ya lo veremos).
+De esta forma si nuestro programa se ejecuta desde otro el programa 'padre' sabe como ha finalizado, si ha habido errores o no.
 
-{
+Se puede usar la definición:
 
-Son las llaves que indican, entre otras cosas, el comienzo de una función; en este caso la función main.
+[source,c]
+----
+void main()
+----
 
+que no necesita devolver ningún valor, pero se recomienda la forma con 'int' que es más correcta.
+Es posible que veas muchos ejemplos que uso 'void main' y en los que falta el return 0; del final; el código funciona correctamente pero puede dar un 'warning' (un aviso) al compilar dado que no es una práctica correcta.
+
+[source,c]
+----
+{}
+----
+
+Las _llaves_ indican, entre otras cosas, el comienzo y el final de una función; en este caso la función _main_.
+
+[source,c]
+----
 /* Aquí va el cuerpo del programa */
+----
 
-Esto es un comentario, el compilador lo ignorará. Sirve para describir el programa a otros desarrolladores o a nosotros mismos para cuando volvamos a ver el código fuente dentro de un tiempo. Conviene acostumbrarse a comentar los programas pero sin abusar de ellos (ya hablaremos sobre esto más adelante).
+Esto es un comentario, el compilador lo ignorará.
+Sirve para describir el programa a otros desarrolladores o a nosotros mismos para cuando volvamos a ver el código fuente dentro de un tiempo.
+Conviene acostumbrarse a comentar los programas pero sin abusar de ellos (ya hablaremos sobre esto más adelante).
 
 Los comentarios van encerrados entre /* y */.
 
 Un comentario puede ocupar más de una línea. Por ejemplo el comentario:
 
+[source,c]
+----
 /* Este es un comentario
 que ocupa dos filas */
+----
 
 es perfectamente válido.
 
+[source,c]
+----
 printf( "Hola mundo\n" );
+----
 
-Aquí es donde por fin el programa hace algo que podemos ver al ejecutarlo. La función printf muestra un mensaje por la pantalla.
+Aquí es donde por fin el programa hace algo que podemos ver al ejecutarlo.
+La función *_printf_* muestra un mensaje por la pantalla.
 
-Al final del mensaje "Hola mundo" aparece el símbolo '\n'; este hace que después de imprimir el mensaje se pase a la línea siguiente. Por ejemplo:
+Al final del mensaje "Hola mundo" puedes ver el símbolo '\n'.
+Éste hace que después de imprimir el mensaje se pase a la línea siguiente. Por ejemplo:
 
+[source,c]
+----
 printf( "Hola mundo\nAdiós mundo" );
+----
 
 mostrará:
 
+----
 Hola mundo
 Adiós mundo
+----
 
-Fíjate en el ";" del final. Es la forma que se usa en C para separar una instrucción de otra. Se pueden poner varias en la misma línea siempre que se separen por el punto y coma.
+Fíjate en el ";" del final.
+Es la forma que se usa en C para separar una instrucción de otra.
+Se pueden poner varias en la misma línea siempre que se separen por el punto y coma.
 
-return 0;
+[source,c]
+----
+return EXIT_SUCCESS;
+----
 
-Como he indicado antes el programa al finalizar develve un valor entero. Como en este programa no se pueden producir errores (nunca digas nunca jamás) la salida siempre será 0. La forma de hacer que el programa devuelva un 0 es usando return. Esta línea significa 'finaliza la función main haz que devuelva un 0.
+Como he indicado antes el programa al finalizar develve un valor entero.
+Este valor se devuelve usando *_return_*.
+El valor devuelto será el que pongamos después de _return_.
 
-}
+En este caso el valor que devolvemos es _EXIT_SUCCESS_, que es una *_constante_* (un valor predefinido que no cambia) que tiene el valor 0.
 
-...y cerramos llaves con lo que termina el programa. Todos los programas finalizan cuando se llega al final de la función main.
+.¿De dónse sale EXIT_SUCCESS?
+NOTE: El valor de EXIT_SUCCESS está definido en el fichero _stdlib.h_.
+
+¿Y por qué no poner return 0 en lugar de return EXIT_SUCCESS?
+
+Sería perfectamente válido usar un 0 en lugar de EXIT_SUCCESS, pero el programa se entiende mejor usando esta última.
+Cuando lees esa línea ya entiendes, sin ninguna duda, que el programa está termiando con éxito.
+
+...y por fin cerramos llaves con lo que termina el programa.
+Todos los programas finalizan cuando se llega al final de la función _main_.
 
 === ¿Cómo se hace?
 
-Primero debemos crear el código fuente del programa. Para nuestro primer programa el código fuente es el del listado anterior. Arranca tu compilador de C, sea cual sea. Crea un nuevo fichero y copia el código anterior. Llámalo por ejemplo primero.c.
-Ahora, tenemos que compilar el programa para crear el ejecutable. Si estás usando un IDE busca una opción llamada "compile", o make, build o algo así.
-Si estamos usando GCC  sin IDE tenemos que llamarlo desde la línea de comando:
+Primero debemos crear el código fuente del programa.
+Para nuestro primer programa el código fuente es el del listado anterior.
 
+.Arranca tu entorno de desarrollo de C, sea cual sea.
+.Crea un nuevo fichero y copia el código anterior.
+.Llámalo, por ejemplo, primero.c.
+.Ahora, tenemos que compilar el programa para crear el ejecutable.
+.Si estás usando un IDE busca una opción llamada "compile", o make, build o algo así.
+
+Si estamos usando el compilador *_gcc_*  sin IDE tenemos que llamarlo desde la línea de comando:
+
+----
 gcc primero.c -o primero
+----
 
 === Nota adicional sobre los comentarios
 
 Los comentarios se pueden poner casi en cualquier parte. Excepto en medio de una instrucción. Por ejemplo lo siguiente no es válido:
 
+[source,c]
+----
 pri/* Esto es un comentario */ntf( "Hola mundo" );
+----
 
 No podemos cortar a printf por en medio, tendríamos un error al compilar. Lo siguiente puede no dar un error, pero es una fea costumbre:
 
+[source,c]
+----
 printf( /* Esto es un comentario */ "Hola mundo" );
+----
 
 Y por último tenemos:
 
+[source,c]
+----
 printf( "Hola/* Esto es un comentario */ mundo" );
+----
 
 Que no daría error, pero al ejecutar tendríamos:
 
+----
 Hola /* Esto es un comentario */ mundo
+----
 
 porque /* Esto es un comentario */ queda dentro de las comillas y C lo interpreta como texto, no como un comentario.
 
 === ¿Qué sabemos hacer?
 
-Pues la verdad es que todavía no hemos aprendido mucho. Lo único que podemos hacer es compilar nuestros programas. Pero paciencia, en seguida avanzaremos.
+Pues la verdad es que todavía no hemos aprendido mucho.
+Lo único que podemos hacer es compilar nuestros programas.
+Pero paciencia, en seguida avanzaremos.
 
 === Ejercicios
 
 Busca los errores en este programa:
 
-int main() {
-        /* Aquí va el cuerpo del programa */
-        Printf( "Hola mundo\n" );
-        return 0;
+[source,c]
+----
+int main()
+{
+  /* Aquí va el cuerpo del programa */
+  Printf( "Hola mundo\n" );
+  return 0;
 }
+----
 
 Solución:
 
-Si lo compilamos obtendremos un error que nos indicará que no hemos definido la función 'Printf'. Esto es porque no hemos incluído la dichosa directiva '#include <stdio.h>'. (En algunos compiladores no es necesario incluir esta directiva, pero es una buena costumbre hacerlo).
+Si lo compilamos obtendremos un error que nos indicará que no hemos definido la función 'Printf'.
+Esto es porque no hemos incluído la dichosa directiva '#include <stdio.h>'.
 
-Si lo corregimos y volvemos a compilar obtendremos un nuevo error. Otra vez nos dice que desconoce 'Printf'. Esta vez el problema es el de las mayúsculas que hemos indicado antes. Lo correcto es poner 'printf' con minúsculas. Parece una tontería, pero seguro que nos da más de un problema.
+NOTE: En algunos compiladores no es necesario incluir esta directiva, pero es una buena costumbre hacerlo.
+
+Si lo corregimos y volvemos a compilar obtendremos un nuevo error.
+Otra vez nos dice que desconoce 'Printf'.
+Esta vez el problema es el de las mayúsculas que hemos indicado antes.
+Lo correcto es poner _printf_ con minúsculas.
+
+Te habrás fijado que en esta ocasión hemos usado _return 0_ en lugar de _return EXIT_SUCCESS_.
+En realidad ambas son equivalentes puesto que _EXIT_SUCCESS_ tiene el valor 0.

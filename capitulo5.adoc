@@ -1,0 +1,983 @@
+[[capítulo-5.-manipulando-datos-operadores]]
+== Capítulo 5. Manipulando datos (operadores)
+
+[[qué-es-un-operador]]
+=== ¿Qué es un operador?
+
+Un operador sirve para manipular datos.
+Los hay de varios tipos: de asignación, de relación, lógicos, aritméticos y de manipulación de bits.
+En realidad los nombres tampoco importan mucho; aquí lo que queremos es aprender a programar, no aprender un montón de nombres.
+
+[[operador-de-asignación]]
+=== Operador de asignación
+
+Este es un operador que ya hemos visto en el capítulo de Tipos de Datos.
+Sirve para dar un valor a una variable. Este valor puede ser un número que tecleamos directamente u otra variable:
+
+[source,c]
+----
+a = 3; /* Metemos un valor directamente */
+----
+
+o
+
+[source,c]
+----
+a = b; /* Le damos el valor de una variable */
+----
+
+Podemos dar valores a varias variables a la vez:
+
+[source,c]
+----
+a = b = c = 10; /* Damos a las variables a,b,c el valor 10 */
+----
+
+También podemos asignar a varias variables el valor de otra de un solo golpe:
+
+a = b = c = d; /* a,b,c toman el valor de d */
+
+[[operadores-aritméticos]]
+=== Operadores aritméticos
+
+Los operadores aritméticos son aquellos que sirven para realizar operaciones tales como suma, resta, división, multiplicación y módulo (o resto o residuo).
+
+[[operador-suma]]
+==== Operador (+) : Suma
+
+Este operador permite sumar variables:
+
+[source,c]
+----
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+
+{
+
+ int a = 2;
+ int b = 3;
+ int c;
+
+ c = a + b;
+
+ printf ( "Resultado = %i\n", c );
+
+ return EXIT_SUCCESS;
+
+}
+----
+
+El resultado será 5 obviamente.
+
+Por supuesto se pueden sumar varias variables o variables más constantes:
+
+[source,c]
+----
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+
+{
+
+ int a = 2;
+ int b = 3;
+ int c = 1;
+ int d;
+
+ d = a + b + c + 4;
+
+ printf ( "Resultado = %i\n", d );
+
+ return EXIT_SUCCESS;
+
+}
+----
+
+El resultado es 10.
+
+Podemos utilizar este operador para incrementar el valor de una
+variable:
+
+[source,c]
+----
+x = x + 5;
+----
+
+Pero existe una forma abreviada:
+
+[source,c]
+----
+x += 5;
+----
+
+Esto suma el valor 5 al valor que tenía la variable x. Veamos un
+ejemplo:
+
+[source,c]
+----
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+
+ int x, y;
+
+ x = 3;
+ y = 5;
+ x += 2;
+
+ printf( "x = %i\n", x );
+
+ x += y; /* esto equivale a x = x + y */
+
+ printf( "x = %i\n", x );
+
+ return EXIT_SUCCESS;
+
+}
+----
+
+
+Resultado:
+
+----
+x = 5
+x = 10
+----
+
+[[operador-incremento]]
+==== Operador (++) : Incremento
+
+Este operador equivale a sumar uno a la variable:
+
+[source,c]
+----
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+
+ int x = 5;
+
+ printf ( "Valor de x = %i\n", x );
+
+ x++;
+
+ printf ( "Valor de x = %i\n", x );
+
+ return EXIT_SUCCESS;
+
+}
+----
+
+Resultado:
+
+----
+Valor de x = 5
+Valor de x = 6
+----
+
+Se puede poner antes o después de la variable.
+
+[[operador---restanegativo]]
+==== Operador (-) : Resta/Negativo
+
+Este operador tiene dos usos, uno es la resta que funciona como el operador suma y el otro es cambiar de signo.
+
+Resta:
+
+[source,c]
+----
+x = x - 5;
+----
+
+Para la operación resta se aplica todo lo dicho para la suma.
+Se puede usar también como:
+
+[source,c]
+----
+x -= 5;
+----
+
+Pero también tiene el uso de cambiar de signo.
+Poniéndolo delante de una variable o constante equivale a multiplicarla por -1.
+
+[source,c]
+----
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+
+ int a, b;
+
+ a = 1;
+ b = -a;
+
+ printf( "a = %i, b = %i\n", a, b );
+
+ return EXIT_SUCCESS;
+
+}
+----
+
+Resultado: a = 1, b = -1. No tiene mucho misterio.
+
+[[operador----decremento]]
+==== Operador (--) : Decremento
+
+Es equivalente a ++ pero en vez de incrementar disminuye el valor de la
+variable. Equivale a restar uno a la variable.
+
+[[operador-multiplicación-y-punteros]]
+==== Operador (*) : Multiplicación y punteros
+
+Este operador sirve para multiplicar y funciona de manera parecida a los
+anteriores.
+
+También sirve para definir y utilizar punteros, pero eso lo veremos más
+tarde.
+
+[[operador-división]]
+==== Operador (/) : División
+
+Este funciona también como los anteriores pero hay que tener dos cosas
+en cuenta:
+
+===== División de enteros
+
+Si dividimos dos números en coma flotante (tipo __float__) tenemos las
+división con sus correspondientes decimales. Pero si dividimos dos
+enteros obtenemos un número entero. Es decir que si dividimos 4/3
+tenemos como resultado 1. Se hace un redondeo por truncamiento y se
+eliminan los decimales.
+
+Para conseguir el resultado correcto debemos usar 4.0/3.0, dado que 4 se
+considera como _int_ y 4.0 como __float__.
+
+Al dividir dos enteros el resultado es siempre un número entero, aunque
+luego lo saquemos por pantalla usando %f no obtendremos la parte
+decimal.
+
+Si queremos saber cuál es el resto (o módulo) usamos el operador %, que
+vemos más abajo.
+
+===== División por cero
+
+En C no podemos dividir un número por cero, es una operación ilegal. Hay
+que evitar esto pues se producirá un error en nuestro programa. Los
+operadores división y módulo no aceptan como segundo parámetro el cero.
+No se puede usar:
+
+* El valor 0 con los operadores de división y módulo.
+* El valor 0.0 con el operador de división.
+
+[[operador-módulo-o-resto]]
+==== Operador (%) : Módulo o Resto
+
+Si con el anterior operador obteníamos el módulo o cociente de una división entera con éste podemos tener el resto.
+**Sólo funciona con enteros**, no vale para números _float_ o _double_.
+
+Cómo se usa:
+
+[source,c]
+----
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+
+ int a, b;
+
+ a = 18;
+
+ b = 5;
+
+ printf( "Resto de la división: %d \n", a % b );
+
+ return EXIT_SUCCESS;
+
+}
+----
+
+[[operadores-de-comparación]]
+=== Operadores de comparación
+
+Los operadores de condición se utilizan para comprobar las condiciones de las sentencias de control de flujo (las estudiaremos en el capítulo sentencias).
+
+Cuando se evalúa una condición el resultado que se obtiene es 0 si no se cumple y un número distinto de 0 si se cumple.
+Normalmente cuando se cumplen devuelven un 1.
+
+Los operadores de comparación son:
+
+[cols="",]
+|=======================================================================
+|== |igual que |se cumple si son iguales
+
+|!= |distinto que |se cumple si son diferentes
+
+|> |mayor que |se cumple si el primero es mayor que el segundo
+
+|< |menor que |se cumple si el primero es menor que el segundo
+
+|>= |mayor o igual que |se cumple si el primero es mayor o igual que el
+segundo
+
+|<= |menor o igual que |se cumple si el primero es menor o igual que el
+segundo
+|=======================================================================
+
+Veremos la aplicación de estos operadores en el capítulo Sentencias.
+Pero ahora vamos a ver un ejemplo:
+
+[source,c]
+----
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+
+{
+
+ printf( "10 > 5 da como resultado %i\n", 10>5 );
+
+ printf( "10 < 5 da como resultado %i\n", 10<5 );
+
+ printf( "5 == 5 da como resultado %i\n", 5==5 );
+
+ printf( "10 == 5 da como resultado %i\n", 10==5 );
+
+ return EXIT_SUCCESS;
+
+}
+----
+
+Como se puede ver al ejecutar este programa:
+* cuando la condición se cumple el resultado es un 1 (true)
+* cuando no se cumple es un 0 (false).
+
+No sólo se pueden comparar constantes, también se pueden comparar variables.
+
+[[operadores-lógicos]]
+=== Operadores lógicos
+
+Estos son los que nos permiten unir varias comparaciones, por ejemplo:
+10>5 y 6==6.
+Los operadores lógicos son: *_AND (&&), OR (||), NOT(!)_*.
+
+Operador && (AND, en castellano Y): Devuelve un 1 si se cumplen dos condiciones.
+
+[source,c]
+----
+printf( "Resultado: %i", (10==10 && 5>2 ); /* Resultado: 1 */
+
+printf( "Resultado: %i", (10==10 && 5<2 ); /* Resultado: 0 */
+----
+
+Operador || (OR, en castellano O): Devuelve un 1 si se cumple una de las
+dos condiciones.
+
+[source,c]
+----
+printf( "Resultado: %i", (10==10 || 5<2 ); /* Resultado: 1 */
+----
+
+Operador ! (NOT, negación): Si la condición se cumple NOT hace que no se cumpla y viceversa.
+
+[source,c]
+----
+printf( "Resultado: %i", !10==10 ); /* Resultado: 0 */
+
+printf( "Resultado: %i", !(5<2) ); /* Resultado: 1 */
+----
+
+En los operadores && y || primero se evalúa la condición de la izquierda y si es necesario se evalúa la de la derecha. Por ejemplo:
+
+[source,c]
+----
+(10>5 && 6==6)
+----
+
+Se evalúa 10>5 -> verdadera.
+A continuación se evalúa 6==6 -> verdadera. Resultado: verdadera.
+
+[source,c]
+----
+(10<5 && 6==6)
+----
+
+Se evalúa la de la izquierda -> falso.
+Dado que el operador && requiere que ambas condiciones sean ciertas no es necesario evaluar la segunda ya que aunque sea cierta el resultado será falso.
+Es decir:
+
+* En el caso del operador AND si la primera expresión es falsa (igual a
+0) el resultado final va a ser falso así que la segunda expresión no se
+evalúa.
+
+* En el caso del operador OR si la primera expresión es verdadera
+(diferente de 0) el resultado final va a ser verdadero así que la
+segunda expresión no se evalúa.
+
+Por esta forma de funcionamiento se les llama operadores shortcircuit
+operators (u operadores cortocircuito).
+
+Estos dos operadores son particularmente útiles cuando se debe evaluar
+(o no) una expresión dependiendo de la evaluación de una expresión
+anterior.
+
+Por ejemplo supongamos que tenemos dos números enteros (a y b) y tenemos
+que verificar si el primero (a) es un múltiplo del segundo (b). Podemos
+hacer:
+
+[source,c]
+----
+if ((a % b == 0))
+ printf(“%d es divisible por %d”, a, b);
+----
+
+Pero si b es cero tendremos un error de división por cero.
+Para evitarlo podemos usar la siguiente expresión:
+
+[source,c]
+----
+if ((b != 0) && (a % b == 0))
+ /* b es múltiplo de a */
+----
+
+.NOTA
+NOTE: el funcionamiento del 'if' lo estudiaremos en un capítulo posterior.
+Por ahora es suficiente con saber que permite controlar el flujo de un programa dependiendo de la condición que le sigue.
+
+Aquí el operador AND primero evalúa la expresión a su izquierda y solo
+si esta es verdadera (¿_b_ es diferente de cero?) se evalúa la
+expresión a su derecha (¿el residuo de _a_ entre _b_ es cero?).
+
+Ver el capítulo Sentencias, sección Notas sobre las condiciones para más información.
+
+[[introducción-a-los-bits-y-bytes]]
+=== Introducción a los bits y bytes
+
+Supongo que todo el mundo sabe lo que son los bytes y los bits, pero por si acaso allá va.
+
+Los bits son la unidad de información más pequeña, digamos que son la base para almacenar la información.
+Son como los átomos a las moléculas.
+Los valores que puede tomar un bit son 0 ó 1.
+Si juntamos ocho bits tenemos un byte.
+
+Un byte puede tomar 256 valores diferentes (de 0 a 255).
+¿Cómo se consigue esto? Imaginemos nuestro flamante byte con sus ocho bits.
+Supongamos que los ocho bits valen cero.
+Ya tenemos el valor 0 en el byte.
+Ahora vamos a darle al último byte el valor 1.
+Cambiando los 1 y 0 podemos conseguir los 256 valores:
+
+00000000 → 0
+
+00000001 → 1
+
+00000010 → 2
+
+00000011 → 3
+
+…
+
+11111110 → 254
+
+11111111 → 255
+
+Como vemos con ocho bits podemos tener 256 valores diferentes, que en byte corresponden a los valores entre 0 y 255.
+
+En C en lugar de utilizarse el byte la unidad “básica” es el **unsigned char**.
+Aunque su numero de bits es usualmente ocho no tiene por qué ser así y puede ser mayor. Dependerá del compilador.
+
+Para estar seguros del numero de bits por carácter lo mejor es verificar
+el valor de la macro CHAR_BIT, esta se define en el header limits.h.
+
+[[operadores-de-bits]]
+=== Operadores de bits
+
+Ya hemos visto que las variables unsigned char están compuestas de bits.
+Pues bien, con los operadores de bits podemos manipular las variables
+por dentro. Los diferentes operadores de bits son:
+
+| OR (O)
+
+& AND (Y)
+
+^ XOR (O exclusivo)
+
+~ Complemento a uno o negación
+
+>> Desplazamiento a la derecha
+
+<< Desplazamiento a la izquierda
+
+[[operador-or]]
+==== Operador | (OR)
+
+Toma dos valores y hace con ellos la operación OR.
+Vamos a ver un ejemplo:
+
+[source,c]
+----
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+  printf( "El resultado de la operación 235 | 143 es: %i\n", 235 |
+143 );
+
+ return EXIT_SUCCESS;
+
+}
+----
+
+Se obtiene:
+
+----
+El resultado de la operación 235 | 143 es: 239
+----
+
+Veamos la operación a nivel de bits:
+
+235 -> 11101011
+
+143 -> 10001111 |
+
+239 -> 11101111
+
+La operación OR funciona de la siguiente manera:
+Tomamos los bits de cada uno de los valores y los comparamos si alguno de los bits es 1, se obtiene un uno.
+Si ambos bits son cero el resultado es cero.
+Primero se compara los dos primeros (el primero de cada uno de los números, 1 y 1 -> 1), luego la segunda pareja (1 y 0 -> 1) y así sucesivamente.
+
+[[operador-and]]
+==== Operador & (AND)
+
+Este operador compara los bits también dos a dos. Si ambos son 1 el
+resultado es 1. Si no, el resultado es cero.
+
+[source,c]
+----
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+ printf( "El resultado de la operación 170 & 155 es: %i\n", 170 & 155 );
+
+ return EXIT_SUCCESS;
+}
+----
+
+Tenemos:
+
+----
+El resultado de la operación 170 & 155 es: 138
+----
+
+A nivel de bits:
+
+170 -> 10101010
+
+155 -> 10011011 &
+
+138 -> 10001010
+
+[[operador-xor]]
+==== Operador ^ (XOR)
+
+Compara los bits y los pone a unos si son distintos. Si son iguales el
+bit resultante es un cero.
+
+235 -> 11101011
+
+143 -> 10001111 ^
+
+100 -> 01100100
+
+[[operador-complemento-a-uno]]
+==== Operador ~ (Complemento a uno)
+
+Este operador acepta un sólo dato (operando) y pone a 0 los 1 y a 1 los 0, es decir los invierte.
+Se pone delante del operando.
+
+[source,c]
+----
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+
+ printf( "El resultado de la operación ~152 es: %i\n", ~152 & 0xFF );
+
+ return EXIT_SUCCESS;
+
+}
+----
+
+----
+El resultado de la operación ~152 es: 103
+----
+
+Y a nivel de bits:name: value
+
+152 -> 10011000 ~
+
+103 -> 01100111
+
+[[operador-desplazamiento-a-la-derecha]]
+==== Operador >> (Desplazamiento a la derecha)
+
+Este operador mueve cada bit a la derecha. El bit de la izquierda se
+pone a cero, el de la derecha se pierde. Si después de usar este
+operador realizamos la operación inversa no recuperamos el número
+original. El formato es:
+
+variable o dato >> número de posiciones a desplazar
+
+El _número de posiciones a desplazar_ indica cuantas veces hay que mover
+los bits hacia la derecha. Ejemplo:
+
+[source,c]
+----
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+
+ printf("El resultado de 150U >> 2 es %u\n", 150U >> 2);
+
+ return EXIT_SUCCESS;
+
+}
+----
+
+Salida:
+
+----
+El resultado de la operación 150 >> 2 es: 37
+----
+
+Veamos la operación paso a paso.
+Esta operación equivale a hacer dos desplazamientos a la derecha:
+
+150 -> 10010110 Número original
+
+75 -> 01001011 Primer desplazamiento. Entra un cero por la izquierda. El
+bit de la derecha se pierde.
+
+37 -> 00100101 Segundo desplazamiento.
+
+.NOTA
+[NOTE]
+====
+Un desplazamiento a la derecha equivale a dividir por dos.
+Esto es muy interesante porque el desplazamiento es más rápido que la división.
+
+Si queremos optimizar un programa esta es una buena idea.
+Sólo sirve para dividir entre dos.
+Si hacemos dos desplazamientos sería dividir por dos dos veces, no por tres.
+====
+
+Los "bits de relleno", los que se añaden por la izquierda, son siempre
+ceros cuando el número al que hacemos la operación es un entero sin
+signo.
+
+En caso de que el desplazamiento se haga sobre un valor entero con signo
+hay un pequeño problema; los bits de relleno será uno o cero dependiendo
+del compilador.
+Por ejemplo:
+
+-1 >> 4 /* No se puede predecir el resultado */
+
+El rango válido para el desplazamiento va desde 0 hasta (sizeof(int) *
+CHAR_BIT) - 1.
+
+[[operador-desplazamiento-a-la-izquierda]]
+==== Operador << (Desplazamiento a la izquierda)
+
+Funciona igual que la anterior pero los bits se desplazan a la
+izquierda. Esta operación equivale a multiplicar por 2.
+
+[[operador-sizeof]]
+=== Operador Sizeof
+
+Este es un operador muy útil. Nos permite conocer el tamaño en bytes de una variable.
+De esta manera no tenemos que preocuparnos en recordar o calcular cuanto ocupa.
+Además el tamaño de una variable cambia de un compilador a otro, es la mejor forma de asegurarse.
+Se usa poniendo el nombre de la variable después de sizeof y separado de un espacio:
+
+[source,c]
+----
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+ int variable;
+
+ printf( "Tamaño de la variable: %lu\n",
+  (unsigned long) sizeof (variable) );
+
+ return EXIT_SUCCESS;
+
+}
+----
+
+*NOTA:* Como se puede apreciar, para mostrar el tamaño de la variable hemos usado %lu en lugar de %i.
+Esto es así porque _sizeof_ devuelve un valor del tipo _size_t_ y el estándar ISO-C90 sólo especifica que size_t
+debe ser un entero sin signo (puede ser un __int__, _short int_ o __long int__).
+Para asegurarnos que mostramos correctamente su valor debemos usar %lu en lugar de %i.
+
+También se puede usar con los especificadores de tipos de datos (char, int, float, double...) para averiguar su tamaño:
+
+[source,c]
+----
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+
+ printf( "Las variables tipo int ocupan: %lu\n",
+
+ (unsigned long) sizeof(**int**) );
+
+ return EXIT_SUCCESS;
+
+}
+----
+
+[[otros-operadores]]
+=== Otros operadores
+
+Existen además de los que hemos visto otros operadores.
+Sin embargo ya veremos en sucesivos capítulos lo que significa cada uno.
+
+[[orden-de-evaluación-de-operadores]]
+=== Orden de evaluación de Operadores
+
+Debemos tener cuidado al usar operadores pues a veces podemos tener resultados no esperados si no tenemos en cuenta su orden de evaluación.
+Vamos a ver la lista de precedencias, cuanto más arriba se evalúa antes:
+
+Precedencia
+
+----
+() [] -> .
+
+! ~ ++ -- (molde) * & sizeof (El * es el de puntero)
+
+* / % (El * de aquí es el de multiplicación)
+
++ -
+
+<< >>
+
+< <= > >=
+
+== !=
+
+&
+
+^
+
+|
+
+&&
+
+||
+
+?:
+
+= += -= *= /=
+
+,
+----
+
+Por ejemplo imaginemos que tenemos la siguiente operación:
+
+10 * 2 + 5
+
+Si vamos a la tabla de precedencias vemos que el * tiene un orden
+superior al +, por lo tanto primero se hace el producto 10*2=20 y luego
+la suma 20+5=25.
+
+Veamos otra:
+
+10 * ( 2 + 5 )
+
+Ahora con el paréntesis cambia el orden de evaluación.
+El que tiene mayor precedencia ahora es el paréntesis, se ejecuta primero.
+Como dentro del paréntesis sólo hay una suma se evalúa sin más, 2+5=7.
+Ya solo queda la multiplicación 10*7=70.
+
+Otro caso:
+
+10 * ( 5 * 2 + 3 )
+
+Como antes, el que mayor precedencia tiene es el paréntesis, se evalúa primero.
+Dentro del paréntesis tenemos producto y suma.
+Como sabemos ya se evalúa primero el producto, 5*2=10. Seguimos en el paréntesis, nos queda la suma 10+3=13.
+Hemos acabado con el paréntesis, ahora al resto de la expresión.
+Cogemos la multiplicación que queda:
+
+10*13=130
+
+Otro detalle que debemos cuidar son los operadores ++ y --.
+Es mejor no usar los operadores ++ y -- mezclados con otros, pues puede ser confuso y a veces obtenemos resultados inesperados.
+Por ejemplo:
+
+[source,c]
+----
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+
+ int a;
+
+ a = 5;
+
+ printf( "a = %i\n", a++ );
+
+ return EXIT_SUCCESS;
+
+}
+----
+
+El resultado sería:
+
+----
+a = 5
+----
+
+Para evitar confusiones lo mejor sería separar la línea donde se usa el ++:
+
+[source,c]
+----
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+
+ int a;
+
+ a = 5;
+ a++;
+
+ printf( "a = %i\n", a );
+
+ return EXIT_SUCCESS;
+
+}
+----
+
+[[ejercicios]]
+=== Ejercicios
+
+*Ejercicio 1:* En este programa hay un fallo muy gordo y muy habitual en
+programación. A ver si lo encuentras:
+
+[source,c]
+----
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+
+ int a, c;
+
+ a = 5;
+
+ c += a +5;
+
+ return EXIT_SUCCESS;
+
+}
+----
+
+Solución:
+
+Cuando calculamos el valor de 'c' sumamos a+5 ( =10 ) al valor de 'c'.
+Pero resulta que 'c' no tenía ningún valor indicado por nosotros.
+Estamos usando la variable 'c' sin haberle dado valor. En algunos
+compiladores el resultado será inesperado. Este es un fallo bastante
+habitual, usar variables a las que no hemos dado ningún valor.
+
+*Ejercicio 2:* ¿Cual será el resultado del siguiente programa?
+
+[source,c]
+----
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+
+ int a, b, c;
+
+ a = 5;
+ b = ++a;
+ c = ( a + 5 * 2 ) * ( b + 6 / 2 ) + ( a * 2 );
+
+ printf( "%i, %i, %i", a, b, c );
+
+ return EXIT_SUCCESS;
+
+}
+----
+
+Solución:
+
+El resultado es 156. En la primera a vale 5. Pero en la segunda se
+ejecuta b = ++a = ++5 = 6. Tenemos a = b = 6.
+
+*Ejercicio 3:* Escribir un programa que compruebe si un número es par o
+impar.
+
+Solución:
+
+[source,c]
+----
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() \{
+
+ int a;
+
+ a = 124;
+
+ if ( a % 2 == 0 ) {
+  printf( "%d es par\n", a );
+ }
+ else {
+  printf( "%d es impar\n", a );
+ }
+
+ printf( "\n" );
+
+ return EXIT_SUCCESS;
+
+}
+----
+
+
+Para comprobar si un número es par o impar podemos usar el operador '%'.
+Si al calcular el resto de dividir un número por 2 el resultado es cero eso indica que el número es par.
+Si el resto es distinto de cero el número es impar.

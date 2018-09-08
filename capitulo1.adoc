@@ -309,3 +309,15 @@ Lo correcto es poner _printf_ con minúsculas.
 
 Te habrás fijado que en esta ocasión hemos usado _return 0_ en lugar de _return EXIT_SUCCESS_.
 En realidad ambas son equivalentes puesto que _EXIT_SUCCESS_ tiene el valor 0.
+
+=== ¿Dudas?
+
+Si tienes dudas sobre este capítulo plantéalas en el foro:
+
+https://elrincondelc.com/foros/viewforum.php?f=47
+
+=== ¿Has visto un error?
+
+Si has encontrado algún error o quieres sugerir cambios entra aquí:
+
+https://github.com/gorkau/Libro-Programacion-en-C/blob/master/capitulo1.adoc

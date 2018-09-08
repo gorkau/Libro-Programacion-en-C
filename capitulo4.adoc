@@ -1,0 +1,250 @@
+////
+Copyright: Gorka Urrutia Landa, 1999-2018
+Licencia: Attribution-ShareAlike 4.0 International (CC BY-SA 4.0) https://creativecommons.org/licenses/by-sa/4.0/
+////
+
+:chapter: 004
+
+<<<
+
+== Capítulo 4. Constantes (uso de #define).
+
+[[introducción]]
+=== Introducción
+
+Las constantes son aquellos datos que no pueden cambiar a lo largo de la ejecución de un programa.
+
+[source,c]
+----
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+
+ double radio, perimetro;
+
+ radio = 20;
+ perimetro = 2 * 3.1416 * radio;
+ printf( "El perimetro es: %f", perimetro );
+ return EXIT_SUCCESS;
+
+}
+----
+
+_radio_ y _perimetro_ son variables, su valor puede cambiar a lo largo del programa.
+Sin embargo 20, 2 y 3.1416 son constantes, no hay manera de cambiarlas.
+El valor 3.1416 no cambia a lo largo del programa, ni entre ejecución y ejecución.
+Solo cambiará cuando edites el programa y lo cambies tu mismo.
+En resumen, cuando escribimos directamente un número se le llama una constante.
+
+[[tipos-de-datos-en-las-constantes]]
+=== Tipos de datos en las constantes
+
+En el capítulo anterior vimos que las existen diferentes tipos de datos para las variables.
+Las constantes también tienen tipos de datos.
+Recordemos que especificábamos el tipo de dato de la variable usando int, float, double y otros.
+Con las constantes indicamos el tipo dependiendo del sufijo que empleemos después de la constante.
+Veamos unos ejemplos:
+
+[source,c]
+----
+a = 100; /* 100 es de tipo signed int */
+b = 200U; /* 200U es de tipo unsigned int */
+c = 300L; /* 300L es de tipo signed long */
+d = 400UL; /* 400UL es de tipo unsigned long */
+----
+
+Pero ¿para qué queremos indicar el tipo de dato de una constante?
+Al fin y al cabo son todos números.
+Veremos más adelante que es muy importante, sobre todo a la hora de hacer ciertas operaciones matemáticas.
+
+[[constantes-en-base-10-sin-parte-fraccionaria]]
+==== Constantes en base 10 sin parte fraccionaria
+
+.NOTA
+[NOTE]
+====
+Los números en base 10 son los que llamamos decimales. Se llaman
+así porque los números se pueden representar usando como base el 10:
+
+3.284 = 3x1000 + 2x100 + 8x10 + 4 = 3x10^3^ + 2x10^2^ + 8x10^1^ +
+4x10^0^
+====
+
+Recordemos que también hay números binarios (en base 2), hexadecimales y octales.
+
+Las constantes en base 10 y sin fracción ni exponente son de tipo _signed int_.
+
+¿Y que pasa si una constante "no cabe" en el tipo indicado?
+
+Supongamos un ordenador de 16 bits donde el valor máximo que se puede almacenar en el tipo int es 32.767 y (por poner un ejemplo) en nuestro programa tenemos:
+
+[source,c]
+----
+int a = 32768; /* recordemos 32768 "no cabe" en un int de 16 bits. */
+----
+
+¿Que es lo que sucede?
+
+Cuando el número no cabe en el tipo que se está indicando (en este caso no se indica nada así que se considera como un tipo int) se comprueba si cabe en el siguiente tipo de dato.
+Si tampoco cabe se prueba con el siguiente.
+El orden que se sigue es:
+
+. int
+. long
+. unsigned long
+
+Debido a que en nuestro ejemplo 32.768 no cabe en un int se comprueba con el tipo _signed long_.
+Si en éste tampoco cabe se considera que el tipo de la constante es __unsigned long__.
+
+Si la constante en cuestión tiene uno de los dos sufijos 'U' o 'L' el tipo a utilizar se restringe (limita) y selecciona en este orden:
+
+A) En el caso de utilizar 'U':
+
+. unsigned int
+. unsigned long
+
+B) En el caso de utilizar 'L':
+
+. signed long
+. unsigned long
+
+[[constantes-en-base-10-y-con-decimales]]
+==== Constantes en base 10 y con decimales
+
+Las constantes en base 10 y con un punto decimal y/o exponente son de tipo double.
+
+Algunos ejemplos:
+
+[source,c]
+----
+a = 100.0; /* 100.0 es de tipo 'double' */
+b = 10E2; /* 10E2 es de tipo 'double' */
+----
+
+Nota técnica:
+
+Las constantes de punto flotante son de tipo double a menos que se utilice uno de estos sufijos ya sea en minúsculas o mayúsculas:
+
+* El sufijo 'F' indica que la constante es de tipo float.
+* El sufijo 'L' indica que la constante es de tipo long double.
+
+Solo se puede utilizar uno de estos sufijos pero no ambos.
+
+Algunos ejemplos:
+
+[source,c]
+----
+a = 100.0F /* 100.0F es de tipo float */
+b = 200.0 /* 200.0 es de tipo double */
+c = 300.0L /* 300.0L es de tipo long double */
+----
+
+[[constantes-con-nombre]]
+=== Constantes con nombre
+
+Imagina el siguiente programa:
+
+[source,c]
+----
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+
+  float precio;
+
+  precio = ( 4 * 25 * 100 ) * ( 1.16 );
+
+  printf( "El precio total es: %f", precio );
+
+  return EXIT_SUCCESS;
+
+}
+----
+
+Es un programa sencillo y que funciona bien.
+Sin embargo ¿qué sentido tienen los números 4, 25, 100 y 1,16? Es difícil saberlo.
+Es bastante habitual escribir un programa así, volver a echarle un vistazo unos meses más tarde y no recordar qué eran esos números.
+
+Ahora mira este otro programa:
+
+[source,c]
+----
+#include <stdio.h>
+#include <stdlib.h>
+
+#define CAJAS 4
+#define UNIDADES_POR_CAJA 25
+#define PRECIO_POR_UNIDAD 100
+#define IMPUESTOS 1.16
+
+int main()
+{
+
+ float precio;
+
+ precio =
+ ( CAJAS * UNIDADES_POR_CAJA * PRECIO_POR_UNIDAD ) *
+ ( IMPUESTOS );
+
+ printf( "El precio total es: %f", precio );
+ return EXIT_SUCCESS;
+
+}
+----
+
+Ahora todos los números tienen un significado claro. Es porque esta vez
+estamos usando __constantes con nombre__.
+
+#define es lo que se llama una __directiva__. Estas directivas se
+utilizan, entre otras cosas, para definir constantes. Los usos de
+#define y de otras directivas los veremos en el capítulo de directivas.
+
+Las constantes, una vez definidas, no pueden cambiar su valor. No son
+como las variables. Cuando hacemos:
+
+[source,c]
+----
+#define CAJAS 4
+----
+
+estamos diciendo que, dentro de nuestro programa, donde aparezca la
+palabra CAJAS hay que sustituirlo por el valor 4.
+
+Para definir constantes hay que seguir unas sencillas normas:
+
+* Sólo se puede definir una constante por línea.
+* No llevan ';' al final.
+* Se suelen escribir en mayúsculas aunque no es obligatorio.
+
+También podemos definir una constante usando el valor de otras. Por
+supuesto las otras tienen que estar definidas antes:
+
+[source,c]
+----
+#include <stdio.h>
+#include <stdio.h>
+
+#define CAJAS 4
+#define UNIDADES_POR_CAJA 25
+#define PRECIO_POR_UNIDAD 100
+#define PRECIO_POR_CAJA UNIDADES_POR_CAJA * PRECIO_POR_UNIDAD
+#define IMPUESTOS 1.16
+
+int main()
+
+{
+
+  float precio;
+
+  precio = ( CAJAS * PRECIO_POR_CAJA ) * ( IMPUESTOS );
+
+  printf( "El precio total es: %f", precio );
+
+  return EXIT_SUCCESS;
+
+}
+----

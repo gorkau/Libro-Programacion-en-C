@@ -60,6 +60,7 @@ Si la salida consiste en una única línea bastará con poner un espacio al prin
 
 ## Estado
 
-* [08/07/2018] Subido hasta el capítulo 5. Mejoras en el formato del capítulo 1.
+* [14/09/2018] Subido hasta el capítulo 6.
+* [08/09/2018] Subido hasta el capítulo 5. Mejoras en el formato del capítulo 1.
 * [22/07/2018] Ya he subido hasta el capítulo 3. La mitad del capítulo está con un formato bastante feo.
 * [15/07/2018] Por ahora sólo está listo el capítulo 1 con un formato horrible.

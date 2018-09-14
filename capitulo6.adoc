@@ -1,0 +1,283 @@
+[[capítulo-6.-introducir-datos-por-teclado]]
+== Capítulo 6. Introducir datos por teclado
+
+[[introducción]]
+=== Introducción
+
+Algo muy usual en un programa es esperar que el usuario introduzca datos por el teclado.
+Para ello contamos con varias posibilidades: Usar las
+funciones de la biblioteca estándar, crear nuestras propias
+interrupciones de teclado o usar funciones de alguna biblioteca
+diferente (como por ejemplo Allegro).
+
+Nosotros en este capítulo vamos a estudiar la primera opción (biblioteca
+estándar) mediante el uso de la función _scanf_ y también la tercera
+opción (bibliotecas de terceros) mediante el uso de las funciones
+_getch_ y _getche_. Estas ultimas solo funcionan con los compiladores
+que soporten la biblioteca _conio_ de Borland. Pero antes veamos por
+encima las otras posibilidades.
+
+Las funciones estándar están bien para un programa sencillito. Pero
+cuando queremos hacer juegos por ejemplo, no suelen ser suficiente.
+Demasiado lentas o no nos dan todas las posibilidades que buscamos, como
+comprobar si hay varias teclas pulsadas. Para solucionar esto tenemos
+dos posibilidades:
+
+La más complicada es crear nuestras propias interrupciones de teclado.
+¿Qué es una interrupción de teclado? Es un pequeño programa en memoria
+que se ejecuta continuamente y comprueba el estado del teclado. Podemos
+crear uno nuestro y hacer que el ordenador use el que hemos creado en
+vez del suyo. Este tema no lo vamos a tratar ahora, quizás en algún
+capítulo posterior.
+
+Otra posibilidad más sencilla es usar una biblioteca que tenga funciones
+para controlar el teclado. Por ejemplo si usamos la biblioteca Allegro,
+ella misma hace todo el trabajo y nosotros no tenemos más que recoger
+sus frutos con un par de sencillas instrucciones. Esto soluciona mucho
+el trabajo y nos libra de tener que aprender cómo funcionan los aspectos
+más oscuros del control del teclado.
+
+Vamos ahora con las funciones de la biblioteca estándar.
+
+[[scanf]]
+=== Scanf
+
+El uso de scanf es muy similar al de printf con una diferencia, nos da la posibilidad de que el usuario introduzca datos en vez de mostrarlos.
+No nos permite mostrar texto en la pantalla, por eso si queremos mostrar un mensaje usamos un printf delante.
+
+El formato de _scanf_ es:
+
+[source,c]
+----
+scanf( "%d", &var );
+----
+
+Donde:
+
+* %d puede ser un modificador de los que ya habíamos visto en el _printf_.
+En la sección “link:#anchor[Modificadores]” hay una lista de modificadores que se pueden usar.
+* _var_ es la variable donde se va a almacenar el valor que teclee el usuario.
+
+Un ejemplo:
+
+[source,c]
+----
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+	int num;
+
+	printf( "Introduce un número: " );
+
+	fflush(stdout);
+
+	scanf( "%d", &num );
+
+	printf( "Has tecleado el número %d\n", num );
+
+	return EXIT_SUCCESS;
+}
+
+----
+
+*NOTA 1:* En este ejemplo hemos usado el modificador %d en lugar de %i.
+Si usamos el modificador %i puede llevar a resultados inesperados debido
+a que %i acepta tanto números en base 10 como en base 8 (octal) y 16
+(hexadecimal).
+
+Por ejemplo si se introduce el número 0123 éste no se interpreta (como
+es de esperarse) como un número decimal sino como un número octal.
+El resultado del programa sería:
+
+----
+Introduce un numero: 0123
+
+Has tecleado el numero 83
+----
+
+NOTE: Quizás te estés preguntando qué es eso de _fflush( stdout )_.
+Cuando usamos la función printf, no escribimos directamente
+en la pantalla, sino en una memoria intermedia (lo que llaman un
+_buffer_).
+Cuando este _buffer_ se llena o cuando metemos un carácter '\n' es cuando se envía el texto a la pantalla.
+En algunos compiladores es posible que el texto “Introduce una letra:” no se muestre sin el _fflush_ (pruébalo en el tuyo).
+
+Primero vamos a ver unas nota de estética, para hacer los programas un poco más elegantes.
+Parece una tontería, pero los pequeños detalles hacen que un programa gane mucho.
+El _scanf_ no mueve el cursor de su posición actual, así que en nuestro ejemplo queda:
+
+----
+Introduce un número _
+----
+
+NOTE: La barra horizontal indica dónde esta el cursor.
+
+Esto es porque en el printf no hemos puesto al final el símbolo de salto
+de línea '\n'.
+Además hemos dejado un espacio al final de _Introduce un número:_ para que así cuando tecleemos el número no salga pegado al mensaje.
+Si no hubiésemos dejado el espacio quedaría así al introducir el número 120 (es un ejemplo):
+
+----
+Introduce un número120
+----
+
+Bueno, esto es muy interesante pero vamos a dejarlo y vamos al grano.
+Veamos cómo funciona el _scanf_.
+Lo primero nos fijamos que hay una cadena entre comillas.
+Esta es similar a la de _printf_, nos sirve para indicarle al programa qué tipo de datos puede aceptar.
+
+En el ejemplo, al usar %d, estábamos diciendo al programa que acepte
+únicamente números enteros decimales (en base 10).
+
+Después de la coma tenemos la variable donde almacenamos el dato, en este caso 'num'.
+
+Fíjate que en el _scanf_ la variable 'num' lleva delante el símbolo &.
+Éste es muy importante; sirve para indicar al compilador cuál es la dirección (o posición en la memoria) de la variable.
+Por ahora no te preocupes por eso, ya volveremos más adelante sobre el tema.
+
+Podemos pedir al usuario más de un dato a la vez en un sólo _scanf_.
+Para eso hay que poner un modificador por cada variable:
+
+[source,c]
+----
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+
+ int a, b, c;
+
+ printf( "Introduce tres números: " );
+
+ fflush(stdout);
+
+ scanf( "%d %d %d", &a, &b, &c );
+
+ printf( "Has tecleado los números %d %d %d\n", a, b, c );
+
+ return EXIT_SUCCESS;
+}
+
+----
+
+De esta forma cuando el usuario ejecuta el programa debe introducir los tres datos separados por un espacio.
+
+También podemos pedir en un mismo scanf variables de distinto tipo:
+
+[source,c]
+----
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+ int a;
+ float b;
+
+ printf( "Introduce dos numeros: " );
+
+ fflush(stdout);
+
+ scanf( "%d %f", &a, &b );
+
+ printf( "Has tecleado los numeros %d %f\n", a, b );
+
+ return EXIT_SUCCESS;
+}
+----
+
+A cada modificador (%d, %f) le debe corresponder una variable de su mismo tipo.
+Es decir, al poner un %d el compilador espera que su variable correspondiente sea de tipo int.
+Si ponemos %f espera una variable tipo float.
+
+[[modificadores]]
+=== [[anchor]]Modificadores
+
+Hemos visto que cuando el dato introducido lo queremos almacenar en una variable tipo int usamos el modificador %d.
+Cada variable usa un modificador diferente.
+
+[cols=",",]
+|=======================================================
+|int: entero. Puede ser decimal, octal o hexadecimal |%i
+|int: entero decimal |%d
+|unsigned int: entero decimal sin signo |%u
+|int: entero octal |%o
+|int: entero hexadecimal |%x
+|float |%f
+|double |%lf
+|char |%c
+|cadena de caracteres |%s
+|=======================================================
+
+[[ejercicios]]
+=== Ejercicios
+
+*Ejercicio 1:* Busca el error en el siguiente programa:
+
+[source,c]
+----
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+ int numero;
+
+ printf( "Introduce un numero: " );
+
+ scanf( "%d", numero );
+
+ printf( "\nHas introducido el número %d.\n", numero );
+
+ return EXIT_SUCCESS;
+}
+----
+
+Solución:
+
+A la variable número le falta el '&' con lo que no estamos indicando al
+programa la dirección de la variable y no obtendremos el resultado
+deseado.
+Haz la prueba y verás que el mensaje "Has introducido el número X" no muestra el número que habías introducido.
+
+*Ejercicio 2:* Escribe un programa que pida 3 números: un float, un
+double y un int y a continuación los muestre por pantalla.
+
+Solución:
+
+[source,c]
+----
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+  float num1;
+ double num2;
+ int num3;
+
+ printf( "Introduce 3 numeros: " );
+
+ scanf( "%f %lf %i", &num1, &num2, &num3 );
+
+ printf ( "\nNumeros introducidos: %f %f %i\n",
+  num1, num2, num3 );
+
+  return EXIT_SUCCESS;
+}
+----
+
+=== ¿Dudas?
+
+Si tienes dudas sobre este capítulo plantéalas en el foro:
+
+https://elrincondelc.com/foros/viewforum.php?f=52
+
+=== ¿Has visto un error?
+
+Si has encontrado algún error o quieres sugerir cambios entra aquí:
+
+https://github.com/gorkau/Libro-Programacion-en-C/blob/master/capitulo6.adoc

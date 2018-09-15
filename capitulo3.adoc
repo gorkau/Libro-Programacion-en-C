@@ -198,18 +198,16 @@ La diferencia está cuando se usa con otras funciones como _scanf_ (esta funció
 
 Hay varios modificadores para los números enteros:
 
-Tipo de variable
-Modificador
-int: entero decimal
-%i
-int: entero decimal
-%d
-unsigned int: entero decimal sin signo
-%u
-int: entero octal
-%o
-int: entero hexadecimal
-%x
+[cols=3*,options=header]
+|=======================================================
+|Tipo de variable|Descripción|Modificador
+| _int_ | Entero decimal | %i
+| _int_ | Entero decimal | %i
+| _unsigned int_| Entero decimal sin signo | %u
+| _int_ | Entero octal | %o
+| _int_ | Entero hexadecimal | %x
+|=======================================================
+
 Podemos verlos en acción con el siguiente ejemplo:
 
 [source,c]

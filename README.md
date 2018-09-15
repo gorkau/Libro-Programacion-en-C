@@ -12,6 +12,14 @@ Para preguntas con respecto al contenido del libro puedes entrar en [la sección
 
 ## Preguntas/comentarios frecuentes
 
+### ¿Cómo me descargo el libro?
+
+Directo al grano ¿eh? Si lo que quieres es descargar el libro y no tienes interés en colaborar mejorándolo simplemente usa este enlace:
+
+[Pincha aquí para descargar el libro](https://github.com/gorkau/Libro-Programacion-en-C/blob/master/programacion-c-principiantes-gorka-urrutia.pdf)
+
+Ahora bien, si el libro te gusta y quieres que sea mejor puedes colaborar.
+
 ### ¡El formato es horrible!
 
 ¡Pues claro! Estamos en ello. Quéjate menos y colabora más. Tienes el código fuente del libro para ir descargándolo y editándolo.

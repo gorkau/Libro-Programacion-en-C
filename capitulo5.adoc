@@ -472,10 +472,12 @@ Los valores que puede tomar un bit son 0 ó 1.
 Si juntamos ocho bits tenemos un byte.
 
 Un byte puede tomar 256 valores diferentes (de 0 a 255).
+
 ¿Cómo se consigue esto? Imaginemos nuestro flamante byte con sus ocho bits.
 Supongamos que los ocho bits valen cero.
 Ya tenemos el valor 0 en el byte.
 Ahora vamos a darle al último byte el valor 1.
+
 Cambiando los 1 y 0 podemos conseguir los 256 valores:
 
 00000000 → 0
@@ -495,10 +497,11 @@ Cambiando los 1 y 0 podemos conseguir los 256 valores:
 Como vemos con ocho bits podemos tener 256 valores diferentes, que en byte corresponden a los valores entre 0 y 255.
 
 En C en lugar de utilizarse el byte la unidad “básica” es el **unsigned char**.
-Aunque su numero de bits es usualmente ocho no tiene por qué ser así y puede ser mayor. Dependerá del compilador.
+Aunque su numero de bits es usualmente ocho no tiene por qué ser así y puede ser mayor.
+Dependerá del compilador.
 
 Para estar seguros del numero de bits por carácter lo mejor es verificar
-el valor de la macro CHAR_BIT, esta se define en el header limits.h.
+el valor de la macro _CHAR_BIT_, esta se define en el header _limits.h_.
 
 [[operadores-de-bits]]
 === Operadores de bits
@@ -977,7 +980,16 @@ int main() \{
 }
 ----
 
-
 Para comprobar si un número es par o impar podemos usar el operador '%'.
 Si al calcular el resto de dividir un número por 2 el resultado es cero eso indica que el número es par.
 Si el resto es distinto de cero el número es impar.
+
+=== ¿Dudas? ¿Errores?
+
+Si tienes dudas sobre este capítulo plantéalas en el foro:
+
+https://elrincondelc.com/foros/viewforum.php?f=51
+
+Si has encontrado algún error o quieres sugerir cambios entra aquí:
+
+https://github.com/gorkau/Libro-Programacion-en-C/blob/master/capitulo5.adoc

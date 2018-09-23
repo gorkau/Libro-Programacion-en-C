@@ -128,13 +128,13 @@ Por ejemplo:
 
 int main()
 {
-	char i;
+    char i;
 
-	for (i=0; i<0; i++) {
-		printf("Me siento tan invisible \n");
-	}
+    for (i=0; i<0; i++) {
+        printf("Me siento tan invisible \n");
+    }
 
-  return EXIT_SUCCESS;
+    return EXIT_SUCCESS;
 }
 ----
 
@@ -236,40 +236,36 @@ Cada sección se separa por punto y coma.
 [[bucles-infinitos]]
 ===== Bucles infinitos
 
-
-Entramos en un bucle infinito cuando nuestro for nunca termina. Esta es
-una situación a evitar y puede ocurrir si no tenemos cuidado. Con un
-_for_ un bucle infinito puede ocurrir cuando:
+Entramos en un bucle infinito cuando nuestro for nunca termina.
+Esta es una situación a evitar y puede ocurrir si no tenemos cuidado.
+Con un _for_ un bucle infinito puede ocurrir cuando:
 
 1) No usamos la condición:
 
-En caso de omitirse la condición el bucle se ejecuta continuamente sin
-detenerse, a este tipo de bucle se le conoce como 'endless loop' o
-'bucle infinito'. Por ejemplo:
+En caso de omitirse la condición el bucle se ejecuta continuamente sin detenerse.
+A este tipo de bucle se le conoce como 'endless loop' o 'bucle infinito'.
+Por ejemplo:
 
+[source,c]
+----
 #include <stdio.h>
+#include <stdlib.h>
 
 int main()
-
-\{
-
+{
  int i, j;
 
- for( i=0; ; i++ )
-
- \{
-
+ for( i=0; ; i++ ) {
  printf( "Este bucle no terminará nunca." );
-
  }
 
- return 0;
-
+ return EXIT_SUCCESS;
 }
+----
 
-Este ejemplo estará ejecutándose indefinidamente porque el bucle for no
-tiene una condición de finalización. Lo mismo ocurriría con, por
-ejemplo, este otro:
+
+Este ejemplo estará ejecutándose indefinidamente porque el bucle _for_ no tiene una condición de finalización.
+Lo mismo ocurriría con, por ejemplo, este otro:
 
 for( ; ; )
 
@@ -277,396 +273,330 @@ for( ; ; )
 
 Si no hay nada que cambie en cada ciclo, el _for_ no puede “avanzar”:
 
+[source,c]
+----
 #include <stdio.h>
+#include <stdlib.h>
 
-int main() \{
+int main()
+{
+  int i;
 
-int i;
+  for (i=0; i<10; ) {
+    printf("Soy un bucle infinito\n");
+  }
 
-for (i=0; i<10; ) \{
-
-printf("Soy un bucle infinito\n");
-
+  return EXIT_SUCCESS;
 }
+----
 
-return 0;
+En este ejemplo _i_ nunca será mayor que 10 puesto que su valor no cambia nunca.
 
-}
+3) La condición se cumple siempre:
 
-En este ejemplo _i_ nunca será mayor que 10 puesto que su valor no
-cambia nunca.
-
-\3) La condición se cumple siempre:
-
+[source,c]
+----
 #include <stdio.h>
+#include <stdlib.h>
 
-int main() \{
+int main()
+{
+  char i;
 
-char i;
+  for (i=0; i==i; i++) {
+    printf("Soy un bucle infinito\n");
+  }
 
-for (i=0; i==i; i++) \{
-
-printf("Soy un bucle infinito\n");
-
+  return EXIT_SUCCESS;
 }
+----
 
-return 0;
-
-}
-
-En este caso siempre se va a cumplir que i==i por lo tanto el bucle no
-terminará nunca.
+En este caso siempre se va a cumplir que i==i por lo tanto el bucle no terminará nunca.
 
 [[while]]
-While
-^^^^^^
+==== While
+
 
 El formato del bucle while es es siguiente:
 
-*while (* condición *)*
-
-\{
-
- bloque de instrucciones a ejecutar
-
+[source,c]
+----
+while ( condición )
+{
+  /* bloque de instrucciones a ejecutar */
 }
+----
 
-While quiere decir __mientras__. Aquí se ejecuta el bloque de
-instrucciones mientras se cumpla la condición impuesta en while.
+_While_ quiere decir _mientras_.
+Aquí se ejecuta el bloque de instrucciones mientras se cumpla la condición impuesta en while.
 
 Vamos a ver un ejemplo:
 
+[source,c]
+----
 #include <stdio.h>
+#include <stdlib.h>
 
 int main()
+{
+  int contador = 0;
 
-\{
+  while ( contador<100 ) {
+    contador++;
+    printf( "Ya voy por el %i, pararé enseguida.\n", contador );
+  }
 
- int contador = 0;
-
- while ( contador<100 )
-
- \{
-
- contador++;
-
- printf( "Ya voy por el %i, pararé enseguida.\n", contador );
-
- }
-
- return 0;
-
+  return EXIT_SUCCESS;
 }
+----
 
-Este programa imprime en pantalla los valores del 1 al 100. Cuando i=100
-ya no se cumple la condición. Una cosa importante, si hubiésemos
-cambiado el orden de las instrucciones a ejecutar:
+Este programa imprime en pantalla los valores del 1 al 100.
+Cuando i=100 ya no se cumple la condición.
+Un detalle importante: si hubiésemos cambiado el orden de las instrucciones a ejecutar tendríamos un resultado diferente:
 
-...
-
+[source,c]
+----
 printf( "Ya voy por el %i, pararé enseguida.\n", contador );
-
 contador++;
+----
 
-...
-
-En esta ocasión se imprimen los valores del 0 al 99. Cuidado con esto,
-que a veces produce errores difíciles de encontrar.
+En esta ocasión se imprimen los valores del 0 al 99.
+Cuidado con ésto, que a veces produce errores difíciles de encontrar.
 
 [[do-while]]
-Do While
-^^^^^^^^^
+==== Do While
 
 El formato del bucle do-while es:
 
+[source,c]
+----
 do
+{
+  /* instrucciones a ejecutar */
+} while ( condición );
+----
 
-\{
+La diferencia entre _while_ y _do-while_ es que en este último, la condición va despues del conjunto de instrucciones a ejecutar.
+De esta forma, esas instrucciones se ejecutan al menos una vez.
 
- instrucciones a ejecutar
-
-*} while (* _condición_ *);*
-
-La diferencia entre _while_ y _do-while_ es que en este último, la
-condición va despues del conjunto de instrucciones a ejecutar. De esta
-forma, esas instrucciones se ejecutan al menos una vez.
-
-Su uso es similar al de while.
+Su uso es similar al de _while_.
 
 [[sentencias-de-condición]]
-Sentencias de condición
-~~~~~~~~~~~~~~~~~~~~~~~~
+=== Sentencias de condición
 
-Hasta aquí hemos visto cómo podemos repetir un conjunto de instrucciones
-las veces que deseemos. Pero ahora vamos a ver cómo podemos controlar
-totalmente el flujo de un programa. Dependiendo de los valores de alguna
-variable se tomarán unas acciones u otras. Empecemos con la sentencia
-__if__.
+Hasta aquí hemos visto cómo podemos repetir un conjunto de instrucciones las veces que deseemos.
+Pero ahora vamos a ver cómo podemos controlar totalmente el flujo de un programa.
+Dependiendo de los valores de alguna variable se tomarán unas acciones u otras.
+Empecemos con la sentencia _if_.
 
 [[if]]
-If
-^^^
+==== If
 
 La palabra _if_ significa _si_ (condicional), pero supongo que esto ya
 lo sabías. Su formato es el siguiente:
 
-*if (* _condición_ *)*
-
-\{
-
- _instrucciones a ejecutar_
-
+[source,c]
+----
+if ( condición )
+{
+  /* instrucciones a ejecutar */
 }
+----
 
-Cuando se cumple la condición entre paréntesis se ejecuta el bloque
-inmediatamente siguiente al if (bloque __instrucciones a ejecutar__).
+Cuando se cumple la condición entre paréntesis se ejecuta el bloque inmediatamente siguiente al if (bloque _instrucciones a ejecutar_).
 
-En el siguiente ejemplo tenemos un programa que nos pide un número, si
-ese número es 10 se muestra un mensaje. Si no es 10 no se muestra ningún
-mensaje:
+En el siguiente ejemplo tenemos un programa que nos pide un número, si ese número es 10 se muestra un mensaje.
+Si no es 10 no se muestra ningún mensaje:
 
+[source,c]
+----
 #include <stdio.h>
+#include <stdlib.h>
 
 int main()
+{
+  int num;
 
-\{
+  printf( "Introduce un numero: " );
+  fflush(stdout);
+  scanf( "%i", &num );
 
- int num;
+  if (num==10) {
+    printf( "El numero es igual a 10.\n" );
+  }
 
- printf( "Introduce un numero: " );
-
- fflush(stdout);
-
- scanf( "%i", &num );
-
- if (num==10)
-
- \{
-
- printf( "El numero es igual a 10.\n" );
-
- }
-
- return 0;
-
+  return EXIT_SUCCESS;
 }
+----
 
-Como siempre, la condición es falsa si es igual a cero. Si es distinta
-de cero será verdadera.
+Como siempre, la condición es falsa si es igual a cero.
+Si es distinta de cero será verdadera.
 
 [[if---else]]
-If - Else
-^^^^^^^^^^
+==== If - Else
 
 El formato es el siguiente:
 
-*if (* condición *)*
-
-\{
-
- bloque que se ejecuta si se cumple la condición
-
+[source,c]
+----
+if ( condición )
+{
+  /* bloque que se ejecuta si se cumple la condición */
 }
-
 else
-
-\{
-
- bloque que se ejecuta si no se cumple la condición
-
+{
+  /* bloque que se ejecuta si no se cumple la condición */
 }
+----
 
-En el _if_ del apartado anterior si no se cumplía la condición no se
-ejecutaba el bloque siguiente y el programa seguía su curso normal. Con
-el if else tenemos un bloque adicional que sólo se ejecuta si no se
-cumple la condición. Veamos un ejemplo:
+En el _if_ del apartado anterior si no se cumplía la condición no se ejecutaba el bloque siguiente y el programa seguía su curso normal.
+Con el _if-else_ tenemos un bloque adicional que sólo se ejecuta si no se cumple la condición.
+Veamos un ejemplo:
 
+[source,c]
+----
 #include <stdio.h>
+#include <stdlib.h>
 
 int main()
+{
+  int a;
 
-\{
+  printf( "Introduce un numero: " );
+  fflush(stdout);
+  scanf( "%i", &a );
 
- int a;
+  if ( a==8 ) {
+    printf ( "El numero introducido era un ocho.\n" );
+  }
+  else {
+  printf ( "Pero si no has escrito un ocho!!!\n" );
+  }
 
- printf( "Introduce un numero: " );
-
- fflush(stdout);
-
- scanf( "%i", &a );
-
- if ( a==8 )
-
- \{
-
- printf ( "El numero introducido era un ocho.\n" );
-
- }
-
- else
-
- \{
-
- printf ( "Pero si no has escrito un ocho!!!\n" );
-
- }
-
- return 0;
-
+  return EXIT_SUCCESS;
 }
+----
 
-Al ejecutar el programa si introducimos un 8 se ejecuta el bloque
-siguiente al if y se muestra el mensaje:
+Al ejecutar el programa si introducimos un 8 se ejecuta el bloque siguiente al _if_ y se muestra el mensaje:
 
 El numero introducido era un ocho.
 
-Si escribimos cualquier otro número se ejecuta el bloque siguiente al
-else mostrándose el mensaje:
+Si escribimos cualquier otro número se ejecuta el bloque siguiente al else mostrándose el mensaje:
 
+----
 Pero si no has escrito un ocho!!!
+----
 
 [[if-else-if]]
-If else if
-^^^^^^^^^^^
+==== If else if
 
 Se pueden poner if else anidados si se desea:
 
+[source,c]
+----
 #include <stdio.h>
+#include <stdlib.h>
 
 int main()
+{
+  int a;
 
-\{
+  printf( "Introduce un numero: " );
+  fflush(stdout);
+  scanf( "%i", &a );
 
- int a;
+  if ( a<10 ) {
+    printf ( "El numero introducido era menor de 10.\n" );
+  }
+  else if ( a>=10 && a<=100 ) {
+    printf ( "El numero esta entre 10 y 100\n" );
+  }
+  else if ( a>100 ) {
+    printf( "El numero es mayor que 100\n" );
+  }
 
- printf( "Introduce un numero: " );
+  printf( "Fin del programa.\n" );
 
- fflush(stdout);
-
- scanf( "%i", &a );
-
- if ( a<10 )
-
- \{
-
- printf ( "El numero introducido era menor de 10.\n" );
-
- }
-
- else if ( a>=10 && a<=100 )
-
- \{
-
- printf ( "El numero esta entre 10 y 100\n" );
-
- }
-
- else if ( a>100 )
-
- \{
-
- printf( "El numero es mayor que 100\n" );
-
- }
-
- printf( "Fin del programa.\n" );
-
- return 0;
-
+  return EXIT_SUCCESS;
 }
+----
 
-*NOTA:* El símbolo && de la condición del segundo if es un AND (Y). De
-esta forma la condición queda: Si a es mayor que 10 Y a es menor que
-100. Consulta la sección link:#anchor[Notas sobre las condiciones ] para
-saber más.
+*NOTA:* El símbolo && de la condición del segundo if es un AND (Y).
+De esta forma la condición queda: Si a es mayor que 10 Y a es menor que 100.
+Consulta la sección link:#anchor[Notas sobre las condiciones ] para saber más.
 
-Podemos poner todos los if else que queramos. Si la condición del primer
-if es verdadera se muestra el mensaje “El número introducido era menor
-de 10” y se saltan todos los if-else siguientes (se muestra el mensaje
-“Fin del programa”). Si la condición es falsa se ejecuta el siguiente
-else-if y se comprueba si a está entre 10 y 100. Si es cierto se muestra
-“El número está entre 10 y 100”. Si no es cierto se evalúa el último
-else-if.
+Podemos poner todos los if else que queramos.
+Si la condición del primer if es verdadera se muestra el mensaje "El número introducido era menor de 10" y se saltan todos los if-else siguientes (se muestra el mensaje "Fin del programa").
+Si la condición es falsa se ejecuta el siguiente else-if y se comprueba si a está entre 10 y 100.
+Si es cierto se muestra “El número está entre 10 y 100”.
+Si no es cierto se evalúa el último else-if.
 
 [[el-otro-if-else]]
-? (el otro if-else)
-^^^^^^^^^^^^^^^^^^^^
+==== ? (el otro if-else)
 
-El uso de la interrogación es una forma de condensar un if-else. Su
-formato es el siguiente:
+El uso de la interrogación es una forma de condensar un if-else.
+Su formato es el siguiente:
 
- ( condicion ) ? ( instrucción 1 ) : ( instrucción 2 )
+[source,c]
+----
+( condicion ) ? ( instrucción 1 ) : ( instrucción 2 )
+----
 
-Si se cumple la condición se ejecuta la _instrucción 1_ y si no se
-ejecuta la __instrucción 2__. Veamos un ejemplo con el if-else y luego
-lo reescribimos con "?":
+Si se cumple la condición se ejecuta la _instrucción 1_ y si no se ejecuta la _instrucción 2_.
+Veamos un ejemplo con el if-else y luego lo reescribimos con "?":
 
+[source,c]
+----
 #include <stdio.h>
+#include <stdlib.h>
 
 int main()
+{
+  int a;
+  int b;
 
-\{
+  printf( "Introduce un número " );
+  fflush(stdout);
+  scanf( "%i", &a );
 
- int a;
+  if ( a<10 ) {
+    b = 1;
+  }
 
- int b;
+  else {
+    b = 4;
+  }
+  printf ( "La variable 'b' toma el valor: %i\n", b );
 
- printf( "Introduce un número " );
-
- fflush(stdout);
-
- scanf( "%i", &a );
-
- if ( a<10 )
-
- \{
-
- b = 1;
-
- }
-
- else
-
- \{
-
- b = 4;
-
- }
-
- printf ( "La variable 'b' toma el valor: %i\n", b );
-
- return 0;
-
+  return EXIT_SUCCESS;
 }
+----
 
-Si el valor que tecleamos al ejecutar es menor que 10 entonces la
-variable b toma el valor '1', en cambio si tecleamos un número mayor o
-igual que 10 'b' será igual a 4. Ahora vamos a reescribir el programa
-usando '?':
+Si el valor que tecleamos al ejecutar es menor que 10 entonces la variable b toma el valor '1'.
+En cambio si tecleamos un número mayor o igual que 10 'b' será igual a 4.
+Ahora vamos a reescribir el programa usando '?':
 
+[source,c]
+----
 #include <stdio.h>
+#include <stdlib.h>
 
 int main()
+{
+  int a;
+  int b;
 
-\{
+  printf( "Introduce un número " );
+  fflush(stdout);
+  scanf( "%i", &a );
 
- int a;
+  b = ( a<10 ) ? 1 : 4 ;
 
- int b;
+  printf ( "La variable 'b' toma el valor: %i\n", b );
 
- printf( "Introduce un número " );
-
- fflush(stdout);
-
- scanf( "%i", &a );
-
- b = ( a<10 ) ? 1 : 4 ;
-
- printf ( "La variable 'b' toma el valor: %i\n", b );
-
- return 0;
-
+  return EXIT_SUCCESS;
 }
+----
 
 ¿Qué es lo que sucede ahora? Se evalúa la condición a<10. Si es
 verdadera (a menor que 10) se ejecuta la instrucción 1, es decir, que b
@@ -722,6 +652,7 @@ Vamos a ver un ejemplo de múltiples casos con if-else y luego con
 switch:
 
 #include <stdio.h>
+#include <stdlib.h>
 
 int main()
 
@@ -751,13 +682,14 @@ int main()
 
  printf ( "No era ni 1, ni 2, ni 3\n" );
 
- return 0;
+ return EXIT_SUCCESS;
 
 }
 
 Ahora con switch:
 
 #include <stdio.h>
+#include <stdlib.h>
 
 int main()
 
@@ -799,7 +731,7 @@ int main()
 
  }
 
- return 0;
+ return EXIT_SUCCESS;
 
 }
 
@@ -808,6 +740,7 @@ Como vemos el código con _switch_ es más cómodo de leer.
 Vamos a ver qué pasa si nos olvidamos algún __break__:
 
 #include <stdio.h>
+#include <stdlib.h>
 
 int main()
 
@@ -843,7 +776,7 @@ int main()
 
  }
 
- return 0;
+ return EXIT_SUCCESS;
 
 }
 
@@ -881,6 +814,7 @@ programa. Estas etiquetas son las que nos sirven para indicar a la
 sentencia goto dónde tiene que saltar.
 
 #include <stdio.h>
+#include <stdlib.h>
 
 int main()
 
@@ -896,7 +830,7 @@ int main()
 
  printf( "Línea 3\n" );
 
- return 0;
+ return EXIT_SUCCESS;
 
 }
 
@@ -1025,6 +959,7 @@ Ejercicios
 y por qué?
 
 #include <stdio.h>
+#include <stdlib.h>
 
 int main() \{
 
@@ -1046,7 +981,7 @@ int main() \{
 
  printf ( "\nTotal: %d\n", suma );
 
- return 0;
+ return EXIT_SUCCESS;
 
 }
 
@@ -1078,6 +1013,7 @@ la condición del _for_ no es cierta y no se ejecuta más su código.
 **Solución:**
 
 #include <stdio.h>
+#include <stdlib.h>
 
 int main() \{
 
@@ -1093,7 +1029,7 @@ int main() \{
 
  }
 
- return 0;
+ return EXIT_SUCCESS;
 
 }
 
@@ -1113,6 +1049,7 @@ Fin de programa
 Solución:
 
 #include <stdio.h>
+#include <stdlib.h>
 
 int main() \{
 
@@ -1130,6 +1067,6 @@ scanf( "%d", & numero );
 
 printf( "End\n" );
 
- return 0;
+ return EXIT_SUCCESS;
 
 }

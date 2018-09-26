@@ -33,6 +33,7 @@ Ahora bien, si el libro te gusta y quieres que sea mejor puedes colaborar.
 * Avisando si has visto algún error.
 * Ayudar dando formato al libro. Estoy usando [AsciiDoctor](https://asciidoctor.org/). Es muy fácil de usar.
 * Sugiriendo nuevas secciones o cambiando cosas que consideres que están mal explicadas.
+* Actualizando los contenidos del libro. El libro lo escribí allá por el 1999 y muchas cosas han cambiado. Convendría darle un repaso, por ejemplo a capítulo de tipos de datos.
 
 ### ¿Qué herramientas/conocimientos necesito para colaborar?
 
@@ -44,6 +45,21 @@ En cuanto a conocimientos necesitarás conocer un poco de [AsciiDoctor](https://
 # Instrucciones para colaboradores
 
 ## Normas de estilo
+
+### Cada frase en una línea
+
+En lugar de:
+
+```
+Es mejor poner cada frase en una línea. De esta forma se identifican de manera rápida las frases excesivamente largas o párrafos muy farragosos. ¿No crees?
+```
+Creo que es mejor así:
+
+```
+Es mejor poner cada frase en una línea.
+De esta forma se identifican de manera rápida las frases excesivamente largas o párrafos muy farragosos.
+¿No crees?
+```
 
 ### Código
 

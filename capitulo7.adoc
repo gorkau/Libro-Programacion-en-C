@@ -598,231 +598,190 @@ int main()
 }
 ----
 
-¿Qué es lo que sucede ahora? Se evalúa la condición a<10. Si es
-verdadera (a menor que 10) se ejecuta la instrucción 1, es decir, que b
-toma el valor '1'. Si es falsa se ejecuta la instrucción 2, es decir, b
-toma el valor '4'.
-
-Esta es una sentencia muy curiosa pero sinceramente creo que no la he
-usado casi nunca en mis programas y tampoco la he visto mucho en
-programas ajenos.
+¿Qué es lo que sucede ahora? Se evalúa la condición a<10.
+Si es verdadera (a menor que 10) se ejecuta la instrucción 1, es decir, que b toma el valor '1'.
+Si es falsa se ejecuta la instrucción 2, es decir, b toma el valor '4'.
 
 [[switch]]
-Switch
-^^^^^^^
+==== Switch
 
 El formato de la sentencia _switch_ es:
 
-*switch (* valor *)*
-
-\{
-
- *case* __opción 1__**:**
-
- código a ejecutar si el valor es el de “opción 1”
-
- *break;*
-
- *case* __opción 2__**:**
-
- código a ejecutar si el valor es el de “opción 2”
-
- *break;*
-
- *default:*
-
- código a ejecutar si el valor no es ninguno de los anteriores
-
- *break;*
-
+switch ( valor )
+{
+  case _opción 1_:
+    /* código a ejecutar si el valor es el de "opción 1" */
+    break;
+  case _opción 1_:
+    /* código a ejecutar si el valor es el de "opción 1" */
+    break;
+  default:
+    /* Código a ejecutar si el valor no es ninguno de los anteriores */
+    break;
 }
 
-Vamos a ver cómo funciona. La sentencia _switch_ sirve para elegir una
-opción entre varias disponibles. Dependiendo del valor se cumplirá un
-caso u otro.
+Vamos a ver cómo funciona.
+La sentencia _switch_ sirve para elegir una opción entre varias disponibles.
+Dependiendo del valor se cumplirá un caso u otro.
 
-Por ejemplo si la opción elegida fuera la dos se ejecutaría el código
-que está justo después de:
+Por ejemplo si la opción elegida fuera la dos se ejecutaría el código que está justo después de:
 
-*case* __opción 2__**:**
+[source,c]
+----
+case _opción 2_:
+----
 
-hasta el primer break que encontremos.
+hasta el primer _break_ que encontremos.
 
-Vamos a ver un ejemplo de múltiples casos con if-else y luego con
-switch:
+Vamos a ver un ejemplo de múltiples casos con if-else y luego con switch:
 
+[source,c]
+----
 #include <stdio.h>
 #include <stdlib.h>
 
 int main()
+{
+  int num;
 
-\{
+  printf( "Introduce un número: " );
+  fflush(stdout);
+  scanf( "%d", &num );
 
- int num;
+  if ( num==1 ) {
+    printf ( "Es un 1\n" );
+  }
+  else if ( num==2 ) {
+    printf ( "Es un 2\n" );
+  }
+  else if ( num==3 ) {
+    printf ( "Es un 3\n" );
+  }
+  else {
+    printf ( "No era ni 1, ni 2, ni 3\n" );
+  }
 
- printf( "Introduce un número: " );
-
- fflush(stdout);
-
- scanf( "%d", &num );
-
- if ( num==1 )
-
- printf ( "Es un 1\n" );
-
- else if ( num==2 )
-
- printf ( "Es un 2\n" );
-
- else if ( num==3 )
-
- printf ( "Es un 3\n" );
-
- else
-
- printf ( "No era ni 1, ni 2, ni 3\n" );
-
- return EXIT_SUCCESS;
-
+  return EXIT_SUCCESS;
 }
+----
 
-Ahora con switch:
+Ahora con _switch_:
 
+[source,c]
+----
 #include <stdio.h>
 #include <stdlib.h>
 
 int main()
+{
+  int num;
 
-\{
+  printf( "Introduce un número: " );
+  fflush(stdout);
+  scanf( "%d", &num );
 
- int num;
+  switch( num ) {
 
- printf( "Introduce un número: " );
+    case 1:
+      printf( "Es un 1\n" );
+    break;
 
- fflush(stdout);
+    case 2:
+      printf( "Es un 2\n" );
+    break;
 
- scanf( "%d", &num );
+    case 3:
+      printf( "Es un 3\n" );
+    break;
 
- switch( num )
+    default:
+      printf( "No es ni 1, ni 2, ni 3\n" );
+  }
 
- \{
-
- case 1:
-
- printf( "Es un 1\n" );
-
- break;
-
- case 2:
-
- printf( "Es un 2\n" );
-
- break;
-
- case 3:
-
- printf( "Es un 3\n" );
-
- break;
-
- default:
-
- printf( "No es ni 1, ni 2, ni 3\n" );
-
- }
-
- return EXIT_SUCCESS;
-
+  return EXIT_SUCCESS;
 }
+----
 
 Como vemos el código con _switch_ es más cómodo de leer.
 
 Vamos a ver qué pasa si nos olvidamos algún __break__:
 
+[source,c]
+----
 #include <stdio.h>
 #include <stdlib.h>
 
 int main()
+{
+  int num;
 
-\{
+  printf( "Introduce un número: " );
+  fflush(stdout);
+  scanf( "%d", &num );
 
- int num;
+  switch( num ) {
 
- printf( "Introduce un número: " );
+    case 1:
+      printf( "Es un 1\n" );
+      /* Nos olvidamos el break que debería haber aquí */
 
- fflush(stdout);
+    case 2:
+      printf( "Es un 2\n" );
+      break;
 
- scanf( "%d", &num );
+    default:
 
- switch( num )
-
- \{
-
- case 1:
-
- printf( "Es un 1\n" );
-
- /* Nos olvidamos el break que debería haber aquí */
-
- case 2:
-
- printf( "Es un 2\n" );
-
- break;
-
- default:
-
- printf( "No es ni 1, ni 2, ni 3\n" );
-
+    printf( "No es ni 1, ni 2, ni 3\n" );
  }
 
  return EXIT_SUCCESS;
-
 }
+----
 
-Si al ejecutar el programa escribimos un 2 tenemos el mensaje “__Es un
-dos”__. Todo correcto. Pero si escribimos un 1 lo que nos sale en
-pantalla es:
+Si al ejecutar el programa escribimos un 2 tenemos el mensaje _“Es un dos”_.
+Todo correcto.
+Pero si escribimos un 1 lo que nos sale en pantalla es:
 
+----
 Es un 1
-
 Es un 2
+----
 
-¿Por qué? Pues porque cada caso empieza con un _case_ y acaba donde hay
-un __break__. Si no ponemos break aunque haya otro _case_ más adelante
-el programa sigue hacia adelante. Por eso se ejecuta el código del
-_case_ 1 y del _case_ 2.
+¿Por qué?
+Pues porque cada caso empieza con un _case_ y acaba donde hay un _break_.
+Si no ponemos break aunque haya otro _case_ más adelante el programa sigue hacia adelante.
+Por eso se ejecuta el código del _case_ 1 y del _case_ 2.
 
-Puede parecer una desventaja pero a veces es conveniente. Por ejemplo
-cuando dos case deben tener el mismo código. Si no tuviéramos esta
-posibilidad tendríamos que escribir dos veces el mismo código. (Vale,
-vale, también podríamos usar funciones, pero si el código es corto puede
-ser más conveniente no usar funciones. Ya hablaremos de eso más tarde.).
+Puede parecer una desventaja pero a veces es conveniente.
+Por ejemplo cuando dos _case_ deben tener el mismo código.
+Si no tuviéramos esta posibilidad tendríamos que escribir dos veces el mismo código.
 
-Sin embargo switch tiene algunas limitaciones, por ejemplo no podemos
-usar condiciones en los case. El ejemplo que hemos visto en el apartado
-if-else-if no podríamos hacerlo con switch.
+NOTE: Vale, vale, también podríamos usar funciones, pero si el código es corto puede
+ser más conveniente no usar funciones.
+Ya hablaremos de eso más tarde.
+
+Sin embargo switch tiene algunas limitaciones.
+Por ejemplo no podemos usar condiciones en los case.
+El ejemplo que hemos visto en el apartado if-else-if no podríamos hacerlo con switch.
 
 [[sentecias-de-salto-goto]]
-Sentecias de salto: Goto
-~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Sentecias de salto: Goto
 
-La sentencia goto (ir a) nos permite hacer un salto a la parte del
-programa que deseemos. En el programa podemos poner etiquetas, estas
-etiquetas no se ejecutan. Es como poner un nombre a una parte del
-programa. Estas etiquetas son las que nos sirven para indicar a la
-sentencia goto dónde tiene que saltar.
+La sentencia *_goto_* (ir a) nos permite hacer un salto a la parte del programa que deseemos.
+En el programa podemos poner etiquetas, estas etiquetas no se ejecutan.
+Es como poner un nombre a una parte del programa.
+Estas etiquetas son las que nos sirven para indicar a la sentencia _goto_ dónde tiene que saltar.
 
+[source,c]
+----
 #include <stdio.h>
 #include <stdlib.h>
 
 int main()
-
-\{
-
+{
  printf( "Línea 1\n" );
 
- goto linea3;/* Le decimos al goto que busque la etiqueta _linea3_ */
+ goto linea3; /* Le decimos al goto que busque la etiqueta _linea3_ */
 
  printf( "Línea 2\n" );
 
@@ -831,20 +790,20 @@ int main()
  printf( "Línea 3\n" );
 
  return EXIT_SUCCESS;
-
 }
+----
 
 Resultado:
 
+----
 Línea 1
-
 Línea 3
+----
 
-Como vemos no se ejecuta el printf de Línea 2 porque nos lo hemos
-saltado con el goto.
+Como vemos no se ejecuta el printf de Línea 2 porque nos lo hemos saltado con el goto.
 
 El goto sólo se puede usar dentro de funciones, y no se puede saltar
-desde una función a otra. (Las funciones las estudiamos en el siguiente
+desde una función a otra (Las funciones las estudiamos en el siguiente
 capítulo).
 
 Un apunte adicional del goto: Cuando yo comencé a programar siempre oía
@@ -858,8 +817,7 @@ diría que cada uno la use si quiere, el caso es no abusar de ella y
 tener cuidado.
 
 [[notas-sobre-las-condiciones]]
-[[anchor]]Notas sobre las condiciones
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== [[anchor]]Notas sobre las condiciones
 
 Las condiciones de las sentencias (por ejemplo del __if__) se evalúan al
 ejecutarse. De esta evaluación obtenemos un número. **Las condiciones
@@ -952,8 +910,7 @@ Es decir que si se cumple el primer paréntesis o si se cumple el segundo
 la condición es cierta.
 
 [[ejercicios]]
-Ejercicios
-~~~~~~~~~~~
+=== Ejercicios
 
 **Ejercicio 1: **¿Cuántas veces nos pide el siguiente programa un número
 y por qué?

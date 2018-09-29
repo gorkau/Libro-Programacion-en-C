@@ -1,0 +1,531 @@
+[[capítulo-8.-introducción-a-las-funciones]]
+== [[anchor]]Capítulo 8. Introducción a las funciones
+
+[[introducción]]
+=== [[anchor-1]]Introducción
+
+Vamos a dar un paso más en la complejidad de nuestros programas.
+Vamos a empezar a usar funciones creadas por nosotros.
+Las funciones son de una gran utilidad en los programas.
+Nos ayudan a que sean más legibles y más cortos.
+Con ellos estructuramos mejor los programas.
+
+Una función sirve para realizar tareas concretas y simplificar el programa.
+Nos sirve para evitar tener que escribir el mismo código varias veces.
+
+Los bucles que hemos estudiado son útiles cuando hay que repetir una parte del código varias veces.
+Las funciones son útiles cuando tenemos que repetir el mismo código en diferentes partes del programa.
+
+Ya hemos visto en el curso algunas funciones como printf y scanf.
+Algunas de éstas están definidas en una biblioteca (la biblioteca estándar de C) que el compilador carga automáticamente en cada programa.
+
+Sin embargo nosotros también podemos definir nuestras propias funciones.
+Pocas veces se ve un programa un poco complejo que no use funciones.
+Una de ellas, que usamos siempre, es la función main.
+
+[[definición-de-una-función]]
+=== [[anchor-2]]Definición de una función
+
+Una función tiene el siguiente formato:
+
+[source,c]
+----
+tipo_de_dato nombre_de_la_función( argumentos )
+{
+ definición de variables;
+
+ cuerpo de la función;
+
+ return valor;
+}
+----
+
+A continuación vamos a ver en detalle cada una de las partes de una función:
+
+[[el-nombre-de-la-función]]
+==== El nombre de la función
+
+El nombre de la función se usa para llamarla dentro del programa.
+Nombres de funciones que ya conocemos serían _printf_ o _scanf_.
+
+El nombre de una función debe cumplir los siguientes requisitos:
+
+* Sólo puede contener letras, números y el símbolo '_'.
+* No se pueden usar tildes ni espacios.
+* El nombre de una función debe empezar por una letra, nunca por un número.
+* No podemos usar _palabras reservadas_. Las palabras reservadas son
+aquellas que se usan en C, por ejemplo _if_, _for_, _while_. Un
+nombre de función puede contener una palabra reservada: por ejemplo
+_while_ no se puede usar como nombre de función, pero _while_1_ sí.
+
+[[tipo-de-dato]]
+==== Tipo de dato
+
+Cuando una función se ejecuta y termina puede devolver un valor.
+Este valor puede ser cualquiera de los tipos de variables que hemos visto en el capítulo de Tipos de datos (int, char, float, double).
+También puede ser un tipo de dato definido por nosotros (esto lo veremos más tarde).
+El valor que devuelve la función suele ser el resultado de las operaciones que se realizan en la función, o si han tenido éxito o no.
+
+El valor devuelto debe ser del tipo indicado en _tipo_de_dato_.
+
+También podemos usar el tipo *void*.
+Este nos permite indicar que la función no devuelve ningún valor.
+Cuando este sea el caso la palabra reservada _return_ se utiliza sola, sin ningún valor a continuación de ésta.
+O también podemos emitir poner _return_.
+
+En este ejemplo usamos una (absurda) función que devuelve un número entero:
+
+[source,c]
+----
+#include <stdio.h>
+#include <stdlib.h>
+
+int dame_un_diez()
+{
+  return 10;
+}
+
+int main()
+{
+  printf( "%d\n", dame_un_diez() );
+
+  return EXIT_SUCCESS;
+}
+----
+
+El tipo de dato que devuelve es _int_ y lo devuelve a través del _return_.
+
+[[definición-de-variables]]
+==== Definición de variables
+
+Dentro de la función podemos definir variables que sólo tendrán validez dentro de la propia función.
+Si declaramos una variable en una función no podemos usarla en otra.
+A estas variables que solo existen dentro de una función las llamamos *_variables locales_*.
+
+Ver “link:#anchor-3[Vida de una variable ]” para más información sobre el tema.
+
+Otro (absurdo) ejemplo de una función que usa una _variable local_:
+
+[source,c]
+----
+#include <stdio.h>
+#include <stdlib.h>
+
+int dame_un_diez()
+{
+  int diez = 10;
+
+  return diez;
+}
+
+int main()
+{
+  printf( "%d\n", dame_un_diez() );
+
+  return EXIT_SUCCESS;
+}
+----
+
+En este ejemplo la variable _diez_ no está accesible desde _main_.
+
+[[cuerpo-de-la-función]]
+==== Cuerpo de la función
+
+Aquí es donde va el código de la función.
+
+[[argumentos-o-parámetros]]
+==== Argumentos o parámetros
+
+Antes hemos visto que una variable definida en una función no se puede
+usar dentro de otra. Entonces ¿cómo le pasamos valores a una función
+para que trabaje con ellos? Para esto es para lo que se usan los
+argumentos.
+
+Estos son variables que se pasan como datos a una función. Una función
+puede tener un argumento, muchos o ninguno. Cuando tiene más de uno
+éstos deben ir separados por una coma. Cada variable debe ir con su tipo
+de variable.
+
+Un ejemplo de una función con parámetros sería:
+
+[source,c]
+----
+#include <stdio.h>
+#include <stdlib.h>
+
+int suma(int numero1, int numero2)
+{
+  return numero1 + numero2;
+}
+
+int main()
+{
+  printf( "%d\n", suma(10, 5) );
+
+  return EXIT_SUCCESS;
+}
+----
+
+[[dónde-se-definen-las-funciones]]
+=== [[anchor-4]]Dónde se definen las funciones
+
+Las funciones deben definirse siempre antes de donde se usan.
+Lo habitual en un programa es:
+
+[cols="",]
+|=======================================================================
+|*Sección * |*Descripción *
+
+|Includes |Aquí se indican qué ficheros externos se usan.
+
+|Definiciones de constantes |Aquí se definen las constantes que se usan
+en el programa.
+
+|Definición de variables |Aquí se definen las variables globales (las
+que se pueden usar en TODAS las funciones).
+
+|Prototipos de funciones |Aquí es donde se definen las cabeceras de las
+funciones.
+
+|Definición de las funciones |Aquí se “desarrollan” las funciones.
+Pueden colocarse en cualquier orden. Por costumbre, yo suelo poner main
+en primer lugar.
+|=======================================================================
+
+Esta es una forma muy habitual de estructurar un programa. Sin embargo
+esto no es algo rígido, no tiene por qué hacerse así, pero es
+recomendable.
+
+Los prototipos de las funciones consisten en definir solo las cabeceras
+de las funciones, sin escribir su código. Esto nos permite luego poner
+las funciones en cualquier orden. El estándar ANSI C dice que no son
+obligatorios los prototipos de las funciones pero es recomendable
+usarlos.
+
+Ejemplos:
+
+#include <stdio.h>
+
+int compara( int a, int b ); /* Definimos la cabecera de la función */
+
+int main()
+
+\{
+
+ int num1, num2;
+
+ int resultado;
+
+ printf( "Introduzca dos numeros: " );
+
+ scanf( "%d %d", &num1, &num2 );
+
+ resultado = compara( num1, num2 );
+
+ printf( "El mayor de los dos es %d\n", resultado );
+
+ return 0;
+
+}
+
+int compara( int a, int b ) /* Ahora podemos poner el cuerpo de la
+función donde queramos. Incluso después de donde la llamamos (main) */
+
+\{
+
+ int mayor;
+
+ if ( a>b )
+
+ mayor = a;
+
+ else
+
+ mayor = b;
+
+ return mayor;
+
+}
+
+________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+*NOTA:* Por simplicidad este ejemplo no tiene en cuenta el caso de que
+los números sean iguales. Se deja al alumno como ejercicio modificar el
+programa para que tenga en cuenta la posibilidad de que los números sean
+iguales.
+________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+Cuando se define la cabecera de la función sin su cuerpo (o código)
+debemos poner un ';' al final. Cuando definamos el cuerpo más tarde no
+debemos poner el ';', se hace como una función normal.
+
+La definición debe ser igual cuando definimos sólo la cabecera y cuando
+definimos el cuerpo. Mismo nombre, mismo número y tipo de parámetros y
+mismo tipo de valor devuelto.
+
+Las funciones deben definirse antes de ser llamadas. En los ejemplos a
+continuación se llama a la función desde main, así que tenemos que
+definirlas antes que main. Lo habitual es definir primero la “cabecera”
+o prototipos de la función, que no es más que la definición de la
+función si su “cuerpo” y desarrollar después la función completa.
+
+**Ejemplo 1**. Función sin argumentos que no devuelve nada:
+
+Este programa llama a la función prepara pantalla que borra la pantalla
+y muestra el mensaje "la pantalla está limpia". Por supuesto es de nula
+utilidad pero nos sirve para empezar.
+
+#include <stdio.h>
+
+void mostrar_mensaje(); /* Prototipo de la función */
+
+int main()
+
+\{
+
+printf( "Esta es la función main\n" );
+
+ prepara_pantalla();/* Llamamos a la función */
+
+ return 0;
+
+}
+
+/* Desarrollo de la función */
+
+void mostrar_mensaje() /* No se debe poner punto y coma aquí */
+
+\{
+
+ printf( "Esta es la funcion mostrar_mensaje\n" );
+
+ return; /* No hace falta devolver ningún valor,
+
+ este return no es necesario */
+
+}
+
+*Ejemplo 2.* Función con argumentos, no devuelve ningún valor:
+
+En este ejemplo la función _compara_ toma dos números, los compara y nos
+dice cual es mayor.
+
+#include <stdio.h>
+
+void compara( int a, int b );
+
+int main()
+
+\{
+
+ int num1, num2;
+
+ printf( "Introduzca dos numeros: " );
+
+ fflush(stdout);
+
+ scanf( "%d %d", &num1, &num2 );
+
+ /* Llamamos a la función con sus dos argumentos */
+
+ compara( num1, num2 );
+
+ return 0;
+
+}
+
+void compara( int a, int b ) /* Pasamos los parámetros a y b a la
+función */
+
+\{
+
+ if ( a>b )
+
+ printf( "%d es mayor que %d\n" , a, b );
+
+ else if ( a<b )
+
+ printf( "%d es mayor que %d\n", b, a );
+
+ else +
+ printf("%d es igual que %d\n", a, b);
+
+}
+
+**Ejemplo 3**. Función con argumentos que devuelve un valor.
+
+Este ejemplo es como el anterior pero devuelve como resultado el mayor
+de los dos números.
+
+#include <stdio.h>
+
+int compara( int a, int b );
+
+int main()
+
+ \{
+
+ int num1, num2;
+
+ int resultado;
+
+ printf( "Introduzca dos numeros: " );
+
+ fflush(stdout);
+
+ scanf( "%d %d", &num1, &num2 );
+
+ /* Recogemos el valor que devuelve la función en la variable
+*resultado* */
+
+ resultado = compara( num1, num2 );
+
+ printf( "El mayor de los dos es %d\n", resultado );
+
+ return 0;
+
+ }
+
+/* Metemos los parámetros a y b a la función */
+
+int compara( int a, int b )
+
+\{
+
+ /* Esta función define su propia variable,
+
+ esta variable sólo se puede usar aquí */
+
+ int mayor;
+
+ if ( a>b )
+
+ mayor = a;
+
+ else
+
+ mayor = b;
+
+ return mayor;
+
+}
+
+En este ejemplo podíamos haber hecho también:
+
+ printf( "El mayor de los dos es %i\n", compara( num1, num2 ) );
+
+De esta forma nos ahorramos tener que definir la variable 'resultado'.
+
+[[vida-de-una-variable]]
+=== [[anchor-5]][[anchor-3]][[anchor-5]]Vida de una variable
+
+Cuando definimos una variable dentro de una función, esa variable sólo
+es válida dentro de la función. Este tipo de variables se denominan
+**variables locales**. Si definimos una variable dentro de main sólo
+podremos usarla dentro de main, será por tanto una variable local de la
+función main.
+
+Si por el contrario la definimos fuera de las funciones se trataría de
+una *variable global* y se podría usar en cualquier función.
+
+Podemos crear una variable global y en una función una variable local
+con el mismo nombre. Dentro de la función estaremos trabajando con la
+variable local, no con la global. Esto no da errores pero puede crear
+confusión al programar y al analizar el código. No es nada recomendable
+seguir esta práctica.
+
+Por norma general *es aconsejable usar siempre variables locales* frente
+a las globales ya que será más sencilla la localización de errores y
+ayuda a la reutilización de código (podemos copiar/pegar las funciones a
+otro programa). Por sencillez, en muchos ejemplos usaremos variables
+globales, pero el alumno debería acostumbrarse a usar variables locales.
+
+[[ejercicios]]
+=== [[anchor-6]]Ejercicios
+
+*Ejercicio 1:* Descubre los errores:
+
+#include <stdio.h>
+
+int main()
+
+\{
+
+ int num1, num2;
+
+ int resultado,
+
+ printf( "Introduzca dos números: " );
+
+ fflush(stdout);
+
+ scanf( "%d %d", &num1, &num2 );
+
+ resultado = compara( num1, num2 );
+
+ printf( "El mayor de los dos es %d\n", resultado );
+
+ return 0;
+
+}
+
+int compara( int a, int b );
+
+\{
+
+ int mayor;
+
+ if ( a>b )mayor = a;
+
+ else mayor = b;
+
+ return mayor;
+
+}
+
+**Solución**:
+
+* Hay una coma después de _int_ _resultado_ en vez de un punto y coma.
+* Llamamos a la función _compara_ dentro de main antes de definirla. Si
+hubiésemos puesto el prototipo de la función al principio del código no
+hubiera sido problema.
+* Cuando definimos la función _compara_ hemos puesto un punto y coma al
+final, eso es un error. El código que hay justo detrás no pertenece a
+ninguna función.
+
+*Ejercicio 2:* Busca los errores.
+
+#include <stdio.h>
+
+int resultado( int parametro )
+
+int main()
+
+\{
+
+ int a, b;
+
+ a = 2; b = 3;
+
+ printf( "%i", resultado( a );
+
+ return 0;
+
+}
+
+char resultado( int parametro )
+
+\{
+
+ return parametro + b;
+
+}
+
+Solución:
+
+* Hemos definido el prototipo de _resultado_ sin punto y coma.
+* Cuando definimos el cuerpo de _resultado_ en su cabecera hemos puesto
+__char__, que no coincide con el prototipo.
+* En la función _resultado_ estamos usando la variable 'b' que está
+definida sólo en main. No es una variable global y por lo tanto es como
+si no existiera para __resultado__.
+* En printf nos hemos dejado un paréntesis al final.

@@ -1,0 +1,693 @@
+////
+Copyright: Gorka Urrutia Landa, 1999-2018
+Licencia: Attribution-ShareAlike 4.0 International (CC BY-SA 4.0) https://creativecommons.org/licenses/by-sa/4.0/
+////
+
+:chapter: 009
+
+<<<
+
+[[capítulo-9.-punteros]]
+== Capítulo 9. Punteros
+
+[[introducción]]
+=== [[anchor]]Introducción
+
+Este capítulo puede resultar problemático a aquellos que no han visto nunca lo que es un puntero.
+Por lo tanto si tienes alguna duda o te parece que alguna parte está poco clara ponte en contacto conmigo.
+
+¡¡¡Punteros!!! uff.
+Este es uno de los temas que más suele costar a la gente al aprender C.
+Los punteros son una de las más potentes características de C, pero a la vez uno de sus mayores peligros.
+Si no se manejan con cuidado pueden ser una fuente ilimitada de errores.
+Un error usando un puntero puede bloquear el sistema y a veces puede ser difícil detectarlo.
+
+Otros lenguajes no nos dejan usar punteros para evitar estos problemas, pero a la vez nos quitan parte del control que tenemos en C.
+
+A pesar de todo esto no hay que tenerles miedo.
+Casi todos los programas C usan punteros.
+Si aprendemos a usarlos bien no tendremos más que algún problema esporádico. Así que atención, valor y al toro.
+
+[[la-memoria-del-ordenador]]
+=== [[anchor-1]]La memoria del ordenador
+
+Si tienes bien claro lo que es la memoria del ordenador puedes saltarte esta sección.
+Pero si confundes la memoria con el disco duro o no tienes claro lo que es no te la pierdas.
+
+A lo largo de mi experiencia con ordenadores me he encontrado con mucha gente que no tiene claro cómo funciona un ordenador.
+Cuando hablamos de memoria nos estamos refiriendo a la memoria RAM del ordenador.
+Son unas _pastillas_ que se conectan a la placa base y nada tienen que ver con el disco duro.
+El disco duro guarda los datos permanentemente (hasta que se rompe) y la información se almacena como ficheros.
+Nosotros podemos decirle al ordenador cuándo grabar, borrar, abrir un documento, etc.
+La memoria RAM en cambio, se borra al apagar el ordenador.
+La memoria RAM la usan los programas sin que el usuario de éstos se de cuenta.
+
+Hay otras memorias en el ordenador aparte de la mencionada.
+Por ejemplo la memoria de vídeo (que está en la tarjeta gráfica), las memorias caché (del procesador, de la placa...).
+
+[[direcciones-de-variables]]
+=== [[anchor-2]]Direcciones de variables
+
+Vamos a ir como siempre por partes.
+Primero vamos a ver qué pasa cuando declaramos una variable.
+
+Al declarar una variable estamos diciendo al ordenador que nos reserve una parte de la memoria para almacenarla.
+Cada vez que ejecutemos el programa la variable se almacenará en un sitio diferente.
+Eso no lo podemos controlar, depende de la memoria disponible y otros factores "misteriosos".
+Puede que se almacene en el mismo sitio, pero es mejor no fiarse.
+
+Dependiendo del tipo de variable que declaremos el ordenador nos reservará más o menos memoria.
+Como vimos en el capítulo de tipos de datos cada tipo de variable ocupa más o menos bytes.
+Por ejemplo si declaramos un _char_, el ordenador nos reserva 1 byte (usualmente 8 bits).
+Una variable de tipo _int_ ocupará más espacio (depende del compilador y el sistema en el que trabajemos).
+
+Cuando finaliza el programa todo el espacio reservado para las variables queda libre para ser usado por otros programas.
+
+NOTE: Si bien usualmente un carácter (char) esta constituido por ocho bits esto no lo garantiza el estándar.
+El numero exacto esta dado por la macro CHAR_BIT).
+
+Saber cuánto ocupa un carácter en tu sistema es imporante.
+Para saberlo puedes usar este sencillo programa:
+
+[source,c]
+----
+#include <stdio.h>
+#include <limits.h>
+#include <stdlib.h>
+
+int main()
+{
+  printf("Bits que ocupa un carácter: %d", CHAR_BIT);
+
+  return EXIT_SUCCESS;
+}
+----
+
+
+Existe una forma de saber qué direcciones nos ha reservado el ordenador para nuestras variables.
+Se trata de usar el operador *&* (operador de dirección).
+Ya lo habíamos visto en el _scanf_ pero no sabíamos bien para qué era.
+Vamos a ver un ejemplo: Declaramos la variable 'a' y obtenemos su valor y dirección.
+
+[source,c]
+----
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+  char a;
+
+  a = 10;
+
+  printf( "La variable 'a' se almacena en la posición de memoria %p ", (void *) &a );
+  printf( "y su valor es %d\n.", a );
+
+  return EXIT_SUCCESS;
+}
+----
+
+NOTE: Para mostrar la dirección de la variable usamos %p (en lugar de %d).
+Éste _modificador de formato_ sirve para escribir direcciones de memoria.
+El formato que se usa para mostrar las direcciones de memoria es el hexadecimal.
+
+El resultado sería algo como:
+
+----
+La variable a se almacena en la posición de memoria 0x7fff13be7627 y su valor es 10.
+----
+
+Si ejecutamos el programa varias veces seguidas veremos algo curioso:
+
+* El valor de _a_ siempre es el mismo.
+* Pero la posición de la memoria donde se almacena la variable cambia cada vez.
+
+La segunda vez pude mostrar algo como ésto:
+
+----
+La variable a se almacena en la posición de memoria 0x7fff8e74c037 y su valor es 10.
+----
+
+Y la tercera:
+
+----
+La variable a se almacena en la posición de memoria 0x7ffc79a200a7 y su valor es 10.
+----
+
+Como podemos ver, cada vez que ejecutamos el programa la dirección de la memoria donde se almacena _a_ es diferente.
+Pero una vez el sistema nos ha reservado esa dirección ya no cambia durante la ejecución del programa.
+
+El valor de _a_ lo podemos controlar nosotros.
+El valor de la memoria que nos asigna el sistema podemos conocerlo pero no controlarlo.
+
+Es importante tener clara la diferencia entre el valor de _a_ y el valor de la memoria donde se almacena _a_.
+
+El nombre de la variable es equivalente a poner un nombre a una zona de la memoria.
+Cuando en el programa escribimos 'a', en realidad estamos diciendo, "el valor que está almacenado en la dirección de memoria a la que llamamos 'a'".
+
+[[qué-son-los-punteros]]
+=== [[anchor-3]]Qué son los punteros
+
+Ahora ya estamos en condiciones de ver lo que es un puntero. Un puntero
+es una variable un tanto especial. Con un puntero podemos almacenar
+direcciones de memoria. En un puntero podemos tener guardada la
+dirección de una variable.
+
+Vamos a ver si cogemos bien el concepto de puntero y la diferencia entre
+éstos y las variables _normales_.
+
+image:../punteros1.png[image,width=132,height=154]
+
+En el dibujo anterior tenemos una representación de lo que sería la
+memoria del ordenador. Cada casilla representa un byte de la memoria. Y
+cada número es su dirección de memoria. La primera casilla es la
+posición 00001 de la memoria. La segunda casilla la posición 00002 y así
+sucesivamente.
+
+Supongamos que ahora declaramos una variable char: _*char numero = 43*_.
+El ordenador nos guardaría por ejemplo la posición 00003 para esta
+variable. Esta posición de la memoria queda reservada y ya no la puede
+usar nadie más. Además esta posición a partir de ahora se le llama
+_numero_. Como le hemos dado el valor 43 a numero, el valor 43 se
+almacena en numero, es decir, en la posición 00003.
+
+image:../punteros2.png[image,width=193,height=154]
+
+Veamos cómo hubiera sido el resultado del programa anterior con esta
+situación:
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+
+\{
+
+ char numero;
+
+ numero = 43;
+
+ printf( "La variable numero se almacena en la posición de memoria %p, y
+su valor es %d\n", (void *) &numero, numero );
+
+ return EXIT_SUCCESS;
+
+}
+
+El resultado sería:
+
+La variable numero se almacena en la posición de memoria *00003*, y su
+valor es *43*
+
+Creo que así ya está clara la diferencia entre el valor de una variable
+(43) y su dirección (00003).
+
+Ahora vamos un poco más allá, vamos a declarar un puntero. Hemos dicho
+que un puntero sirve para almacenar la direcciones de memoria. Muchas
+veces los punteros se usan para guardar las direcciones de variables.
+Vimos en el capítulo Tipos de Datos que cada tipo de variable ocupa un
+espacio distinto en la memoria. Por eso cuando declaramos un puntero
+debemos especificar el tipo de datos cuya dirección almacenará. En
+nuestro ejemplo queremos que almacene la dirección de una variable char.
+Así que para declarar el puntero *punt* debemos hacer:
+
+char *punt;
+
+El * (asterisco) sirve para indicar que se trata de un puntero, debe ir
+antes del nombre de la variable.
+
+*NOTA:* El lenguaje C es un lenguaje de "formato libre" y la declaración
+de la variable "punt" podría realizarse en cualquiera de estas formas,
+todas ellas validas:
+
+char*punt; +
+char* punt; +
+char * punt; +
+char *punt; +
+char +
+* +
+punt;
+
+En la variable punt sólo se pueden guardar direcciones de memoria, no se
+pueden guardar datos. Vamos a volver sobre el ejemplo anterior un poco
+ampliado para ver cómo funciona un puntero:
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+
+\{
+
+ char numero;
+
+ char *punt;
+
+ numero = 43;
+
+ punt = &numbero;
+
+ printf( "La variable numero se almacena en la posición de memoria %p, y
+su valor es %d\n", (void *) &numero, numero );
+
+ return EXIT_SUCCESS;
+
+}
+
+Vamos a ir línea a línea:
+
+* En el primer _int numero_ reservamos memoria para _numero_ (supongamos
+que queda como antes, posición 00003). Por ahora _numero_ no tiene
+ningún valor.
+* Siguiente línea: _int *punt;_. Reservamos una posición de memoria para
+almacenar el puntero, por ejemplo en la posición 00004. Por ahora _punt_
+no tiene ningún valor, es decir, no apunta a ninguna variable. Esto es
+lo que tenemos por ahora:
+
+image:../punteros3.png[image,width=193,height=154]
+
+* Tercera línea: _numero = 43;_. Aquí ya estamos dando el valor 43 a
+numero. Se almacena 43 en la dirección 00003, que es la de numero.
+* Cuarta línea: _punt = &numero;_. Por fin damos un valor a punt. El
+valor que le damos es la dirección de numero (ya hemos visto que &
+devuelve la dirección de una variable). Así que _punt_ tendrá como valor
+la dirección de numero, 00003. Por lo tanto ya tenemos:
+
+image:../punteros4.png[image,width=193,height=154]
+
+Cuando un puntero tiene la dirección de una variable se dice que ese
+puntero *apunta* a esa variable.
+
+_*NOTA:*_ La declaración de un puntero depende del tipo de dato al que
+queramos apuntar. En general la declaración es:
+
+tipo_de_dato *nombre_del_puntero;
+
+Si en vez de querer apuntar a una variable tipo _char_ como en el
+ejemplo hubiese sido de tipo _int_:
+
+int *punt;
+
+[[para-qué-sirve-un-puntero-y-cómo-se-usa]]
+=== [[anchor-4]]Para qué sirve un puntero y cómo se usa
+
+Los punteros tienen muchas utilidades, por ejemplo nos permiten pasar
+variables a una función y modificarlos. También permiten el manejo de
+cadenas de texto de arrays, de ficheros y de listas enlazadas (ya
+veremos todo esto más adelante). Otro uso es que nos permiten acceder
+directamente a la pantalla, al teclado y a todos los componentes del
+ordenador (sólo en determinados sistemas operativos).
+
+Pero si sólo sirvieran para almacenar direcciones de memoria no
+servirían para mucho. Nos deben dejar también la posibilidad de acceder
+a esas posiciones de memoria. Para acceder a ellas se usa el operador *,
+que no hay que confundir con el de la multiplicación.
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+
+\{
+
+ char numero;
+
+ char *punt;
+
+ numero = 43;
+
+ punt = &numero;
+
+ printf( "La variable numero se almacena en la posición de memoria %p, y
+su valor es %d.\n",
+
+ (void *) &numero, **punt* );
+
+ return EXIT_SUCCESS;
+
+}
+
+Si nos fijamos en lo que ha cambiado con respecto al ejemplo anterior,
+vemos que para acceder al valor de número usamos *punt en vez de numero.
+Esto es así porque punt apunta a numero y *punt nos permite acceder al
+valor al que apunta punt.
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+
+\{
+
+ char numero;
+
+ char *punt;
+
+ numero = 43;
+
+ punt = &numero;
+
+ **punt = 30;*
+
+ printf( "La variable numero se almacena en la posición de memoria %p, y
+su valor es %d.\n", (void *) &numero, numero );
+
+ return EXIT_SUCCESS;
+
+}
+
+Ahora hemos cambiado el valor de numero a través de _*punt_.
+
+En resumen, usando _punt_ podemos apuntar a una variable y con _*punt_
+vemos o cambiamos el contenido de esa variable.
+
+Un puntero no sólo sirve para apuntar a una variable, también sirve para
+apuntar una dirección de memoria determinada. Esto tiene muchas
+aplicaciones, por ejemplo nos permite controlar el hardware directamente
+(en MS-Dos y Windows, no en Linux). Podemos escribir directamente sobre
+la memoria de vídeo y así escribir directamente en la pantalla sin usar
+printf.
+
+[[usando-punteros-en-una-comparación]]
+=== [[anchor-5]]Usando punteros en una comparación
+
+Veamos el siguiente ejemplo. Queremos comprobar si dos variables son
+iguales usando punteros:
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+
+\{
+
+ int a, b;
+
+ int *punt1, *punt2;
+
+ a = 5; b = 5;
+
+ punt1 = &a; punt2 = &b;
+
+ if ( punt1 == punt2 )
+
+ printf( "Son iguales.\n" );
+
+ return EXIT_SUCCESS;
+
+}
+
+Alguien podría pensar que el _if_ se cumple y se mostraría el mensaje
+_Son iguales_ en pantalla. Pues no es así, el programa es erróneo. Es
+cierto que a y b son iguales. También es cierto que punt1 apunta a 'a' y
+punt2 a 'b'. Lo que queríamos comprobar era si a y b son iguales. Sin
+embargo con la condición estamos comprobando si punt1 apunta al mismo
+sitio que punt2, estamos comparando las direcciones donde apuntan. Por
+supuesto a y b están en distinto sitio en la memoria así que la
+condición es falsa. Para que el programa funcionara deberíamos usar los
+asteriscos:
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+
+\{
+
+ int a, b;
+
+ int *punt1, *punt2;
+
+ a = 5; b = 5;
+
+ punt1 = &a; punt2 = &b;
+
+ if ( **punt1 == *punt2* )
+
+ printf( "Son iguales.\n" );
+
+ return EXIT_SUCCESS;
+
+}
+
+Ahora sí. Estamos comparando el contenido de las variables a las que
+apuntan punt1 y punt2. Debemos tener mucho cuidado con esto porque es un
+error que se nos puede escapar con mucha facilidad.
+
+Vamos a cambiar un poco el ejemplo. Ahora 'b' no existe y punt1 y punt2
+apuntan a 'a'. La condición se cumplirá porque apuntan al mismo sitio.
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+
+\{
+
+ int a;
+
+ int *punt1, *punt2;
+
+ a = 5;
+
+ *punt1 = &a; punt2 = &a;*
+
+ if ( punt1 == punt2 )
+
+ printf( "punt1 y punt2 apuntan al mismo sitio.\n" );
+
+ return EXIT_SUCCESS;
+
+}
+
+[[punteros-como-argumentos-de-funciones]]
+=== [[anchor-6]]Punteros como argumentos de funciones
+
+Hemos visto en el capítulo de funciones cómo pasar parámetros y cómo
+obtener resultados de las funciones (con los valores devueltos con
+return). Pero tiene un inconveniente, sólo podemos tener un valor
+devuelto. Ahora vamos a ver cómo los punteros nos permiten modificar
+varias variables en una función.
+
+Hasta ahora para pasar una variable a una función hacíamos lo siguiente:
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int suma( int a, int b )
+
+\{
+
+ return a+b;
+
+}
+
+int main()
+
+\{
+
+ int var1, var2, resultado;
+
+ var1 = 5; var2 = 8;
+
+ resultado = suma(var1, var2);
+
+ printf( "La suma es : %i\n", resultado );
+
+ return EXIT_SUCCESS;
+
+}
+
+Aquí hemos pasado a la función los parámetros 'a' y 'b' (que no podemos
+modificar) y nos devuelve la suma de ambos.
+
+Vamos a modificar el ejemplo para que use punteros:
+
+#include <stdio.h>
+#include <stdlib.h>
+
+void suma( int a, int b, int *total )
+
+\{
+
+ *total = a + b;
+
+}
+
+int main()
+
+\{
+
+ int var1, var2, resultado;
+
+ var1 = 5; var2 = 8;
+
+ suma(var1, var2, &resultado);
+
+ printf( "La suma es: %d.\n", resultado );
+
+ return EXIT_SUCCESS;
+
+}
+
+Como podemos ver la función ya no devuelve un valor, pero le hemos
+añadido un tercer parámetro _int *total_. Este parámetro es un puntero
+que va a recibir la dirección donde se almacena _resultado_
+(_&resultado_) y va a guardar ahí el resultado de la suma. Cuando
+finalice la función y volvamos a la función _main_ la variable
+_resultado_ se encontrará con que tiene como valor la suma de los dos
+números.
+
+Supongamos ahora que queremos tener la suma pero además queremos que
+_var1_ se haga cero dentro de la función. Para eso haríamos lo
+siguiente:
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int suma_y_cambia( *int *a*, int b )
+
+\{
+
+ int c;
+
+ c = *a + b;
+
+ *a = 0;
+
+ return c;
+
+}
+
+int main()
+
+\{
+
+ int var1, var2, resultado;
+
+ var1 = 5; var2 = 8;
+
+ resultado = suma_y_cambia(*&var1*, var2);
+
+ printf( "La suma es: %d y var1 vale: %d.\n", resultado , var1 );
+
+ return EXIT_SUCCESS;
+
+}
+
+Fijémonos en lo que ha cambiado (con letra en negrita): En la función
+suma hemos declarado 'a' como puntero. En la llamada a la función
+(dentro de main) hemos puesto & para pasar la dirección de la variable
+var1. Ya sólo queda hacer cero a var1 a través de *a=0.
+
+También usamos una variable 'c' que nos servirá para almacenar la suma
+de 'a' y 'b'.
+
+Es importante no olvidar el operador & en la llamada a la función ya que
+sin el no estaríamos pasando la dirección de la variable sino el valor
+de _var1_.
+
+Podemos usar tantos punteros como queramos en la definición de la
+función.
+
+*NOTA IMPORTANTE*: Existe la posibilidad de hacer el ejercicio de esta
+otra manera, sin usar la variable _resultado_:
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int suma( *int *a*, int b )
+
+\{
+
+ int c;
+
+ c = *a + b;
+
+ *a = 0;
+
+ return c;
+
+}
+
+int main()
+
+\{
+
+ int var1, var2;
+
+ var1 = 5; var2 = 8;
+
+ printf( "La suma es: %d y var1 vale: %d\n", suma(*&var1*, var2) , var1
+);
+
+ return EXIT_SUCCESS;
+
+}
+
+Sin embargo, esto puede dar problemas, ya que no podemos asegurar de
+cómo va a evaluar el compilador los argumentos de printf. Es posible que
+primero almacene el valor de var1 antes de evaluar _suma_. Si ocurriese
+así el resultado del programa sería: _La suma es 13 y a vale 5_, en
+lugar de La suma es 13 y a vale 0.
+
+[[ejercicios]]
+=== [[anchor-7]]Ejercicios
+
+_*Ejercicio 1:*_ Encuentra un fallo muy grave:
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+
+\{
+
+ int *a;
+
+ *a = 5;
+
+ return EXIT_SUCCESS;
+
+}
+
+*Solución*: No hemos dado ninguna dirección al puntero. No sabemos a
+dónde apunta. Puede apuntar a cualquier sitio, al darle un valor estamos
+escribiendo en un lugar desconocido de la memoria. Esto puede dar
+problemas e incluso bloquear el ordenador. Recordemos que al ejecutar un
+programa éste se copia en la memoria, al escribir en cualquier parte
+puede que estemos cambiando el programa (en la memoria, no en el disco
+duro).
+
+_*Ejercicio 2:*_ Escribe un programa que asigne un valor a una variable
+de tipo _int_. Hacer un puntero que apunte a ella y sumarle 3 usando el
+puntero. Luego mostrar el resultado.
+
+*Solución*: Esta es una posible solución:
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+
+\{
+
+ int a;
+
+ int *b;
+
+ a = 5;
+
+ b = &a;
+
+ *b += 3;
+
+ printf( "El valor de a es = %d.\n", a );
+
+ return EXIT_SUCCESS;
+
+}
+
+También se podía haber hecho:
+
+printf( "El valor de a es = %d\n", *b );

@@ -1,3 +1,12 @@
+////
+Copyright: Gorka Urrutia Landa, 1999-2018
+Licencia: Attribution-ShareAlike 4.0 International (CC BY-SA 4.0) https://creativecommons.org/licenses/by-sa/4.0/
+////
+
+:chapter: 006
+
+<<<
+
 [[capítulo-6.-introducir-datos-por-teclado]]
 == Capítulo 6. Introducir datos por teclado
 

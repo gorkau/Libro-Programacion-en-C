@@ -148,15 +148,14 @@ Cuando en el programa escribimos 'a', en realidad estamos diciendo, "el valor qu
 [[qué-son-los-punteros]]
 === [[anchor-3]]Qué son los punteros
 
-Ahora ya estamos en condiciones de ver lo que es un puntero. Un puntero
-es una variable un tanto especial. Con un puntero podemos almacenar
-direcciones de memoria. En un puntero podemos tener guardada la
-dirección de una variable.
+Ahora ya estamos en condiciones de ver lo que es un puntero.
+Un puntero es una variable un tanto especial.
+Con un puntero podemos almacenar direcciones de memoria.
+En un puntero podemos tener guardada la dirección de una variable.
 
-Vamos a ver si cogemos bien el concepto de puntero y la diferencia entre
-éstos y las variables _normales_.
+Vamos a ver si captamos bien el concepto de puntero y la diferencia entre éstos y las variables _normales_.
 
-image:../punteros1.png[image,width=132,height=154]
+image:imagenes/punteros1.png[image,width=132,height=154]
 
 En el dibujo anterior tenemos una representación de lo que sería la
 memoria del ordenador. Cada casilla representa un byte de la memoria. Y
@@ -171,7 +170,7 @@ usar nadie más. Además esta posición a partir de ahora se le llama
 _numero_. Como le hemos dado el valor 43 a numero, el valor 43 se
 almacena en numero, es decir, en la posición 00003.
 
-image:../punteros2.png[image,width=193,height=154]
+image:imagenes/punteros2.png[image,width=193,height=154]
 
 Veamos cómo hubiera sido el resultado del programa anterior con esta
 situación:
@@ -264,16 +263,18 @@ almacenar el puntero, por ejemplo en la posición 00004. Por ahora _punt_
 no tiene ningún valor, es decir, no apunta a ninguna variable. Esto es
 lo que tenemos por ahora:
 
-image:../punteros3.png[image,width=193,height=154]
+image:imagenes/punteros3.png[image,width=193,height=154]
 
-* Tercera línea: _numero = 43;_. Aquí ya estamos dando el valor 43 a
-numero. Se almacena 43 en la dirección 00003, que es la de numero.
-* Cuarta línea: _punt = &numero;_. Por fin damos un valor a punt. El
-valor que le damos es la dirección de numero (ya hemos visto que &
-devuelve la dirección de una variable). Así que _punt_ tendrá como valor
-la dirección de numero, 00003. Por lo tanto ya tenemos:
+* Tercera línea: _numero = 43;_.
+Aquí ya estamos dando el valor 43 a numero.
+Se almacena 43 en la dirección 00003, que es la de numero.
+* Cuarta línea: _punt = &numero;_.
+Por fin damos un valor a punt.
+El valor que le damos es la dirección de numero (ya hemos visto que _&_ devuelve la dirección de una variable).
+Así que _punt_ tendrá como valor la dirección de numero, 00003.
+Por lo tanto ya tenemos:
 
-image:../punteros4.png[image,width=193,height=154]
+image:imagenes/punteros4.png[image,width=193,height=154]
 
 Cuando un puntero tiene la dirección de una variable se dice que ese
 puntero *apunta* a esa variable.

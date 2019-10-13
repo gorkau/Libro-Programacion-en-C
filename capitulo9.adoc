@@ -157,60 +157,70 @@ Vamos a ver si captamos bien el concepto de puntero y la diferencia entre éstos
 
 image:imagenes/punteros1.png[image,width=132,height=154]
 
-En el dibujo anterior tenemos una representación de lo que sería la
-memoria del ordenador. Cada casilla representa un byte de la memoria. Y
-cada número es su dirección de memoria. La primera casilla es la
-posición 00001 de la memoria. La segunda casilla la posición 00002 y así
-sucesivamente.
+En el dibujo anterior tenemos una representación de lo que sería la memoria del ordenador.
+Cada casilla representa un byte de la memoria.
+Y cada número es su dirección de memoria.
+La primera casilla es la posición 00001 de la memoria.
+La segunda casilla la posición 00002 y así sucesivamente.
 
-Supongamos que ahora declaramos una variable char: _*char numero = 43*_.
-El ordenador nos guardaría por ejemplo la posición 00003 para esta
-variable. Esta posición de la memoria queda reservada y ya no la puede
-usar nadie más. Además esta posición a partir de ahora se le llama
-_numero_. Como le hemos dado el valor 43 a numero, el valor 43 se
-almacena en numero, es decir, en la posición 00003.
+Supongamos que ahora declaramos una variable _char_:
+
+[source,c]
+----
+char numero = 43.
+----
+
+El ordenador nos guardaría por ejemplo la posición 00003 para esta variable.
+Esta posición de la memoria queda reservada y ya no la puede usar nadie más.
+Además esta posición a partir de ahora se le llama _numero_.
+Como le hemos dado el valor 43 a _numero_, el valor 43 se almacena en numero, es decir, en la posición 00003.
 
 image:imagenes/punteros2.png[image,width=193,height=154]
 
 Veamos cómo hubiera sido el resultado del programa anterior con esta
 situación:
 
+[source,c]
+----
 #include <stdio.h>
 #include <stdlib.h>
 
 int main()
+{
+  char numero;
 
-\{
+  numero = 43;
 
- char numero;
+  printf( "La variable numero " );
+  printf( "se almacena en la posición de memoria %p,", (void *) &numero );
+  printf( "y su valor es %d\n", numero );
 
- numero = 43;
-
- printf( "La variable numero se almacena en la posición de memoria %p, y
-su valor es %d\n", (void *) &numero, numero );
-
- return EXIT_SUCCESS;
-
+  return EXIT_SUCCESS;
 }
+
+----
 
 El resultado sería:
 
+----
 La variable numero se almacena en la posición de memoria *00003*, y su
 valor es *43*
+----
 
-Creo que así ya está clara la diferencia entre el valor de una variable
-(43) y su dirección (00003).
+Creo que así ya está clara la diferencia entre el valor de una variable (43) y su dirección (00003).
 
-Ahora vamos un poco más allá, vamos a declarar un puntero. Hemos dicho
-que un puntero sirve para almacenar la direcciones de memoria. Muchas
-veces los punteros se usan para guardar las direcciones de variables.
-Vimos en el capítulo Tipos de Datos que cada tipo de variable ocupa un
-espacio distinto en la memoria. Por eso cuando declaramos un puntero
-debemos especificar el tipo de datos cuya dirección almacenará. En
-nuestro ejemplo queremos que almacene la dirección de una variable char.
+Ahora vamos un poco más allá, vamos a declarar un puntero.
+Hemos dicho que un puntero sirve para almacenar la direcciones de memoria.
+Muchas veces los punteros se usan para guardar las direcciones de variables.
+Vimos en el capítulo Tipos de Datos que cada tipo de variable ocupa un espacio distinto en la memoria.
+Por eso cuando declaramos un puntero debemos especificar el tipo de datos cuya dirección almacenará.
+En nuestro ejemplo queremos que almacene la dirección de una variable char.
 Así que para declarar el puntero *punt* debemos hacer:
 
+[source,c]
+----
 char *punt;
+----
 
 El * (asterisco) sirve para indicar que se trata de un puntero, debe ir
 antes del nombre de la variable.
@@ -219,6 +229,8 @@ antes del nombre de la variable.
 de la variable "punt" podría realizarse en cualquiera de estas formas,
 todas ellas validas:
 
+[source,c]
+----
 char*punt; +
 char* punt; +
 char * punt; +
@@ -226,6 +238,7 @@ char *punt; +
 char +
 * +
 punt;
+----
 
 En la variable punt sólo se pueden guardar direcciones de memoria, no se
 pueden guardar datos. Vamos a volver sobre el ejemplo anterior un poco
@@ -266,9 +279,9 @@ lo que tenemos por ahora:
 image:imagenes/punteros3.png[image,width=193,height=154]
 
 * Tercera línea: _numero = 43;_.
-Aquí ya estamos dando el valor 43 a numero.
-Se almacena 43 en la dirección 00003, que es la de numero.
-* Cuarta línea: _punt = &numero;_.
+Aquí ya estamos dando el valor 43 a _numero_.
+Se almacena 43 en la dirección 00003, que es la de _numero_.
+* Cuarta línea: _punt = \&numero;_.
 Por fin damos un valor a punt.
 El valor que le damos es la dirección de numero (ya hemos visto que _&_ devuelve la dirección de una variable).
 Así que _punt_ tendrá como valor la dirección de numero, 00003.

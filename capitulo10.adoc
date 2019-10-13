@@ -1,0 +1,1032 @@
+////
+Copyright: Gorka Urrutia Landa, 1999-2019
+Licencia: Attribution-ShareAlike 4.0 International (CC BY-SA 4.0) https://creativecommons.org/licenses/by-sa/4.0/
+////
+
+:chapter: 010
+
+<<<
+
+[[capítulo-10.-arrays]]
+== Capítulo 10. Arrays
+
+[[qué-es-un-array]]
+=== [[anchor]]¿Qué es un array?
+
+Nota: algunas personas conocen a los _arrays_ como _arreglos, matrices o vectores_.
+Sin embargo, en este curso, vamos a usar el término array ya que es, según creo, el más extendido en la bibliografía sobre el tema.
+
+La definición sería algo así:
+
+Un array es un conjunto de variables del mismo tipo que tienen el mismo
+nombre y se diferencian en el índice.
+
+Pero ¿qué quiere decir esto y para qué lo queremos?
+Pues bien, supongamos que somos un meteorólogo y queremos guardar en el ordenador la temperatura que ha hecho cada hora del día.
+Para darle cierta utilidad al final calcularemos la media de las temperaturas.
+Con lo que sabemos hasta ahora sería algo así (que nadie se moleste ni en probarlo):
+
+[source,c]
+----
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+
+ /* Declaramos 24 variables, una para cada hora del día */
+ int temp1, temp2, temp3, temp4, temp5, temp6, temp7, temp8;
+ int temp9, temp10, temp11, temp12, temp13, temp14, temp15, temp16;
+ int temp17, temp18, temp19, temp20, temp21, temp22, temp23, temp0;
+
+ float media;
+
+ /* Ahora tenemos que dar el valor de cada una */
+ printf( "Temperatura de las 0: " );
+ scanf( "%d", &temp0 );
+
+ printf( "Temperatura de las 1: " );
+ scanf( "%d", &temp1 );
+
+ printf( "Temperatura de las 2: " );
+ scanf( "%d", &temp2 );
+
+ ...
+
+ printf( "Temperatura de las 23: " );
+ scanf( "%d", &temp23 );
+
+ media = ( temp0 + temp1 + temp2 + temp3 + temp4 + ... + temp23 ) / 24;
+ printf( "\nLa temperatura media es %f\n", media );
+
+ return EXIT_SUCCESS;
+
+}
+----
+
+NOTE: Los puntos suspensivos los he puesto para no tener que escribir todo y que no ocupe tanto, no se pueden usar en un programa.
+
+Para acortar un poco el programa podríamos hacer algo así:
+
+[source,c]
+----
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+  /* Declaramos 24 variables, una para cada hora del día */
+  int temp1, temp2, temp3, temp4, temp5, temp6, temp7, temp8;
+  int temp9, temp10, temp11, temp12, temp13, temp14, temp15, temp16;
+  int temp17, temp18, temp19, temp20, temp21, temp22, temp23, temp0;
+
+  float media;
+
+  /* Ahora tenemos que dar el valor de cada una */
+  printf( "Introduzca las temperaturas desde las 0 hasta las 23 separadas
+por un espacio: " );
+  scanf( "%d %d %d ... %d", &temp0, &temp1, &temp2, ... &temp23 );
+
+  media = ( temp0 + temp1 + temp2 + temp3 + temp4 + ... + temp23 ) / 24;
+
+  printf( "\nLa temperatura media es %f\n", media );
+
+  return EXIT_SUCCESS;
+}
+----
+
+Lo que no deja de ser un muy laborioso además de confuso para el usuario.
+Y esto con un ejemplo que tiene tan sólo 24 variables, ¡imagínate si son más!
+
+Y precisamente aquí es donde nos vienen de perlas los arrays.
+Vamos a hacer el programa con un array.
+Usaremos nuestros conocimientos de bucles _for_ y de _scanf_.
+
+[source,c]
+----
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+	int temp[24]; /* Con esto ya tenemos declaradas las 24 variables */
+	float media = 0;
+	int hora;
+
+	/* Ahora tenemos que dar el valor de cada una */
+	for( hora=0; hora<24; hora++ ) {
+		printf( "Temperatura de las %i: ", hora );
+		scanf( "%d", &temp[hora] );
+
+		media += temp[hora];
+	}
+
+	media = media / 24;
+	printf( "\nLa temperatura media es %f\n", media );
+
+	return EXIT_SUCCESS;
+}
+----
+
+Como ves es un programa más corto que los anteriores (recuerda que hemos
+usado puntos suspensivos en los ejemplos anteriores, sin ellos el código
+hubiera sido mucho más largo).
+
+Como ya hemos comentado cuando declaramos una variable lo que estamos haciendo es reservar una zona de la memoria para ella.
+Cuando declaramos un array lo que hacemos (en este ejemplo) es reservar espacio en memoria para 24 variables de tipo _int_.
+El tamaño del array (24) lo indicamos entre corchetes al definirlo.
+
+En este ejemplo recorremos la matriz mediante un bucle _for_ y vamos dando valores a los distintos elementos de la matriz.
+Para indicar a qué elemento nos referimos usamos un número entre corchetes (en este caso la variable hora), este número es lo que se llama *Índice*.
+El primer elemento de la matriz tiene el índice 0, el segundo tiene el 1 y así sucesivamente.
+
+El índice de un elemento es siempre la posición del elemento menos uno.
+De modo que el cuarto elemento tendrá el índice 4-1 = 3.
+Y podemos asignarle un valor haciendo:
+
+[source,c]
+----
+temp[ 3 ] = 20;
+----
+
+NOTE: No hay que confundirse; En la declaración del array el número
+entre corchetes es el número de elementos, en cambio cuando ya usamos la
+matriz el número entre corchetes es el índice.
+
+[[declaración-de-un-array]]
+=== [[anchor-1]]Declaración de un Array
+
+La forma general de declarar un array es la siguiente:
+
+_tipo_de_dato_ nombre_del_array[ dimensión ];
+
+El _tipo_de_dato_ es uno de los tipos de datos conocidos (_int, char,
+float_...) o de los definidos por nosotros mismos con _typdef_ (lo
+estudiaremos más adelante). En el ejemplo el tipo de dato que habíamos
+usado era _int_.
+
+El _nombre_del_array_ es el nombre que damos al array, en el ejemplo era
+_temp_. El nombre de un array tiene las mismas limitaciones que vimos
+para un nombre de variable.
+
+La _dimensión_ es el número de elementos que tiene el array.
+
+Como he indicado antes, al declarar un array reservamos en memoria
+tantas variables del _tipo_de_dato_ como las indicada en _dimensión_.
+
+[[sobre-la-dimensión-de-un-array]]
+=== [[anchor-2]][[anchor-3]]Sobre la dimensión de un Array
+
+Hemos visto en el ejemplo que tenemos que indicar en varios sitios el
+tamaño del array: en la declaración, en el bucle for y al calcular la
+media. Este es un programa pequeño, en un programa mayor probablemente
+habrá que escribirlo muchas más veces. Si en un momento dado queremos
+cambiar la dimensión del array tendremos que cambiar todos. Si nos
+equivocamos al escribir el tamaño (ponemos 25 en vez de 24) cometeremos
+un error y puede que no nos demos cuenta. Por eso es mejor usar una
+constante con nombre, por ejemplo ELEMENTOS. Además, nuestro código será
+más legible.
+
+Este sería el ejemplo anterior usando una constante para el tamaño del
+array:
+
+#include <stdio.h>
+
+#define ELEMENTOS 24
+
+int main()
+
+\{
+
+ int temp[*ELEMENTOS*]; /* Con esto ya tenemos declaradas las 24
+variables */
+
+ float media = 0;
+
+ int hora;
+
+ /* Ahora tenemos que dar el valor de cada una */
+
+ for( hora=0; hora<**ELEMENTOS**; hora++ )
+
+ \{
+
+ printf( "Temperatura de las %i: ", hora );
+
+ scanf( "%d", &temp[hora] );
+
+ media += temp[hora];
+
+ }
+
+ media = media / *ELEMENTOS*;
+
+ printf( "\nLa temperatura media es %f\n", media );
+
+ return 0;
+
+}
+
+Ahora con sólo cambiar el valor de elementos una vez lo estaremos
+haciendo en todo el programa.
+
+[[inicializar-un-array]]
+=== [[anchor-4]]Inicializar un array
+
+En *C* se pueden inicializar los arrays al declararlos igual que
+hacíamos con las variables. Recordemos que se podía hacer:
+
+int numero = 34;
+
+Con arrays se puede hacer:
+
+int temperaturas[24] = \{
+
+ 15, 18, 20, 23, 22, 24, 22, 25,
+
+ 26, 25, 24, 22, 21, 20, 18, 17,
+
+ 16, 17, 15, 14, 14, 14, 13, 12
+
+};
+
+Así el primer elemento del array (que tiene índice 0), es decir
+temperaturas[0] valdrá 15. El segundo elemento (temperaturas[1]) valdrá
+18 y así con todos. Vamos a ver un ejemplo:
+
+#include <stdio.h>
+
+int main()
+
+\{
+
+ int hora;
+
+ int temperaturas[24] = \{ 15, 18, 20, 23, 22, 24, 22, 25, 26, 25, 24,
+
+ 22, 21, 20, 18, 17, 16, 17, 15, 14, 14, 14,
+
+ 13, 12 };
+
+ for (hora=0 ; hora<24 ; hora++ )
+
+ \{
+
+ printf( "La temperatura a las %i era
+
+ de %i grados.\n", hora,
+
+ temperaturas[hora] );
+
+ }
+
+ return 0;
+
+}
+
+*Nota:* en la inicialización de arrays sólo pueden usarse numeros y
+constantes. No se pueden usar variables. Por ejemplo:
+
+#define ELEMENTOS 24
+
+... +
+int array[3] = \{1, ELEMENTOS, 3};
+
+Pero a ver quién es el habilidoso que no se equivoca al meter los datos,
+no es difícil olvidarse alguno. Hemos indicado al compilador que nos
+reserve memoria para un array de 24 elementos de tipo int. ¿Qué ocurre
+si metemos menos de los reservados? Pues no pasa nada, sólo que los
+elementos que falten valdrán cero.
+
+#include <stdio.h>
+
+int main()
+
+\{
+
+ int hora;
+
+ /* Faltan los tres últimos elementos */
+
+ int temperaturas[24] = \{ 15, 18, 20, 23, 22, 24, 22, 25, 26, 25,
+
+ 24, 22, 21, 20, 18, 17, 16, 17, 15, 14, 14 };
+
+ for (hora=0 ; hora<24 ; hora++ )
+
+ \{
+
+ printf( "La temperatura a las %i era de %i grados.\n", hora,
+temperaturas[hora] );
+
+ }
+
+ return 0;
+
+}
+
+El resultado será:
+
+La temperatura a las 0 era de 15 grados.
+
+La temperatura a las 1 era de 18 grados.
+
+La temperatura a las 2 era de 20 grados.
+
+La temperatura a las 3 era de 23 grados.
+
+...
+
+La temperatura a las 17 era de 17 grados.
+
+La temperatura a las 18 era de 15 grados.
+
+La temperatura a las 19 era de 14 grados.
+
+La temperatura a las 20 era de 14 grados.
+
+La temperatura a las 21 era de 0 grados.
+
+La temperatura a las 22 era de 0 grados.
+
+La temperatura a las 23 era de 0 grados.
+
+Vemos que los últimos 3 elementos son nulos, que son aquellos a los que
+no hemos dado valores. El compilador no nos avisa que hemos metido menos
+datos de los reservados.
+
+NOTA: Fíjate que para recorrer del elemento 0 al 23 (24 elementos)
+hacemos:
+
+for(hora=0; hora<24; hora++)
+
+La condición es que _hora_ sea menor que 24. También podíamos haber
+hecho que hora!=24, pero es menos correcto.
+
+Ahora vamos a ver el caso contrario, metemos más datos de los
+reservados. Vamos a meter 25 en vez de 24. Si hacemos esto dependiendo
+del compilador obtendremos un error o al menos un warning (aviso). En
+unos compiladores el programa se creará y en otros no, pero aún así nos
+avisa del fallo.
+
+Si la matriz debe tener una longitud determinada usamos el método de
+indicar el número de elementos al declarar el array. En nuestro caso era
+conveniente, porque los días siempre tienen 24 horas. Es importante
+definir el tamaño de la matriz para que nos avise si metemos más
+elementos de los necesarios.
+
+Hay casos en los que podemos usar un método alternativo, dejar al
+ordenador que cuente los elementos que hemos metido y nos reserve
+espacio para ellos:
+
+#include <stdio.h>
+
+int main()
+
+\{
+
+ int hora;
+
+ /* Faltan los tres últimos elementos */
+
+ int **temperaturas**__*[]*__ = \{
+
+15, 18, 20, 23, 22,
+
+24, 22, 25, 26, 25,
+
+24, 22, 21, 20, 18,
+
+17, 16, 17, 15, 14,
+
+14 };
+
+ for ( hora=0 ; hora<24 ; hora++ )
+
+ \{
+
+ printf( "La temperatura a las %i era de %i grados.\n", hora,
+temperaturas[hora] );
+
+ }
+
+ return 0;
+
+}
+
+Vemos que no hemos especificado la dimensión del array _temperaturas_.
+Hemos dejado los corchetes en blanco. El ordenador contará los elementos
+que hemos puesto entre llaves y reservará espacio para ellos. De esta
+forma siempre habrá el espacio necesario, ni más ni menos. La pega es
+que si ponemos más de los que queríamos no nos daremos cuenta, como en
+el ejemplo.
+
+Este es el resultado que obtendríamos:
+
+La temperatura a las 0 era de 15 grados.
+
+La temperatura a las 1 era de 18 grados.
+
+La temperatura a las 2 era de 20 grados.
+
+...
+
+La temperatura a las 20 era de 14 grados.
+
+La temperatura a las 21 era de -1216612880 grados.
+
+La temperatura a las 22 era de 0 grados.
+
+La temperatura a las 23 era de 134513819 grados.
+
+Vemos que las últimas tres líneas dan un resultado extraño. ¿De dónde
+salen esos números? Se debe a que el array sólo tenía 21 elementos pero
+hemos leído 24 valores. Los tres últimos son datos que había en la
+memoria y que no tenían relación con el array. Se debe tener mucho
+cuidado con esto.
+
+Para saber en este caso cuantos elementos tiene la matriz podemos usar
+el operador sizeof. Dividimos el tamaño de la matriz entre el tamaño de
+sus elementos y tenemos el número de elementos.
+
+#include <stdio.h>
+
+int main()
+
+\{
+
+ int hora;
+
+ int elementos;
+
+ int temperaturas[] = \{ 15, 18, 20, 23, 22, 24, 22, 25, 26, 25,
+
+ 24, 22, 21, 20, 18, 17, 16, 17, 15, 14, 14 };
+
+ *elementos = sizeof temperaturas / sizeof(int);*
+
+ for ( hora=0 ; hora<elementos ; hora++ )
+
+ \{
+
+ printf( "La temperatura a las %i era de %i grados.\n", hora,
+temperaturas[hora] );
+
+ }
+
+ printf( "Han sido %i elementos.\n" , elementos );
+
+ return 0;
+
+}
+
+Ahora el resultado será correcto (sólo mostrará los 21 valores que hay
+en el array):
+
+La temperatura a las 0 era de 15 grados.
+
+La temperatura a las 1 era de 18 grados.
+
+La temperatura a las 2 era de 20 grados.
+
+...
+
+La temperatura a las 19 era de 14 grados.
+
+La temperatura a las 20 era de 14 grados.
+
+Veamos qué pasa si ahora intentamos mostrar más elementos de los que hay
+en la matriz, en este caso intentamos imprimir 28 elementos cuando sólo
+hay 24:
+
+#include <stdio.h>
+
+int main()
+
+\{
+
+ int hora;
+
+ int temperaturas[24] = \{
+
+ 15, 18, 20, 23, 22,
+
+ 24, 22, 25, 26, 25,
+
+ 24, 22, 21, 20, 18,
+
+ 17, 16, 17, 15, 14,
+
+ 14, 13, 13, 12 };
+
+ for (hora=0 ; *hora<28* ; hora++ )
+
+ \{
+
+ printf( "La temperatura a las %i era de %i grados.\n", hora,
+temperaturas[hora] );
+
+ }
+
+ return 0;
+
+}
+
+Lo que se obtiene es algo similar a esto:
+
+La temperatura a las 22 era de 15 grados.
+
+...
+
+La temperatura a las 23 era de 12 grados.
+
+La temperatura a las 24 era de 24 grados.
+
+La temperatura a las 25 era de 3424248 grados.
+
+La temperatura a las 26 era de 7042 grados.
+
+La temperatura a las 27 era de 1 grados.
+
+Vemos que a partir del elemento 24 (incluido) tenemos resultados
+extraños. Esto es porque nos hemos salido de los límites del array e
+intenta acceder al elemento temperaturas[25] y sucesivos que no existen.
+Así que nos muestra el contenido de la memoria que está justo detrás de
+temperaturas[23] que puede ser cualquiera. Al contrario que otros
+lenguajes C no comprueba los límites de los array, nos deja saltárnoslos
+a la torera. Este programa no da error al compilar ni al ejecutar, tan
+sólo devuelve resultados extraños. Tampoco bloqueará el sistema porque
+no estamos escribiendo en la memoria sino leyendo de ella.
+
+Otra cosa muy diferente es meter datos en elementos que no existen.
+Veamos un ejemplo *(ni se te ocurra ejecutarlo)*:
+
+#include <stdio.h>
+
+int main()
+
+\{
+
+ int temp[24];
+
+ float media = 0;
+
+ int hora;
+
+ for( hora=0; *hora<28*; hora++ )
+
+ \{
+
+ printf( "Temperatura de las %d: ", hora );
+
+ scanf( "%d", &temp[hora] );
+
+ media += temp[hora];
+
+ }
+
+ media = media / 24;
+
+ printf( "\nLa temperatura media es %f\n", media );
+
+ return 0;
+
+}
+
+En muchos ordenadores seguramente el programa se cerrará por un error o
+puede que incluso quede bloqueado el ordenador. Es probable que incluso
+haya que apagarlo. El problema ahora es que estamos intentando escribir
+en el elemento _temp[24]_ que no existe y puede ser un lugar cualquiera
+de la memoria. Como consecuencia de esto podemos estar cambiando algún
+programa o dato de la memoria que no debemos y el sistema hace pluf. Así
+que mucho cuidado con esto.
+
+[[punteros-a-arrays]]
+=== [[anchor-5]]Punteros a arrays
+
+Aquí tenemos otro de los importantes usos de los punteros, los punteros
+a arrays. Estos están íntimamente relacionados.
+
+Para que un puntero apunte a un array se puede hacer de dos formas, una
+es apuntando al primer elemento del array:
+
+int *puntero;
+
+int temperaturas[24];
+
+puntero = &temperaturas[0];
+
+El puntero apunta a la dirección del primer elemento. Otra forma
+equivalente, pero mucho más usada es:
+
+puntero = temperaturas;
+
+Con esto también apuntamos al primer elemento del array. Fijaos que el
+puntero tiene que ser del mismo tipo que el array (en este caso int).
+
+Ahora vamos a ver cómo acceder al resto de los elementos. Para ello
+empezamos por cómo funciona un array: Un array se guarda en posiciones
+consecutivas en memoria, de tal forma que el segundo elemento va
+inmediatamente después del primero en la memoria. En un ordenador en el
+que el tamaño del tipo int es de 32 bits (4 bytes) cada elemento del
+array ocupará 4 bytes. Veamos un ejemplo:
+
+#include <stdio.h>
+
+int main()
+
+\{
+
+ int i;
+
+ int temp[24];
+
+ for( i=0; i<24; i++ )
+
+ \{
+
+ printf( "La dirección del elemento %i es %p.\n",
+
+i, (void *)&temp[i] );
+
+ }
+
+ return 0;
+
+}
+
+NOTA: Recuerda que %p sirve para mostrar en pantalla una posición de
+memoria en hexadecimal.
+
+El resultado es (en mi ordenador):
+
+La dirección del elemento 0 es 4c430.
+
+La dirección del elemento 1 es 4c434.
+
+La dirección del elemento 2 es 4c438.
+
+La dirección del elemento 3 es 4c43c.
+
+...
+
+La dirección del elemento 21 es 4c484.
+
+La dirección del elemento 22 es 4c488.
+
+La dirección del elemento 23 es 4c48c.
+
+(Las direcciones están en hexadecimal). Vemos aquí que efectivamente
+ocupan posiciones consecutivas y que cada una ocupa 4 bytes. Si lo
+representamos en una tabla:
+
+[cols=",,,",]
+|==================================
+|4C430 |4C434 |4C438 |4C43C
+|temp[0] |temp[1] |temp[2] |temp[3]
+|==================================
+
+Ya hemos visto cómo funcionan los arrays por dentro, ahora vamos a verlo
+con punteros. Voy a poner un ejemplo:
+
+#include <stdio.h>
+
+int main()
+
+\{
+
+ int i;
+
+ int temp[24];
+
+ int *punt;
+
+ *punt = temp;*
+
+ for( i=0; i<24; i++ )
+
+ \{
+
+ printf( "La dirección de temp[%i] es %p y la de punt es %p.\n",
+
+ i, (void *) &temp[i], (void *) *punt* );
+
+ *punt++;*
+
+ }
+
+ return 0;
+
+}
+
+Cuyo resultado es:
+
+La dirección de temp[0] es 4c430 y la de punt es 4c430.
+
+La dirección de temp[1] es 4c434 y la de punt es 4c434.
+
+La dirección de temp[2] es 4c438 y la de punt es 4c438.
+
+...
+
+La dirección de temp[21] es 4c484 y la de punt es 4c484.
+
+La dirección de temp[22] es 4c488 y la de punt es 4c488.
+
+La dirección de temp[23] es 4c48c y la de punt es 4c48c.
+
+En este ejemplo hay dos líneas importantes (en negrita). La primera es
+_punt = temp_. Con esta hacemos que el punt apunte al primer elemento de
+la matriz. Si no hacemos esto punt apunta a un sitio cualquiera de la
+memoria y debemos recordar que no es conveniente dejar los punteros así,
+puede ser desastroso.
+
+La segunda línea importante es _punt++_. Con esto incrementamos el valor
+de punt, pero curiosamente aunque incrementamos una unidad (punt++
+equivale a punt=punt+1) el valor aumenta en 4. Aquí se muestra una de
+las características especiales de los punteros. Recordemos que en un
+puntero se guarda una dirección. También sabemos que un puntero apunta a
+un tipo de datos determinado (en este caso int). Cuando sumamos 1 a un
+puntero sumamos el tamaño del tipo al que apunta. En el ejemplo el
+puntero apunta a una variable de tipo int que es de 4 bytes, entonces al
+sumar 1 lo que hacemos es sumar 4 bytes. Con esto lo que se consigue es
+apuntar a la siguiente posición int de la memoria, en este caso es el
+siguiente elemento de la matriz.
+
+Esta tabla describe el bucle programa paso a pos:
+
+[cols=",,",]
+|=======================================================================
+|Operación |Equivalente |Valor de _punt_
+
+|punt = temp; |punt = &temp[0]; |4c430
+
+|punt++; (en el primer ciclo del for) |sumar 4 al contenido de _punt_
+(4c430 + 4) |4c434
+
+|punt++; (en el segundo ciclo del for) |sumar 4 al contenido de _punt_
+(4c434 + 4) |4c438
+|=======================================================================
+
+Cuando hemos acabado estamos en temp[24] que no existe. Si queremos
+haver que _punt_ vuelva al elemento 1 podemos hacer _punt = temp_ otra
+vez o restar 24 a punt:
+
+punt -= 24;
+
+con esto hemos restado 24 posiciones a punt (24 posiciones int*4 bytes
+por cada int= 96 posiciones).
+
+Al final del programa _punt_ apunta a la dirección de memoria 4C490.
+Para volver a la primera posición hemos dicho que restamos 24, que es
+equivalente a hacer:
+
+4C490 – 18 * 4 = 4c430
+
+donde:
+
+* 4C490 es la posición de _punt_.
+* 18 es el número de posiciones que queremos restar (¡ojo! 24 en
+hexadecimal es 18).
+* 4 es el tamaño de un _int_ (en el sistema donde se ha probado el
+ejemplo anterior).
+
+Si coges una calculadora científica podrás ver que los números
+coinciden.
+
+Vamos a ver ahora un ejemplo de cómo recorrer la matriz entera con
+punteros y cómo mostrarla en pantalla:
+
+#include <stdio.h>
+
+int main()
+
+\{
+
+ int temperaturas[24] = \{
+
+ 15, 18, 20, 23, 22,
+
+ 24, 22, 25, 26, 25,
+
+ 24, 22, 21, 20, 18,
+
+ 17, 16, 17, 15, 14,
+
+ 14, 13, 12, 12 };
+
+ int *punt;
+
+ int i;
+
+ punt = temperaturas;
+
+ for( i=0 ; i<24; i++ )
+
+ \{
+
+ printf( "Elemento %i: %i\n", i, *punt );
+
+ punt++;
+
+ }
+
+ return 0;
+
+}
+
+Cuando termina el bucle _for_ el puntero _punt_ apunta a
+_temperaturas[24]_, y no al primer elemento, si queremos volver a
+recorrer la matriz debemos volver como antes al comienzo. Para evitar
+perder la referencia al primer elemento de la matriz (_temperaturas[0]_)
+se puede usar otra forma de recorrer la matriz con punteros:
+
+#include <stdio.h>
+
+int main()
+
+\{
+
+ int temperaturas[24] = \{
+
+ 15, 18, 20, 23, 22,
+
+ 24, 22, 25, 26, 25,
+
+ 24, 22, 21, 20, 18,
+
+ 17, 16, 17, 15, 14,
+
+ 14, 13, 12, 12 };
+
+ int *punt;
+
+ int i;
+
+ punt = temperaturas;
+
+ for( i=0 ; i<24; i++ )
+
+ \{
+
+ printf( "Elemento %i: %i\n", i, _**(punt+i)*_ );
+
+ }
+
+ return 0;
+
+}
+
+Con _*(punt+i)_ lo que hacemos es tomar la dirección a la que apunta
+_punt_ (la dirección del primer elemento de la matriz) y le sumamos _i_
+posiciones. De esta forma tenemos la dirección del elemento _i_. No
+estamos sumando un valor a _punt_, para sumarle un valor habría que
+hacer _punt++_ o _punt+=algo_, así que _punt_ siempre apunta al
+principio de la matriz.
+
+Se podría hacer este programa sin usar _punt_. Sustituyéndolo por
+_temperaturas_ y dejar __*(temperaturas+i)__. Lo que no se puede hacer
+es: __temperaturas++;__.
+
+*Importante:* Como final debo comentar que el uso de índices es una
+forma de maquillar el uso de punteros. El ordenador convierte los
+índices a punteros. Cuando al ordenador le decimos _temp[5]_ en realidad
+le estamos diciendo *(temp+5). Así que usar índices es casi equivalente
+a usar punteros de una forma más cómoda (en la sección siguiente vamos a
+ver una diferencia).
+
+Las que sí son equivalentes son estas dos definiciones:
+
+int temp[];
+
+int *temp;
+
+[[paso-de-un-array-a-una-función]]
+=== [[anchor-6]]Paso de un array a una función
+
+En *C* se suele usar un puntero cuando se quiere pasar un parámetro a
+una función:
+
+int sumar( int *m )
+
+Otras declaraciones equivalentes serían:
+
+int sumar( int m[] )
+
+o
+
+int sumar( int m[10] )
+
+En realidad esta última no se suele usar, porque el número de elementos
+es ignorado por el compilador.
+
+Con el puntero que hemos usado en la definición de la función podemos
+recorrer el array:
+
+#include <stdio.h>
+
+int sumar( int *m )
+
+\{
+
+ int suma, i;
+
+ suma = 0;
+
+ for( i=0; i<10; i++ )
+
+ \{
+
+ suma += m[i];
+
+ }
+
+ return suma;
+
+}
+
+int main()
+
+\{
+
+ int contador;
+
+ int matriz[10] = \{ 10, 11, 13, 10, 14, 9, 10, 18, 10, 10 };
+
+ /* Mostramos el array */
+
+ for( contador=0; contador<10; contador++ )
+
+ printf( " %3i\n", matriz[contador] );
+
+ /* Calculamos la suma de los elementos y la mostramos */
+
+ printf( "+ -----\n" );
+
+ printf( " %3i", sumar( matriz ) );
+
+ return 0;
+
+}
+
+NOTA: Este programa tiene un detalle adicional que es que muestra toda
+la matriz en una columna. Además se usa para imprimir los números el
+modificador *%3i*. El 3 indica que se tienen que alinear los números a
+la derecha, así queda más elegante.
+
+Como he indicado no se pasa el array, sino un puntero a ese array. Antes
+hemos usado el truco del _sizeof_ para calcular el número de elementos
+de un array. Si lo probamos aquí no funcionará. Vamos a verlo con un
+ejemplo:
+
+#include <stdio.h>
+
+void calcular_tamano( int *m )
+
+\{
+
+ printf( "Tamaño del array (m, dentro de la función): %i Kb\n", sizeof m
+);
+
+}
+
+int main()
+
+\{
+
+ int matriz[10] = \{ 10, 11, 13, 10, 14, 9, 10, 18, 10, 10 };
+
+ int *pmatriz;
+
+ pmatriz = matriz;
+
+ printf( "Tamaño del array (matriz): %i Kb\n", sizeof matriz );
+
+ printf( "Tamaño del array (pmatriz): %i Kb\n", sizeof pmatriz );
+
+ calcular_tamano( matriz );
+
+ return 0;
+
+}
+
+El resultado será:
+
+Tamaño del array (matriz): 40 Kb
+
+Tamaño del array (pmatriz): 4 Kb
+
+Tamaño del array (m, dentro de la función): 4 Kb
+
+¿Por qué dice _sizeof_ que el tamaño es 4 Kb cuando usamos un puntero?
+Porque nos calcula el tamaño del tipo de dato al que apunta el puntero.
+¿Cómo sabemos entonces cual es el tamaño del array dentro de la función?
+En este caso lo hemos puesto nosotros mismos, 10. Pero se pueden
+utilizar constantes como en el apartado “link:#anchor-2[Sobre la
+dimensión de un Array]”, o se puede pasar el tamaño del array como
+parámetro a la función.
+
+En el ejemplo usamos un puntero pero vemos que luego estamos usando
+_m[i]_. Esto lo podemos hacer porque, como se ha mencionado antes, el
+uso de índices en una forma que nos ofrece *C* de manejar punteros con
+matrices. Ya hemos visto que _m[i]_ es equivalente a _*(m+i)_.

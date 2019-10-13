@@ -8,12 +8,13 @@ Gorka Urrutia <gorka@elrincondec.com>
 :icons: font
 :ascii-ids:
 
-include::capitulo1.adoc[]
-include::capitulo2.adoc[]
-include::capitulo3.adoc[]
-include::capitulo4.adoc[]
-include::capitulo5.adoc[]
-include::capitulo6.adoc[]
-include::capitulo7.adoc[]
-include::capitulo8.adoc[]
-include::capitulo9.adoc[]
+include::capitulo01.adoc[]
+include::capitulo02.adoc[]
+include::capitulo03.adoc[]
+include::capitulo04.adoc[]
+include::capitulo05.adoc[]
+include::capitulo06.adoc[]
+include::capitulo07.adoc[]
+include::capitulo08.adoc[]
+include::capitulo09.adoc[]
+include::capitulo10.adoc[]

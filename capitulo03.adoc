@@ -104,6 +104,7 @@ Esto hace que declaremos una variable llamada número que va a contener un núme
 ==== ¿Pero dónde se declaran las variables?
 
 Tenemos dos posibilidades, una es declararla como global y otra como local. Por ahora vamos a decir que global es aquella variable que se declara fuera de la función main y local la que se declara dentro.
+
 Variable global:
 
 [source,c]

@@ -328,6 +328,8 @@ Los operadores de comparación son:
 
 [cols="",]
 |=======================================================================
+|Operador |Descripción |Aplicación
+
 |== |igual que |se cumple si son iguales
 
 |!= |distinto que |se cumple si son diferentes
@@ -339,7 +341,7 @@ Los operadores de comparación son:
 |>= |mayor o igual que |se cumple si el primero es mayor o igual que el
 segundo
 
-|<= |menor o igual que |se cumple si el primero es menor o igual que el
+|+<+= |menor o igual que |se cumple si el primero es menor o igual que el
 segundo
 |=======================================================================
 
